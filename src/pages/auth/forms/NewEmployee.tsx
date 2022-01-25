@@ -24,9 +24,9 @@ const NewEmployee = () => {
       organizationEmail: ' ',
       email: ' ',
       phoneNumber: ' ',
-      select1: {},
-      select2: {},
-      select3: {}
+      state: '',
+      departments: '',
+      units: ''
     },
   });
   // const [values, setValues] = useState({});
@@ -43,45 +43,48 @@ const NewEmployee = () => {
           <Controller
                     name="organizationEmail"
                     control={control}
-                    render={({ field }) => <Input {...field} />}
+                    render={({ field }) => <Input {...field} label="Organnisation Email" />}
           />
 
           <Controller
                     name="email"
                     control={control}
-                    render={({ field }) => <Input {...field} />}
+                    render={({ field }) => <Input {...field} label="Email" />}
           />
 
           <Controller
                     name="phoneNumber"
                     control={control}
-                    render={({ field }) => <Input {...field} />}
+                    render={({ field }) => <Input {...field} label="Phone number" />}
           />
 
         <Controller
-                    name="select1"
+                    name="state"
                     control={control}
                     render={({ field }) => <CustomSelect 
-                              {...field} 
+                              {...field}
                               options={ statesOptions } 
+                              label="State" 
                     />}
           />
 
           <Controller
-                    name="select2"
+                    name="departments"
                     control={control}
                     render={({ field }) => <CustomSelect 
-                              {...field} 
+                              {...field}
+                              label="Departments" 
                               options={ departmentOptions } 
                     />}
           />
 
           <Controller
-                    name="select3"
+                    name="units"
                     control={control}
                     render={({ field }) => <CustomSelect 
-                              {...field} 
-                              options={ unitsOptions } 
+                              {...field}
+                              label="Units" 
+                              options={ [unitsOptions] } 
                     />}
           />
 
