@@ -11,6 +11,23 @@ interface ValueProps {
 
 const CreateOrganization = () => {
   const [values, setValues] = useState({});
+  console.log(values);
+
+  // const {
+  //   nameOfOrganzation,
+  //   cacNumber,
+  //   organizationCountry,
+  //   state,
+  //   lga,
+  //   citytown,
+  //   registeredAddress,
+  //   contactPhoneNumber,
+  //   organizationEmail,
+  //   organizationCEO,
+  //   organizationType,
+  //   organizationCategory,
+  // } = formData;
+
 
   console.log(values);
   return (

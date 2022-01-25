@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import Button from '../../../components/buttons/Button';
 import Input from '../../../components/inputs/basic/Input';
 import CustomSelect from '../../../components/inputs/basic/Select';
+
+import { useForm } from "react-hook-form";
+
+
 import {
   countriesOptions,
   departmentOptions,
@@ -10,22 +14,27 @@ import {
   unitsOptions,
 } from '../../../utils/data';
 
+// countriesOptions.map(count => (
+//   console.log(count)
+// ))
+
 const NewEmployee = () => {
+  const { register, handleSubmit } = useForm();
   const [values, setValues] = useState({});
+
   console.log(values);
+
+  const onSubmit = (data) => {
+    setValues(JSON.stringify(data))
+  }
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      <form action=''>
+      <form  onSubmit = {handleSubmit(onSubmit)} >
         <Input
           label='Organization Email'
           name='organizationEmail'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
+          {...register('Organization Email')}
         />
         <Input
           label='Email Address'
@@ -42,6 +51,7 @@ const NewEmployee = () => {
           label='Phone Number'
           type='tel'
           name='phoneNumber'
+          value='phoneNumber'
           onChange={e =>
             setValues({
               ...values,
@@ -49,17 +59,15 @@ const NewEmployee = () => {
             })
           }
         />
-        <CustomSelect
-          label='Country'
-          options={countriesOptions}
-          name='country'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
+
+            
+          <CustomSelect
+              label='Country'
+              options={countriesOptions}
+              name='country'
+              {...register('Country')}
+          />
+
         <CustomSelect
           label='State'
           options={statesOptions}

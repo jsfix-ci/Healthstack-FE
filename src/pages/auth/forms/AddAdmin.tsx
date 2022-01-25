@@ -11,6 +11,7 @@ const AddAdmin = () => {
         <AccordionBox title='New Admin Employye'>
           <NewEmployee />
         </AccordionBox>
+        
         <AccordionBox title='Inivte an existing user'>
           <ExistingAdminEmployee />
         </AccordionBox>
