@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
-  options: any[];
+  options: string[] | any[];
   name?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }

@@ -1,14 +1,14 @@
 import { Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../../../components/buttons/Button';
 import Input from '../../../components/inputs/basic/Input';
 import CustomSelect from '../../../components/inputs/basic/Select';
 
-import { useForm } from "react-hook-form";
-
+import { useForm, Controller } from 'react-hook-form';
+// https://react-hook-form.com/get-started
 
 import {
-  countriesOptions,
+  // countriesOptions,
   departmentOptions,
   statesOptions,
   unitsOptions,
@@ -19,90 +19,75 @@ import {
 // ))
 
 const NewEmployee = () => {
-  const { register, handleSubmit } = useForm();
-  const [values, setValues] = useState({});
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      organizationEmail: ' ',
+      email: ' ',
+      phoneNumber: ' ',
+      select1: {},
+      select2: {},
+      select3: {}
+    },
+  });
+  // const [values, setValues] = useState({});
 
-  console.log(values);
+  // console.log(values);
 
   const onSubmit = (data) => {
-    setValues(JSON.stringify(data))
-  }
+    console.log(data);
+  };
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      <form  onSubmit = {handleSubmit(onSubmit)} >
-        <Input
-          label='Organization Email'
-          name='organizationEmail'
-          {...register('Organization Email')}
-        />
-        <Input
-          label='Email Address'
-          type='email'
-          name='email'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
-        <Input
-          label='Phone Number'
-          type='tel'
-          name='phoneNumber'
-          value='phoneNumber'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
-
-            
-          <CustomSelect
-              label='Country'
-              options={countriesOptions}
-              name='country'
-              {...register('Country')}
+      <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+                    name="organizationEmail"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
           />
 
-        <CustomSelect
-          label='State'
-          options={statesOptions}
-          name='state'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
-        <CustomSelect
-          label='Department'
-          options={departmentOptions}
-          name='Department'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
-        <CustomSelect
-          label='Unit'
-          options={unitsOptions}
-          name='unit'
-          onChange={e =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
-        />
+          <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+          />
 
-        <Button type='submit' label='Create Admin' fullwidth />
+          <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+          />
+
+        <Controller
+                    name="select1"
+                    control={control}
+                    render={({ field }) => <CustomSelect 
+                              {...field} 
+                              options={ statesOptions } 
+                    />}
+          />
+
+          <Controller
+                    name="select2"
+                    control={control}
+                    render={({ field }) => <CustomSelect 
+                              {...field} 
+                              options={ departmentOptions } 
+                    />}
+          />
+
+          <Controller
+                    name="select3"
+                    control={control}
+                    render={({ field }) => <CustomSelect 
+                              {...field} 
+                              options={ unitsOptions } 
+                    />}
+          />
+
+
+
+        <Button type="submit" label="Create Admin" fullwidth />
       </form>
     </Stack>
   );
