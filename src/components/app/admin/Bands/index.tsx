@@ -36,16 +36,13 @@ const AppBands = () => {
       )}
       {resource.bandResource.show === 'create' && (
         <BandCreate
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
+          backClick={() => setResource(prevState => ({
+            ...prevState,
+            bandResource: {
+              ...prevState.bandResource,
+              show: 'lists',
+            },
+          }))}        />
       )}
       {resource.bandResource.show === 'details' && (
         <BandDetails
