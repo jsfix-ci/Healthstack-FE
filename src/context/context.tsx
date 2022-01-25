@@ -1,11 +1,14 @@
 import React, {
-  useState,
   createContext,
-  useMemo,
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
+
+import client from '../feathers';
 
 interface UserContextProps {
   user?: any;
@@ -16,29 +19,102 @@ const userDefaultValues: UserContextProps = {
 };
 
 interface ObjectContextProps {
-  facilityModule: { show: string; selectedFacility: {} };
+  facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
-  bandModule: { show: string; selectedBand: {} };
-  locationModule: { show: string; selectedLocation: {} };
-  employeeModule: { show: string; selectedEmployee: {} };
+
+  // Admin Module
+  bandResource: { show: string; selectedBand: {} };
+  locationResource: { show: string; selectedLocation: {} };
+  employeeResource: { show: string; selectedEmployee: {} };
+
+  // Finance Module
+  billServicesResource: { show: string; selectedBillService: {} };
+  paymentsResource: { show: string; selectedPayment: {} };
+  revenuesResource: { show: string; selectedRevenue: {} };
+  collectionsResource: { show: string; selectedCollection: {} };
+  servicesResource: { show: string; selectedService: {} };
+  hmoAuthorizationsResource: { show: string; selectedHMOAuthorization: {} };
+
+  // Pharmacy Module
+  billClientResource: { show: string; selectedBillClient: {} };
+  billPrescriptionSentResource: {
+    show: string;
+    selectedBillPrescriptionSent: {};
+  };
+  dispensaryResource: { show: string; selectedDispensary: {} };
+  storyInventoryResource: { show: string; selectedStoreInventory: {} };
+  productEntryResource: { show: string; selectedProductEntry: {} };
+  posResource: { show: string; selectedPOS: {} };
 }
 
 const objectDefaultValues: ObjectContextProps = {
-  facilityModule: {
+  facilityResource: {
     show: 'lists',
     selectedFacility: {},
   },
-  bandModule: {
+  bandResource: {
     show: 'lists',
     selectedBand: {},
   },
-  locationModule: {
+  locationResource: {
     show: 'lists',
     selectedLocation: {},
   },
-  employeeModule: {
+  employeeResource: {
     show: 'lists',
     selectedEmployee: {},
+  },
+
+  // Finance
+  billServicesResource: {
+    show: 'lists',
+    selectedBillService: {},
+  },
+  paymentsResource: {
+    show: 'lists',
+    selectedPayment: {},
+  },
+  revenuesResource: {
+    show: 'lists',
+    selectedRevenue: {},
+  },
+  collectionsResource: {
+    show: 'lists',
+    selectedCollection: {},
+  },
+  servicesResource: {
+    show: 'lists',
+    selectedService: {},
+  },
+  hmoAuthorizationsResource: {
+    show: 'lists',
+    selectedHMOAuthorization: {},
+  },
+
+  // Pharmacy
+  billClientResource: {
+    show: 'lists',
+    selectedBillClient: {},
+  },
+  billPrescriptionSentResource: {
+    show: 'lists',
+    selectedBillPrescriptionSent: {},
+  },
+  dispensaryResource: {
+    show: 'lists',
+    selectedDispensary: {},
+  },
+  storyInventoryResource: {
+    show: 'lists',
+    selectedStoreInventory: {},
+  },
+  productEntryResource: {
+    show: 'lists',
+    selectedProductEntry: {},
+  },
+  posResource: {
+    show: 'lists',
+    selectedPOS: {},
   },
 };
 
@@ -47,37 +123,53 @@ export const UserContext = createContext<UserContextProps>(userDefaultValues);
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const memoedValue = useMemo(() => ({ user, setUser }), [user]);
+
+  const authenticateUser = () => {
+    client
+      .reAuthenticate()
+      .then((resp) => {
+        setUser({ ...resp.user, stacker: true });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    authenticateUser();
+  }, []);
+
   return (
     <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>
   );
 };
 
 export const ObjectContext = createContext({
-  module: objectDefaultValues as Partial<ObjectContextProps>,
-  setModule: {} as Dispatch<SetStateAction<Partial<ObjectContextProps>>>,
+  resource: objectDefaultValues as Partial<ObjectContextProps>,
+  setResource: {} as Dispatch<SetStateAction<Partial<ObjectContextProps>>>,
 });
 
-export const ObjectProvider = ({
+export function ObjectProvider({
   children,
   value = objectDefaultValues as ObjectContextProps,
 }: {
   children: React.ReactNode;
   value?: Partial<ObjectContextProps>;
-}) => {
-  const [module, setModule] = useState(value);
+}) {
+  const [resource, setResource] = useState(value);
   // const memoedValue = useMemo(() => ({ state }), [state]);
 
   return (
-    <ObjectContext.Provider value={{ module, setModule }}>
+    <ObjectContext.Provider value={{ resource, setResource }}>
       {children}
     </ObjectContext.Provider>
   );
-};
+}
 
 export const useObjectState = () => {
   const context = useContext(ObjectContext);
   if (!context) {
-    throw new Error('useGlobalState must be used within a GlobalStateContext');
+    throw new Error('useObjectState must be used within a ObjectContext');
   }
   return context;
 };
