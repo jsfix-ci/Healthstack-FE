@@ -16,12 +16,13 @@ function NewEmployee() {
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {OnboardingEmployeeSchema.map(({ inputType, name }) => (
+        {OnboardingEmployeeSchema.map(({ inputType, key, name, options }) => (
           <DynamicInput
+            key={key}
             inputType={inputType}
-            name={name}
+            name={key}
             label={name}
-            options={[]}
+            options={options || []}
             control={control}
           />
         ))}

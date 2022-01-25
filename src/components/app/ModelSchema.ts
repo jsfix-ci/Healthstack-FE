@@ -85,6 +85,7 @@ const OnboardingEmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT,
+    options: ['Nigeria']
   },
   {
     name: 'State',
