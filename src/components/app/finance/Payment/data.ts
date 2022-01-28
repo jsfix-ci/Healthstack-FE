@@ -1,137 +1,63 @@
 import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
-  fname: string;
-  lname: string;
-  profession: string;
-  phone: string;
-  email: string;
-  department: string;
-  departmentalUnit: string;
+  name: any;
+  date: string;
+  description: string;
+  status: string;
+  amount: string;
 }
+export const rowData = [
+  {
+    id: 1,
+    name: "Simpa",
+    date: "2022-01-20 19:45",
+    description: "lorem",
+    status: "unpaid",
+    amount: "5000",
+  },
+  {
+    id: 2,
+    name: "Simpa",
+    date: "2022-01-20 19:45",
+    description: "lorem",
+    status: "unpaid",
+    amount: "5000",
+  },
+  {
+    id: 3,
+    name: "Simpa",
+    date: "2022-01-20 19:45",
+    description: "lorem",
+    status: "unpaid",
+    amount: "5000",
+  },
+];
 
 export const columnHead: TableColumn<DataProps>[] = [
   {
-    name: 'S/N',
+    name: "S/N",
     selector: (row) => row.id,
     sortable: true,
   },
   {
-    name: 'First Name',
-    selector: (row) => row.fname,
+    name: "Date",
+    selector: (row) => row.date,
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: (row) => row.lname,
+    name: "Description",
+    selector: (row) => row.description,
     sortable: true,
   },
   {
-    name: 'Profession',
-    selector: (row) => row.profession,
+    name: "Status",
+    selector: (row) => row.status,
     sortable: true,
   },
   {
-    name: 'Phone Number',
-    selector: (row) => row.phone,
+    name: "Amount",
+    selector: (row) => row.amount,
     sortable: true,
-  },
-  {
-    name: 'Email',
-    selector: (row) => row.email,
-    sortable: true,
-  },
-  {
-    name: 'Department',
-    selector: (row) => row.department,
-    sortable: true,
-  },
-  {
-    name: 'Departmental Unit',
-    selector: (row) => row.departmentalUnit,
-    sortable: true,
-  },
-];
-
-export const rowData = [
-  {
-    id: '1',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '2',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '3',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '4',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '5',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '6',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '7',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
-  },
-  {
-    id: '8',
-    fname: 'John',
-    lname: 'Doe',
-    profession: 'Medical Doctor',
-    phone: '080 200 0000',
-    email: 'doc@test.com',
-    department: 'Medical',
-    departmentalUnit: 'Medical',
   },
 ];

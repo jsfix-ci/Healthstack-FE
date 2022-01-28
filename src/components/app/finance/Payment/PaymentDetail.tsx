@@ -4,6 +4,8 @@ import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
 import CustomSelect from '../../../inputs/basic/Select';
+import { typeOptions,paymentOptions } from '../../ModelSchema';
+import { PaymentSchema } from "../../ModelSchema";
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -19,18 +21,7 @@ interface Props {
   row?: any;
 }
 
-const paymentOptions = ['Cash', 'Transfer'];
 
-const typeOptions = [
-  {
-    value: 'Full',
-    label: 'full',
-  },
-  {
-    value: 'Part',
-    label: 'Part',
-  },
-];
 
 const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
   const [values, setValues] = useState({});
@@ -44,9 +35,9 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
           </div>
           <div>
             <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
+              label='Back to List'
+              background='#fdfdfd'
+              color='#333'
               onClick={backClick}
             />
           </div>
@@ -59,23 +50,23 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <div>
               <label
                 style={{
-                  padding: '14px 20px',
-                  background: '#ffb3bd',
-                  color: '#ED0423',
-                  border: 'none',
-                  borderRadius: '4px',
+                  padding: "14px 20px",
+                  background: "#ffb3bd",
+                  color: "#ED0423",
+                  border: "none",
+                  borderRadius: "4px",
                 }}
               >
                 Balance {row.amount}
               </label>
             </div>
           </HeadWrapper>
-          <form action="">
+          <form action=''>
             <GridWrapper>
               <CustomSelect
                 options={paymentOptions}
-                name="paymentOptions"
-                label="Payment Options"
+                name='paymentOptions'
+                label='Payment Options'
                 onChange={(e) =>
                   setValues({
                     ...values,
@@ -84,8 +75,8 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label="Amount"
-                name="name"
+                label='Amount'
+                name='name'
                 onChange={(e) =>
                   setValues({
                     ...values,
@@ -94,8 +85,8 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label="Description"
-                name="description"
+                label='Description'
+                name='description'
                 onChange={(e) =>
                   setValues({
                     ...values,
@@ -105,41 +96,23 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               />
             </GridWrapper>
             <BottomWrapper>
-              <Button label="Accept Payment" type="submit" />
+              <Button label='Accept Payment' type='submit' />
             </BottomWrapper>
           </form>
         </FullDetailsWrapper>
 
         <FullDetailsWrapper>
           <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Name</label>
-              <p>{row.name}</p>
-            </div>
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-            <div>
-              <label>Status</label>
-              <p>{row.status}</p>
-            </div>
-            <RadioButton title="Type" options={typeOptions} />
-            <div>
-              <label>Description</label>
-              <p>{row.decription}</p>
-            </div>
-            <div>
-              <label>Amount</label>
-              <p>{row.amount}</p>
-            </div>
+            {PaymentSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
+            <RadioButton title='Type' options={typeOptions} />
           </GridWrapper>
           <BottomWrapper>
-            <Button label="Pay" type="submit" />
+            <Button label='Pay' type='submit' />
           </BottomWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>
