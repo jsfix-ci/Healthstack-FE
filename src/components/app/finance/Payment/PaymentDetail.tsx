@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-
+import { useForm } from "react-hook-form";
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
+import DynamicInput from "../../DynamicInput";
 import RadioButton from '../../../inputs/basic/Radio';
 import CustomSelect from '../../../inputs/basic/Select';
 import { typeOptions,paymentOptions } from '../../ModelSchema';
-import { PaymentSchema } from "../../ModelSchema";
+import { PaymentSchema,PaymentDetailsSchema } from "../../ModelSchema";
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -18,13 +18,16 @@ import {
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleAccept: (_data,_event) => void
   row?: any;
 }
 
 
 
-const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
+const PaymentDetails: React.FC<Props> = ({ row, backClick,handleAccept }) => {
   const [values, setValues] = useState({});
+  const { handleSubmit, control } = useForm();
+
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -61,39 +64,18 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               </label>
             </div>
           </HeadWrapper>
-          <form action=''>
+          <form onSubmit={handleSubmit(handleAccept)}>
             <GridWrapper>
-              <CustomSelect
-                options={paymentOptions}
-                name='paymentOptions'
-                label='Payment Options'
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label='Amount'
-                name='name'
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label='Description'
-                name='description'
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              {PaymentDetailsSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={paymentOptions}
+                />
+              ))}
             </GridWrapper>
             <BottomWrapper>
               <Button label='Accept Payment' type='submit' />

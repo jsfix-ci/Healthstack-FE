@@ -7,21 +7,62 @@ import PaymentDetails from "./PaymentDetail";
 import Payments from "./PaymentList";
 const AppPayments = () => {
   let BillServ = client.service("bills");
+  let SubwalletServ = client.service("subwallet");
+  const SubwalletTxServ = client.service("subwallettransactions");
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
+  console.log(user);
+
   const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
-  let sour:any[] = facility
-  const source = sour.map((data)=>{
+  let sour: any[] = facility;
+  const source = sour.map((data) => {
     console.log(data);
-    return data.clientname
-  })
+    return data.clientname;
+  });
   console.log(source);
-  
-  
-  
 
-  const handleSearch=(val)=>{
+  const handleAccept = (data) => {
+    // getFacilities();
+    const values = getFormStrings(data._id);
+    if (data.paymentType === "") {
+      toast("Kindly choose payment mode or enter amount");
+      return;
+    }
+    let obj = {
+      client: client,
+      organization: user.employeeData[0].facilityDetail._id,
+      category: "credit",
+      amount: data.amount,
+      
+
+      toName: user.employeeData[0].facilityDetail.facilityName,
+      // fromName:
+      //   medication.participantInfo.client.firstname +
+      //   " " +
+      //   medication.participantInfo.client.lastname,
+      createdby: user._id,
+      
+
+      facility: user.employeeData[0].facilityDetail._id,
+      type: "Deposit",
+    };
+    //  let confirm = window.confirm(`Are you sure you want to accept N ${obj.amount} from ${obj.fromName}`)
+    if (confirm) {
+      SubwalletTxServ.create(obj)
+        .then((resp) => {
+          console.log(resp);
+
+          toast("Deposit accepted succesfully");
+        })
+        .catch((err) => {
+          toast("Error accepting deposit " + err);
+          console.log(err);
+        });
+    }
+  };
+
+  const handleSearch = (val) => {
     BillServ.find({
       query: {
         "participantInfo.paymentmode.detail.principalName": {
@@ -46,62 +87,77 @@ const AppPayments = () => {
           createdAt: -1,
         },
       },
-    }).then((res) => {
-      console.log(res.groupedOrder);
-      let findProductEntry = res.groupedOrder;
-      setFacility(findProductEntry);
-      toast(" ProductEntry  fetched successfully")
     })
-    .catch((err)=>{
-      toast("Error fetching ProductEntry, probable network issues " + err);
+      .then((res) => {
+        console.log(res.groupedOrder);
+        let findProductEntry = res.groupedOrder;
+        setFacility(findProductEntry);
+        toast(" ProductEntry  fetched successfully");
+      })
+      .catch((err) => {
+        toast("Error fetching ProductEntry, probable network issues " + err);
+      });
+  };
+
+  const getFacilities = () => {
+    SubwalletTxServ.find({
+      query: {
+        // client: medication.participantInfo.client._id,
+        organization: user.employeeData[0].facilityDetail._id,
+
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    }).then((res) => console.log(res.data));
+  };
+
+  const getPayments = () => {
+    BillServ.find({
+      query: {
+        $or: [
+          {
+            "participantInfo.paymentmode.type": "Cash",
+          },
+          {
+            "participantInfo.paymentmode.type": "Family Cover",
+          },
+        ],
+        "participantInfo.billingFacility": user.employeeData[0].facility,
+        billing_status: {
+          $ne: "Fully Paid",
+        },
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
     })
-  }
+      .then((res) => {
+        console.log(res.groupedOrder);
+        let findProductEntry = res.groupedOrder;
+        setFacility(findProductEntry);
+        toast(" ProductEntry  fetched successfully");
+      })
+      .catch((err) => {
+        toast("Error fetching ProductEntry, probable network issues " + err);
+      });
+  };
 
-  const getPayments = ()=>{
-     BillServ.find({
-       query: {
-         $or: [
-           {
-             "participantInfo.paymentmode.type": "Cash",
-           },
-           {
-             "participantInfo.paymentmode.type": "Family Cover",
-           },
-         ],
-         "participantInfo.billingFacility": user.employeeData[0].facility,
-         billing_status: {
-           $ne: "Fully Paid",
-         },
-         $limit: 100,
-         $sort: {
-           createdAt: -1,
-         },
-       },
-     })
-       .then((res) => {
-         console.log(res.groupedOrder);
-         let findProductEntry = res.groupedOrder;
-         setFacility(findProductEntry);
-         toast(" ProductEntry  fetched successfully");
-       })
-       .catch((err) => {
-         toast("Error fetching ProductEntry, probable network issues " + err);
-       });
-  }
-
-   useEffect(() => {
-     if(!BillServ){
-     BillServ = client.service("bills");
-     BillServ.on("created", (_) => getPayments());
-     BillServ.on("updated", (_) => getPayments());
-     BillServ.on("patched", (_) => getPayments());
-     BillServ.on("removed", (_) => getPayments());
-     }
-     user && getPayments();
-     return () => {
-       BillServ=null
-     };
-   }, [user]);
+  useEffect(() => {
+    if (!BillServ) {
+      BillServ = client.service("bills");
+      BillServ.on("created", (_) => getPayments());
+      BillServ.on("updated", (_) => getPayments());
+      BillServ.on("patched", (_) => getPayments());
+      BillServ.on("removed", (_) => getPayments());
+    }
+    user && getPayments();
+    return () => {
+      BillServ = null;
+    };
+  }, [user]);
 
   return (
     <>
@@ -151,7 +207,7 @@ const AppPayments = () => {
               },
             }))
           }
-          
+          handleAccept={handleAccept}
         />
       )}
     </>

@@ -44,6 +44,46 @@ const BandSchema = [
   },
 ];
 
+const PaymentDetailsSchema = [
+  {
+    name: "S/N",
+    key: "_id",
+    description: "",
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: "payment Options",
+    key: "paymentOption",
+    description: "Enter payment Option",
+    selector: (row) => row.bandType,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT,
+  },
+  {
+    name: "Amount",
+    key: "amount",
+    description: "Enter Amount",
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+
+  {
+    name: "Description",
+    key: "description",
+    description: "Enter description",
+    selector: (row) => row.description,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+];
+
 const PaymentSchema = [
   {
     name: "S/N",
@@ -112,4 +152,4 @@ const typeOptions = [
   },
 ];
 
-export { BandSchema, InputType, paymentOptions, typeOptions, PaymentSchema };
+export { BandSchema, InputType, paymentOptions,PaymentDetailsSchema, typeOptions, PaymentSchema };
