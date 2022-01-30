@@ -11,10 +11,16 @@ const AppPayments = () => {
   const SubwalletTxServ = client.service("subwallettransactions");
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  console.log(user);
+  let medication = resource.paymentsResource.selectedPayment
+console.log(medication['participantInfo']);
+  
 
   const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
+  const [balance, setBalance] = useState(0);
+  const [amountPaid, setAmountPaid] = useState(0);
+  const [paymentmode, setPaymentMode] = useState("Cash");
+  const [obj, setObj] = useState("");
   let sour: any[] = facility;
   const source = sour.map((data) => {
     console.log(data);
@@ -30,11 +36,10 @@ const AppPayments = () => {
       return;
     }
     let obj = {
-      client: client,
+      // client: medication.participantInfo.client._id,
       organization: user.employeeData[0].facilityDetail._id,
       category: "credit",
       amount: data.amount,
-      
 
       toName: user.employeeData[0].facilityDetail.facilityName,
       // fromName:
@@ -42,7 +47,6 @@ const AppPayments = () => {
       //   " " +
       //   medication.participantInfo.client.lastname,
       createdby: user._id,
-      
 
       facility: user.employeeData[0].facilityDetail._id,
       type: "Deposit",
