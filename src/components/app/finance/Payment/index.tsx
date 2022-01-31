@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useObjectState, UserContext } from "../../../../context/context";
 import client from "../../../../feathers";
+import { PaymentDetailsSchema } from "../../ModelSchema";
 import { getFormStrings } from "../../Utils";
 import PaymentDetails from "./PaymentDetail";
 import Payments from "./PaymentList";
@@ -11,15 +12,18 @@ const AppPayments = () => {
   const SubwalletTxServ = client.service("subwallettransactions");
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  let medication = resource.paymentsResource.selectedPayment
-console.log(medication['participantInfo']);
+  const [medication , setMedication] = useState(null)
+  // let medication = resource.paymentsResource.selectedPayment
+console.log(medication && medication);
   
 
   const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
   const [balance, setBalance] = useState(0);
-  const [amountPaid, setAmountPaid] = useState(0);
-  const [paymentmode, setPaymentMode] = useState("Cash");
+  // const [amountPaid, setAmountPaid] = useState(0);
+  const [paymentmode, setPaymentMode] = useState({PaymentDetailsSchema});
+  console.log(paymentmode.PaymentDetailsSchema[1].selector);
+  
   const [obj, setObj] = useState("");
   let sour: any[] = facility;
   const source = sour.map((data) => {
@@ -29,28 +33,33 @@ console.log(medication['participantInfo']);
   console.log(source);
 
   const handleAccept = (data) => {
-    // getFacilities();
+    getFacilities();
     const values = getFormStrings(data._id);
-    if (data.paymentType === "") {
+    console.log(data);
+    
+    if(medication){
+    if (data.paymentmode === "" || data.amount === 0 ) {
       toast("Kindly choose payment mode or enter amount");
       return;
     }
     let obj = {
-      // client: medication.participantInfo.client._id,
+      client: medication.participantInfo.client._id,
       organization: user.employeeData[0].facilityDetail._id,
       category: "credit",
-      amount: data.amount,
-
+      amount:data.amount,
+      paymentmode:data.paymentmode,
+      description: data.description,
       toName: user.employeeData[0].facilityDetail.facilityName,
-      // fromName:
-      //   medication.participantInfo.client.firstname +
-      //   " " +
-      //   medication.participantInfo.client.lastname,
+      fromName:
+        medication.participantInfo.client.firstname +
+        " " +
+        medication.participantInfo.client.lastname,
       createdby: user._id,
 
       facility: user.employeeData[0].facilityDetail._id,
       type: "Deposit",
     };
+  
     //  let confirm = window.confirm(`Are you sure you want to accept N ${obj.amount} from ${obj.fromName}`)
     if (confirm) {
       SubwalletTxServ.create(obj)
@@ -58,12 +67,14 @@ console.log(medication['participantInfo']);
           console.log(resp);
 
           toast("Deposit accepted succesfully");
+          
         })
         .catch((err) => {
           toast("Error accepting deposit " + err);
           console.log(err);
         });
     }
+  }
   };
 
   const handleSearch = (val) => {
@@ -104,17 +115,26 @@ console.log(medication['participantInfo']);
   };
 
   const getFacilities = () => {
-    SubwalletTxServ.find({
+    SubwalletServ.find({
       query: {
         // client: medication.participantInfo.client._id,
-        organization: user.employeeData[0].facilityDetail._id,
+        // organization: user.employeeData[0].facilityDetail._id,
 
         $limit: 100,
         $sort: {
           createdAt: -1,
         },
       },
-    }).then((res) => console.log(res.data));
+    }).then((res) => {
+      console.log(res);
+      let findProductEntry = res
+      if(findProductEntry.data.length > 0){
+        setBalance(findProductEntry.data[0].amount);
+      }else{
+        setBalance(0)
+      }
+      
+    });
   };
 
   const getPayments = () => {
@@ -150,6 +170,10 @@ console.log(medication['participantInfo']);
   };
 
   useEffect(() => {
+    getFacilities()
+    if(resource.paymentsResource){
+      setMedication(resource.paymentsResource)
+    }
     if (!BillServ) {
       BillServ = client.service("bills");
       BillServ.on("created", (_) => getPayments());
@@ -161,7 +185,9 @@ console.log(medication['participantInfo']);
     return () => {
       BillServ = null;
     };
-  }, [user]);
+  }, [user,resource.paymentsResource]);
+
+
 
   return (
     <>
@@ -212,6 +238,7 @@ console.log(medication['participantInfo']);
             }))
           }
           handleAccept={handleAccept}
+          amountBalance = {balance}
         />
       )}
     </>

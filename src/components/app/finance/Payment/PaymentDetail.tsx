@@ -20,11 +20,12 @@ interface Props {
   backClick: () => void;
   handleAccept: (_data,_event) => void
   row?: any;
+  amountBalance : number
 }
 
 
 
-const PaymentDetails: React.FC<Props> = ({ row, backClick,handleAccept }) => {
+const PaymentDetails: React.FC<Props> = ({ row, backClick,handleAccept,amountBalance }) => {
   const [values, setValues] = useState({});
   const { handleSubmit, control } = useForm();
 
@@ -60,7 +61,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick,handleAccept }) => {
                   borderRadius: "4px",
                 }}
               >
-                Balance {row.amount}
+                Balance N {amountBalance}
               </label>
             </div>
           </HeadWrapper>
