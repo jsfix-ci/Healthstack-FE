@@ -2,6 +2,7 @@ enum InputType {
   HIDDEN,
   TEXT,
   SELECT,
+  DATE
 }
 
 const BandSchema = [
@@ -148,4 +149,60 @@ const LocationSchema = [
   },
 ];
 
-export { BandSchema, EmployeeSchema, LocationSchema, InputType };
+const BillServiceSchema = [
+  {
+    name: 'S/N',
+    key: '_id',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Name',
+    key: 'name',
+    description: 'Enter name of band',
+    selector: (row) => row.orderInfo.orderObj.clientname,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Date',
+    key: 'date',
+    description: 'Enter date',
+    selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
+    sortable: true,
+    required: true,
+    inputType: InputType.DATE,
+  },
+  {
+    name: 'Description of Band',
+    key: 'description',
+    description: 'Enter description of band',
+    selector: (row) => row.orderInfo.orderObj.order,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Status',
+    key: 'billing_status',
+    description: 'Enter status',
+    selector: (row) => row.billing_status,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Amount',
+    key: 'amount',
+    description: 'Enter amount',
+    selector: (row) => row.serviceInfo.amount,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+];
+
+export { BandSchema, EmployeeSchema, LocationSchema, BillServiceSchema, InputType };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import { ClientSearch } from './N';
 import CustomSelect from '../../../inputs/basic/Select';
 import {
   BottomWrapper,
@@ -14,9 +15,11 @@ import {
 
 interface Props {
   backClick: () => void;
+  getSearchFacility: (_event , clear) => void;
+  success: any
 }
 
-const BillCreate: React.FC<Props> = ({ backClick }) => {
+const BillCreate: React.FC<Props> = ({ backClick, getSearchFacility,success }) => {
   const [values, setValues] = useState({});
 
   return (
@@ -39,16 +42,7 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
         <form action="" onSubmit={() => {}}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
             <GridWrapper>
-              <Input
-                label="Search for Client"
-                name="clientSearch"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              <ClientSearch getSearchfacility={getSearchFacility} clear={success}/>
               <CustomSelect
                 label="Choose a Billing Mode"
                 name="billingMode"

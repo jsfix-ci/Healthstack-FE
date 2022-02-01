@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
+import DynamicInput from '../../DynamicInput';
+import { BillServiceSchema } from '../../ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -31,14 +33,7 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               color="#333"
               onClick={backClick}
             />
-            <Button
-              label={'Delete'}
-              background="#FFE9E9"
-              color="#ED0423"
-              showicon={true}
-              icon="bi bi-pen-fill"
-              onClick={editBtnClicked}
-            />
+           
             <Button
               label={'Edit Details'}
               background={'#ECF3FF'}
@@ -51,28 +46,12 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-
-            <div>
-              <label>Bill Service Description</label>
-              <p>{row.description}</p>
-            </div>
-            <div>
-              <label>Bill Status</label>
-              <p>{row.status}</p>
-            </div>
-            <div>
-              <label>Bill Amount</label>
-              <p>{row.amount}</p>
-            </div>
+            {BillServiceSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>
