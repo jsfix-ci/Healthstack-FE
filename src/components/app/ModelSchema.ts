@@ -148,4 +148,43 @@ const LocationSchema = [
   },
 ];
 
-export { BandSchema, EmployeeSchema, LocationSchema, InputType };
+const ServicesSchema = [
+  {
+    name: 'S/N',
+    key: '_id',
+    description: 'Enter name of location',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Name',
+    key: 'name',
+    description: 'Enter name',
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Panel',
+    key: 'panel',
+    description: 'Enter panel',
+    selector: (row) => row.panel,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'price',
+    key: 'price',
+    description: 'price',
+    selector: (row) => row.price,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+];
+
+export { BandSchema, EmployeeSchema, LocationSchema,ServicesSchema, InputType };

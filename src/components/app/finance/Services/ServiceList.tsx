@@ -6,6 +6,7 @@ import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
 import { PageWrapper } from '../../styles';
+import { ServicesSchema } from '../../ModelSchema';
 
 interface Props {
   handleCreate?: () => void;

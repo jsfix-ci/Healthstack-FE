@@ -1,12 +1,45 @@
-import { useObjectState } from '../../../../context/context';
+import React, { useContext, useEffect, useState } from 'react';
+import { useObjectState, UserContext } from '../../../../context/context';
+import { toast } from 'react-toastify';
 import ServiceCreate from './ServiceCreate';
 import ServiceDetails from './ServiceDetail';
 import Servicess from './ServiceList';
 import ServiceModify from './ServiceModify';
+import client from '../../../../feathers';
 
 const AppServices = () => {
   const { resource, setResource } = useObjectState();
+  let ServicesServ = client.service('billing');
+  const { user } = useContext(UserContext);
+  const [facilities, setFacilities] = useState([]);
 
+  const getFacilities = () => {
+    if (user.currentEmployee) {
+      ServicesServ.find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+
+          $sort: {
+            category: 1,
+          },
+        },
+      }).then((res) => {
+        const findServices = res;
+        console.log(findServices);
+        setFacilities(findServices.groupedOrder);
+      });
+    } else {
+      if (user.stacker) {
+        toast({
+          message: 'You do not qualify to view this',
+          type: 'is-danger',
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        return;
+      }
+    }
+  };
   return (
     <>
       {resource.servicesResource.show === 'lists' && (
