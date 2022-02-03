@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
+import DynamicInput from '../../DynamicInput';
+import { ServicesSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -14,20 +15,18 @@ interface Props {
   cancelEditClicked?: () => void;
   row?: any;
   backClick: () => void;
+  onSubmit: (_data) => void;
 }
 
 const ServiceModify: React.FC<Props> = ({
   cancelEditClicked,
-  row,
+  row: services,
   backClick,
+  onSubmit
 }) => {
-  const [values, setValue] = useState({
-    id: row.id,
-    name: row.name,
-    panel: row.panel,
-    amount: row.amount,
+  const { handleSubmit, control } = useForm({
+    defaultValues: services,
   });
-
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -53,32 +52,24 @@ const ServiceModify: React.FC<Props> = ({
             />
           </div>
         </HeadWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
         <GridWrapper>
-          <Input label="ID" value={values.id} disabled />
-          <Input
-            label="Name"
-            value={values.name}
-            placeholder={values.name}
-            onChange={(e) => setValue({ ...values, name: e.target.value })}
-          />
-          <Input
-            label="Panel"
-            value={values.panel}
-            placeholder={values.panel}
-            onChange={(e) => setValue({ ...values, panel: e.target.value })}
-          />
-          <Input
-            label="Amount"
-            value={values.amount}
-            placeholder={values.amount}
-            onChange={(e) => setValue({ ...values, amount: e.target.value })}
-          />
+          {ServicesSchema.map((client, index) => (
+            <DynamicInput
+              key={index}
+              name={client.key}
+              control={control}
+              label={client.name}
+              inputType={client.inputType}
+            />
+          ))}
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label="Delete Service" background="#FFE9E9" color="#ED0423" />
+          {/* <Button label="Delete Service" background="#FFE9E9" color="#ED0423" /> */}
           <Button label="Save Service" />
         </BottomWrapper>
+        </form>
       </GrayWrapper>
     </PageWrapper>
   );
