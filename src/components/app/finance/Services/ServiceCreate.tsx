@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import DynamicInput from '../../DynamicInput';
+import { ServicesSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -13,10 +15,16 @@ import {
 
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
+  handleSearch: (_event) => void;
 }
 
-const ServiceCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const ServiceCreate: React.FC<Props> = ({
+  backClick,
+  onSubmit,
+  handleSearch,
+}) => {
+  const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -35,47 +43,28 @@ const ServiceCreate: React.FC<Props> = ({ backClick }) => {
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Employee">
             <GridWrapper className="two-columns">
               <Input
                 label="Search for Service Category"
                 name="Servicesearch"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
+                onChange={(e) => handleSearch(e.target.value)}
               />
-              <Input
-                label="Name of Service"
-                name="Servicename"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              {ServicesSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                />
+              ))}
             </GridWrapper>
-
-            <h2>Add Pricing Info</h2>
-
-            <Input
-              label="Price"
-              name="price"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+            {/* <Button label="Clear Form" background="#FFE9E9" color="#ED0423" /> */}
             <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>

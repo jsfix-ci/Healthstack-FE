@@ -11,10 +11,14 @@ import client from '../../../../feathers';
 const AppServices = () => {
   const { resource, setResource } = useObjectState();
   let ServicesServ = client.service('billing');
+  let ClientServ = client.service('billing');
   const { user } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
-  console.log(facilities);
+  const [val, setVal] = useState('');
+  const [facility, setFacility] = useState([])
+ 
   let services = resource.servicesResource.selectedService
+  
   
 
   const backClick = () => {
@@ -62,6 +66,47 @@ const AppServices = () => {
       });
   };
 
+  const handleSearch1 = (val) => {
+    setVal(val);
+    
+
+    if (val.length >= 3) {
+      ClientServ.find({
+        query: {
+          category: {
+            $regex: val,
+            $options: 'i',
+          },
+         
+          $limit: 1000,
+          $sort: {
+            category: 1,
+          },
+        },
+      })
+        .then((res) => {
+          console.log(res.groupedOrder);
+          
+          setFacility(res.groupedOrder);
+          
+          
+         
+        })
+        .catch((err) => {
+          toast({
+            message: 'Error searching Service category  ' + err,
+            type: 'is-danger',
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    } else {
+      console.log('less than 3 ');
+      console.log(val);
+     
+    }
+  };
+
    const handleSearch = (val) => {
      const field = 'name';
      console.log(val);
@@ -71,7 +116,7 @@ const AppServices = () => {
            $regex: val,
            $options: 'i',
          },
-         facility: user.currentEmployee.facilityDetail._id,
+         facility: user.employeeData[0].facility,
          $limit: 20,
          $sort: {
            createdAt: -1,
@@ -79,7 +124,7 @@ const AppServices = () => {
        },
      })
        .then((res) => {
-         console.log(res);
+         console.log(res.groupedOrder);
          setFacilities(res.groupedOrder);
        })
        .catch((err) => {
@@ -89,14 +134,16 @@ const AppServices = () => {
    };
 
     const onSubmit = (data) => {
+      
       const values = getFormStrings(data._id);
       if (user.currentEmployee) {
         data.facility = user.currentEmployee.facilityDetail._id;
       }
       (data._id
         ? ServicesServ.update(data._id, data)
-        : ServicesServ.create(data)
+        :ServicesServ.create(data)
       )
+      
         .then(() => {
           toast(`Services ${values.message}`);
           
@@ -106,7 +153,45 @@ const AppServices = () => {
         });
     };
 
+    const onSubmit1 =(data)=>{
+      let obj = {
+        name: data.source,
+        category: data.categoryname,
+        facility: user.employeeData[0].facility,
+        facilityname: user.employeeData[0].facility.facilityName,
+        panel: data.panel,
+        panelServices: data.panelList,
+        contracts: data.productItem,
+        createdBy: user._id,
+      };
+
+      ServicesServ.create(obj)
+        .then((res) => {
+          console.log(res);
+          console.log(data);
+          //console.log(JSON.stringify(res))
+          
+          toast({
+            message: 'Service created succesfully',
+            type: 'is-success',
+            dismissible: true,
+            pauseOnHover: true,
+          });
+         
+        })
+        .catch((err) => {
+          toast({
+            message: 'Error creating Services ' + err,
+            type: 'is-danger',
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+
+    }
+
   useEffect(() => {
+    
     if(!ServicesServ){
 
     ServicesServ = client.service('billing');
@@ -157,6 +242,8 @@ const AppServices = () => {
               },
             }))
           }
+          handleSearch={handleSearch1}
+          onSubmit={onSubmit1}
         />
       )}
       {resource.servicesResource.show === 'details' && (
