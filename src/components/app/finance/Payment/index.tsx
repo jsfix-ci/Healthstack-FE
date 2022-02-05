@@ -11,10 +11,12 @@ const AppPayments = () => {
   let SubwalletServ = client.service('subwallet');
   const SubwalletTxServ = client.service('subwallettransactions');
   const { resource, setResource } = useObjectState();
+  const [productItem, setProductItem] = useState([]);
   const { user } = useContext(UserContext);
+  const [totalamount, setTotalamount] = useState(0);
   const [medication, setMedication] = useState(null);
   // let medication = resource.paymentsResource.selectedPayment
-  console.log(medication && medication);
+  console.log(medication && medication.selectedPayment);
 
   const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
@@ -165,6 +167,61 @@ const AppPayments = () => {
         toast('Error fetching ProductEntry, probable network issues ' + err);
       });
   };
+  // useEffect(() => {
+   
+  //   //is the row checked or unchecked
+  //   if (medication) {
+  //     medication.show = 'none';
+  //     medication.proposedpayment = {
+  //       balance: 0,
+  //       paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
+  //       amount: medication.paymentInfo.balance,
+  //     };
+  //     //no payment detail push
+
+  //     setProductItem((prevProd) => prevProd.concat(medication));
+  //   } else {
+  //     if (productItem.length > 0) {
+  //       setProductItem((prevProd) =>
+  //         prevProd.filter((el) => el._id !== medication._id)
+  //       );
+  //     }
+  //   }
+
+  //   // const paymentoptions= []
+  //   //const info = medication.participantInfo.client.paymentinfo
+  //   //let billme={}
+  //   getFacilities();
+
+  //   return () => {};
+  // }, [medication]);
+
+  // const getTotal = async () => {
+  //   setTotalamount(0);
+  //   productItem.forEach((el) => {
+  //     if (el.show === 'none') {
+  //       if (el.billing_status === 'Unpaid') {
+  //         setTotalamount(
+  //           (prevtotal) => Number(prevtotal) + Number(el.serviceInfo.amount)
+  //         );
+  //       } else {
+  //         setTotalamount(
+  //           (prevtotal) => Number(prevtotal) + Number(el.paymentInfo.balance)
+  //         );
+  //       }
+  //     }
+  //     if (el.show === 'flex') {
+  //       setTotalamount((prevtotal) => Number(prevtotal) + Number(el.partPay));
+  //     }
+
+  //     //
+  //   });
+  // };
+  // useEffect(() => {
+  //   console.log(productItem);
+  //   getTotal();
+  //   return () => {};
+  // }, [productItem]);
 
   useEffect(() => {
     getFacilities();

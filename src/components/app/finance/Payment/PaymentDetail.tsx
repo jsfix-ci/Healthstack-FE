@@ -56,7 +56,7 @@ const PaymentDetails: React.FC<Props> = ({
         <FullDetailsWrapper>
           <HeadWrapper>
             <div>
-              <h2>Make deposit for {row.name}</h2>
+              <h2>Make deposit for {row.orderInfo.orderObj.clientname}</h2>
             </div>
             <div>
               <label
@@ -92,6 +92,24 @@ const PaymentDetails: React.FC<Props> = ({
         </FullDetailsWrapper>
 
         <FullDetailsWrapper>
+          <HeadWrapper>
+            <div>
+              <h2>Pay bills for {row.orderInfo.orderObj.clientname}</h2>
+            </div>
+            <div>
+              <label
+                style={{
+                  padding: '14px 20px',
+                  background: '#ffb3bd',
+                  color: '#ED0423',
+                  border: 'none',
+                  borderRadius: '4px',
+                }}
+              >
+                Total Amount Due {row.amount}
+              </label>
+            </div>
+          </HeadWrapper>
           <GridWrapper>
             {PaymentSchema.map((schema) => (
               <div>
