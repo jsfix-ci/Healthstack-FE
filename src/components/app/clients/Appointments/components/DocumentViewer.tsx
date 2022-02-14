@@ -76,7 +76,6 @@ const DocumentViewer = ({ document }) => {
       const schema =
         schemaDictionary[documentname + '.' + key] ||
         schemaDictionary['Generic'];
-      console.error({ schema,documentname, documentdetail: documentdetail[key], key });
       return (
         <DataTable
           key={documentname + key}
@@ -93,7 +92,6 @@ const DocumentViewer = ({ document }) => {
   }
 
   const schema = schemaDictionary[documentname] || schemaDictionary['Generic'];
-  console.error({ schema,documentname, documentdetail });
   return (
     <>
       <DataTable
