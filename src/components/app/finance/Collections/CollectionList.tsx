@@ -1,53 +1,70 @@
-import React from "react";
-import DataTable from "react-data-table-component";
+import React from 'react';
+import DataTable from 'react-data-table-component';
+import { DebounceInput } from 'react-debounce-input';
+import { ToastContainer } from 'react-toastify';
 
-import { TableMenu } from "../../../../styles/global";
-import Input from "../../../inputs/basic/Input";
-import { PageWrapper } from "../../styles";
-import { columnHead, rowData } from "./data";
+import { TableMenu } from '../../../../styles/global';
+import Input from '../../../inputs/basic/Input';
+import { CollectionSchema } from '../../schema';
+import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;
+  handleSearch: (_event) => void;
   onRowClicked?: (
-    row: {
+    _row: {
       id: any;
-      name: string;
+      description: string;
       client: string;
-      amount: string;
+      amount: number;
       mode: string;
     },
-    event: any,
+    _event: any
   ) => void;
+  items: any[];
 }
 
-const Collections: React.FC<Props> = ({ onRowClicked }) => {
+const Collections: React.FC<Props> = ({
+  handleSearch,
+  onRowClicked,
+  items,
+}) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+        <div className="inner-table">
+         
+          <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Collections"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span>Filter by</span>
+            <i className="bi bi-chevron-down" />
           </div>
         </div>
       </TableMenu>
 
-      <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Collections'
-          columns={columnHead}
-          data={rowData}
+          title="Collections"
+          columns={CollectionSchema}
+          data={items}
           selectableRows
           pointerOnHover
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: "hidden" }}
+          style={{ overflow: 'hidden' }}
         />
       </div>
+      <ToastContainer />
     </PageWrapper>
   );
 };
