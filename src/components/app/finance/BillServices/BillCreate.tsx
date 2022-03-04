@@ -16,10 +16,12 @@ import {
 interface Props {
   backClick: () => void;
   getSearchFacility: (_event , clear) => void;
-  success: any
+  success: any,
+  date:any,
+  invoice:any
 }
 
-const BillCreate: React.FC<Props> = ({ backClick, getSearchFacility,success }) => {
+const BillCreate: React.FC<Props> = ({ backClick, getSearchFacility,success,date,invoice }) => {
   const [values, setValues] = useState({});
 
   return (
@@ -57,24 +59,13 @@ const BillCreate: React.FC<Props> = ({ backClick, getSearchFacility,success }) =
 
               <Input
                 name="datetime"
-                type="datetime-local"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
+                
+                value={date}
               />
               <Input
-                label="Phone Number"
-                name="phoneNumber"
-                type="tel"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
+                label="INVOICE"
+                name="InvoiceNumber"
+                value={invoice}
               />
 
               <Input

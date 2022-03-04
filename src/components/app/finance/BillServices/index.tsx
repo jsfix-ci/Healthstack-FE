@@ -20,6 +20,11 @@ const AppBills = () => {
   const [paymentmode, setPaymentMode] = useState("")
   const [paymentOptions, setPaymentOptions]=useState([])
   const [billMode, setBillMode]=useState("")
+  const [date,setDate] = useState("")
+  const [calcamount,setCalcAmount] = useState(0)
+  const [documentNo,setDocumentNo] = useState("")
+  var random = require("randomstring");
+  const invoiceNo= random(6,'uppernumeric')
  
 
 const getSearchFacility1 =  (person) => {
@@ -121,13 +126,39 @@ const handleChangeMode= async(value)=>{
         );
       });
   };
+
+//   useEffect(() => {
+//     console.log("startup")
+//   // const medication =state.medicationModule.selectedMedication
+//     const today=new Date().toLocaleString()
+//     //console.log(today)
+//     setDate(today)
+//     const invoiceNo=random(6,'uppernumeric')
+//     setDocumentNo(invoiceNo)
+//     return () => {
+//        console.log("closeup")
+//        const today=new Date().toLocaleString()
+//        //console.log(today)
+//        setDate(today)
+//        const invoiceNo=random(6,'uppernumeric')
+//        setDocumentNo(invoiceNo)
+//        setCalcAmount(0)
+        
+//     }
+// }, [])
   
-  useEffect(() => {
-   
-    if (success1) {
-      setSuccess1(false);
-    }
-  }, [success1]);
+ useEffect(() => {
+   let isMounted = true
+   let today = new Date().toLocaleString()
+   if(isMounted)setDate(today)
+   let invoiceNo = 4
+   return () =>{
+    isMounted = false
+ 
+   }
+    
+  }, []);
+  
   useEffect(() => {
     getSearchFacility1(resource.billServicesResource.selectedBillService);
 
@@ -135,7 +166,7 @@ const handleChangeMode= async(value)=>{
   }, [resource.billServicesResource.selectedBillService]);
   
   useEffect(() => {
-   
+    let isMounted = true
     if (!BillServ) {
       BillServ = client.service('bills');
       BillServ.on('created', (obj) => getFacilities());
@@ -143,9 +174,10 @@ const handleChangeMode= async(value)=>{
       BillServ.on('patched', (obj) => getFacilities());
       BillServ.on('removed', (obj) => getFacilities());
     }
-    user && getFacilities();
+    if(isMounted){user && getFacilities()};
     return () => {
       BillServ = null;
+      isMounted = false
     };
   }, [user]);
 
@@ -187,7 +219,9 @@ const handleChangeMode= async(value)=>{
             }))
           }
           getSearchFacility={getSearchFacility1}
+          date={date}
           success={success1}
+          invoice={documentNo}
         />
       )}
       {resource.billServicesResource.show === 'details' && (
