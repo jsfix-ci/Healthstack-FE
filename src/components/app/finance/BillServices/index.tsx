@@ -17,6 +17,9 @@ const AppBills = () => {
   const [patient, setPatient] = useState('');
   const [source, setSource] = useState('');
   const [success1, setSuccess1] = useState(false);
+  const [paymentmode, setPaymentMode] = useState("")
+  const [paymentOptions, setPaymentOptions]=useState([])
+  const [billMode, setBillMode]=useState("")
  
 
 const getSearchFacility1 =  (person) => {
@@ -29,6 +32,26 @@ const getSearchFacility1 =  (person) => {
   setPatient(person);
   setSource(person.firstname + ' ' + person.lastname);
 };
+
+const handleChangeMode= async(value)=>{
+  // console.log("value",value)
+   await setPaymentMode(value)
+    console.log(value)
+   let billm= paymentOptions.filter(el=>el.name===value)
+   await setBillMode(billm[0])
+    console.log(billm)
+    // at startup
+    // check payment mode options from patient financial info
+    // load that to select options
+    // default to HMO-->company-->family-->cash
+    //when chosen
+    //append payment mode to order
+    //check service contract for pricing info
+    // calculate pricing 
+    // pricing
+
+
+}
 
  const getFacilities = () => {
    
