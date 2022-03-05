@@ -19,11 +19,14 @@ const AppBills = () => {
   const [success1, setSuccess1] = useState(false);
   const [paymentmode, setPaymentMode] = useState("")
   const [paymentOptions, setPaymentOptions]=useState([])
+  const [productItem, setProductItem] = useState([]);
+ const [totalamount, setTotalamount] = useState(0);
+ 
   const [billMode, setBillMode]=useState("")
   const [date,setDate] = useState("")
   const [calcamount,setCalcAmount] = useState(0)
   const [documentNo,setDocumentNo] = useState("")
-  var random = require("randomstring");
+  var random = require('random-string-generator');
   const invoiceNo= random(6,'uppernumeric')
  
 
@@ -57,6 +60,92 @@ const handleChangeMode= async(value)=>{
 
 
 }
+ const createObj = (pay, name, cover, type) => {
+   let details:any = {};
+   details = { ...pay };
+   details.type = type;
+
+   return {
+     name,
+     value: cover,
+     detail: details,
+     type,
+   };
+ };
+//  useEffect(() => {
+//    setProductItem([]);
+//    setTotalamount(0);
+//    const paymentoptions = [];
+//    // const info = client.paymentinfo
+//    let billme;
+//    let obj;
+//    if (!!patient) {
+//      // console.log(patient)
+
+//      patient.paymentinfo.forEach((pay, i) => {
+//        if (pay.active) {
+//          switch (pay.paymentmode) {
+//            case 'Cash':
+//              // code block
+//              obj = createObj(pay, 'Cash', 'Cash', 'Cash');
+
+//              paymentoptions.push(obj);
+//              setPaymentMode('Cash');
+//              billme = obj;
+//              // console.log("billme",billme)
+//              break;
+//            case 'Family':
+//              // code block
+//              obj = createObj(
+//                pay,
+//                'Family Cover',
+//                'familyCover',
+//                'Family Cover'
+//              );
+//              paymentoptions.push(obj);
+//              setPaymentMode('Family Cover');
+//              billme = obj;
+//              // console.log("billme",billme)
+//              break;
+//            case 'Company':
+//              // code block
+//              let name =
+//                'Company: ' + pay.organizationName + '(' + pay.plan + ')';
+
+//              obj = createObj(pay, name, 'CompanyCover', 'Company Cover');
+//              paymentoptions.push(obj);
+//              setPaymentMode(
+//                'Company: ' + pay.organizationName + '(' + pay.plan + ')'
+//              );
+//              billme = obj;
+//              // console.log("billme",billme)
+//              break;
+//            case 'HMO':
+//              // code block
+//              console.log(pay);
+//              let sname = 'HMO: ' + pay.organizationName + '(' + pay.plan + ')';
+
+//              obj = createObj(pay, sname, 'HMOCover', 'HMO Cover');
+//              paymentoptions.push(obj);
+//              setPaymentMode(
+//                'HMO: ' + pay.organizationName + '(' + pay.plan + ')'
+//              );
+//              billme = obj;
+//              //  console.log("billme",billme)
+//              break;
+//            default:
+//            // code block
+//          }
+//        }
+//      });
+
+//      setPaymentOptions(paymentoptions);
+//      setBillMode(billme);
+//    }
+//    //console.log(paymentoptions)
+//    // console.log(billMode)
+//    return () => {};
+//  }, [source]); 
 
  const getFacilities = () => {
    
@@ -127,31 +216,13 @@ const handleChangeMode= async(value)=>{
       });
   };
 
-//   useEffect(() => {
-//     console.log("startup")
-//   // const medication =state.medicationModule.selectedMedication
-//     const today=new Date().toLocaleString()
-//     //console.log(today)
-//     setDate(today)
-//     const invoiceNo=random(6,'uppernumeric')
-//     setDocumentNo(invoiceNo)
-//     return () => {
-//        console.log("closeup")
-//        const today=new Date().toLocaleString()
-//        //console.log(today)
-//        setDate(today)
-//        const invoiceNo=random(6,'uppernumeric')
-//        setDocumentNo(invoiceNo)
-//        setCalcAmount(0)
-        
-//     }
-// }, [])
+
   
  useEffect(() => {
    let isMounted = true
    let today = new Date().toLocaleString()
    if(isMounted)setDate(today)
-   let invoiceNo = 4
+   if(isMounted)setDocumentNo(invoiceNo)
    return () =>{
     isMounted = false
  
@@ -161,7 +232,9 @@ const handleChangeMode= async(value)=>{
   
   useEffect(() => {
     getSearchFacility1(resource.billServicesResource.selectedBillService);
-
+    
+    console.log(resource.billServicesResource.selectedBillService);
+    
     return () => {};
   }, [resource.billServicesResource.selectedBillService]);
   
