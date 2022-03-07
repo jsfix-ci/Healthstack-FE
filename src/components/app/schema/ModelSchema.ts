@@ -612,32 +612,37 @@ const BillServiceCreateSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    options: ['Cash', 'Family', 'Hmo' ],
+    options: ['Cash', 'Family', 'Hmo'],
   },
-  
-  
+
   [
     {
       name: 'Date and Time',
       key: 'start_time',
-      description: 'Select Appointment Time',
+      description: 'Time and Date',
       selector: (row) => row.start_time,
       sortable: true,
       required: true,
       inputType: InputType.DATETIME,
     },
-   
-    
-    
   ],
   {
-    name: 'Appointment Reason',
-    description: '',
-    key: 'appointment_reason',
-    selector: (row) => row.appointment_reason,
+    name: 'Name of Location',
+    key: 'name',
+    description: 'Invoice',
+    selector: (row) => row.name,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT_AREA,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Name of Location',
+    key: 'name',
+    description: 'Services',
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
   },
 ];
 
