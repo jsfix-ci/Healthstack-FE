@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+// import * as yup from 'yup';
 
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
@@ -273,7 +273,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
   {
     name: 'CAC Number',
@@ -283,7 +283,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.NUMBER,
-    validator: yup.number().min(5, 'Enter a valid CAC number'),
+    // validator: yup.number().min(5, 'Enter a valid CAC number'),
   },
   {
     name: 'Country',
@@ -335,7 +335,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    validator: yup.string().min(10, 'Enter a valid Address'),
+    // validator: yup.string().min(10, 'Enter a valid Address'),
   },
 
   {
@@ -346,7 +346,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.PHONE,
-    validator: yup.string().min(10, 'Enter a  Phone number').max(13, 'Enter a Phone number'),
+    // validator: yup.string().min(10, 'Enter a  Phone number').max(13, 'Enter a Phone number'),
   },
 
   {
@@ -357,7 +357,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.EMAIL,
-    validator: yup.string().email(),
+    // validator: yup.string().email(),
   },
   {
     name: 'CEO',
