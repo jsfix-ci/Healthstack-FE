@@ -43,18 +43,18 @@ function Login() {
   const onSubmit = ({ email, password }) => {
     client
       .authenticate({
-        strategy: "local",
+        strategy: 'local',
         email,
         password,
       })
       .then((res) => {
         setUser(res.user);
-        localStorage.setItem("user", JSON.stringify(res.user));
+        localStorage.setItem('user', JSON.stringify(res.user));
         navigate("/app");
       })
       .catch((err) => {
         toast.error(`Error loggin in User, probable network issues ${err}`);
-        navigate("/app");
+        navigate('/app');
       });
   };
 
@@ -62,7 +62,7 @@ function Login() {
     <AuthWrapper paragraph="Login here as an organization">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="email"
+          name='email'
           control={control}
           render={({ field }) => (
             <Input {...field} 
@@ -73,19 +73,19 @@ function Login() {
         />
         {
           errors.email && (
-            <p style={{color: "blue", fontSize: "16px" }}>{errors.email?.message}</p>
+            <p style={{color: 'blue', fontSize: '16px' }}>{errors.email?.message}</p>
           )
         }
 
         <Controller
-          name="password"
+          name='password'
           control={control}
           render={({ field }) => <PasswordInput {...field} />}
         />
 
         {
           errors.password && (
-            <p style={{color: "blue", fontSize: "16px" }}>{errors.password?.message}</p>
+            <p style={{color: 'blue', fontSize: '16px' }}>{errors.password?.message}</p>
           )
         }
 
@@ -110,10 +110,10 @@ function Login() {
           <Link
             className="nav-link"
             style={{
-              padding: "0",
-              background: "transparent",
-              color: "blue",
-              marginLeft: "0.6rem",
+              padding: '0',
+              background: 'transparent',
+              color: 'blue',
+              marginLeft: '0.6rem',
             }}
             to="/signup"
           >
