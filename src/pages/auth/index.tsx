@@ -37,7 +37,7 @@ function Login() {
       top: 0,
       left: 0,
     });
-    document.title = "Health Stack - Login";
+    document.title = 'Health Stack - Logi';
   }, []);
 
   const onSubmit = ({ email, password }) => {
@@ -71,14 +71,23 @@ function Login() {
             />
           )}
         />
-        <p style={{color: "red", fontSize: "16px" }}>{errors.email?.message}</p>
+        {
+          errors.email && (
+            <p style={{color: "blue", fontSize: "16px" }}>{errors.email?.message}</p>
+          )
+        }
 
         <Controller
           name="password"
           control={control}
           render={({ field }) => <PasswordInput {...field} />}
         />
-        <p style={{color: "red", fontSize: "16px" }}>{errors.password?.message}</p>
+
+        {
+          errors.password && (
+            <p style={{color: "blue", fontSize: "16px" }}>{errors.password?.message}</p>
+          )
+        }
 
         <CheckboxInput label="Keep me Logged in" />
         <Button type="submit" label="Login" fullwidth />
