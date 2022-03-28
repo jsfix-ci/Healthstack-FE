@@ -1,74 +1,46 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import ProductEntryCreate from './ProductEntryCreate';
 import ProductEntryDetails from './ProductEntryDetail';
 import ProductEntryList from './ProductEntryList';
+import { ProductEntryQuery } from './query';
 
 const AppProductEntry = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    employeeResource: { show, selectedEmployee },
+  } = resource;
 
+  const navigate = (show: string) => (selectedEmployee?: any) =>
+    setResource({
+      ...resource,
+      employeeResource: {
+        ...resource.employeeResource,
+        show,
+        selectedEmployee: selectedEmployee || resource.employeeResource.selectedEmployee,
+      },
+    });
+
+  const { list: productentry, submit: handleSubmit, setFindQuery } = useRepository(Models.PRODUCTENTRY, navigate);
+  const [searchText, setSearchText] = useState('');
+  useEffect(() => {
+    setFindQuery(ProductEntryQuery(undefined, undefined, searchText || undefined));
+  }, [searchText]);
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
+      {show === Views.LIST && (
         <ProductEntryList
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          onSearch={setSearchText}
+          items={productentry}
+          handleCreate={navigate(Views.CREATE)}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <ProductEntryCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <ProductEntryDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      =
+      {show === Views.CREATE && <ProductEntryCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
+      {show === Views.DETAIL && <ProductEntryDetails row={selectedEmployee} backClick={navigate(Views.LIST)} />}=
     </>
   );
 };

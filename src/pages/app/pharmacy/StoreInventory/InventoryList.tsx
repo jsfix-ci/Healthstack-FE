@@ -1,18 +1,12 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
+import { InventoryStoreSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: any, event: any) => void;
-}
-
-const Inventory: React.FC<Props> = ({ onRowClicked }) => {
+const Inventory = ({ onRowClicked, items, onSearch }) => {
   return (
     <PageWrapper>
       <h2>Inventory</h2>
@@ -26,17 +20,15 @@ const Inventory: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-
-          <FilterMenu />
+          <FilterMenu schema={InventoryStoreSchema} onSearch={onSearch} />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
           title="Inventory"
-          columns={columnHead}
-          data={rowData}
+          columns={InventoryStoreSchema}
+          data={items}
           selectableRows
           pointerOnHover
           highlightOnHover

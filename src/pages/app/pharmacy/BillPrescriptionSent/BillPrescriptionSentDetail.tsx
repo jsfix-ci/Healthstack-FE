@@ -26,8 +26,7 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
   });
   let random = require('random-string-generator');
   const invoiceNo = random(6, 'uppernumeric');
-  console.log(invoiceNo);
-  
+
   const { handleSubmit, control } = useForm({
     defaultValues: {
       client: '',
@@ -121,7 +120,7 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
 
           <h2>Medication</h2>
           <div>
-            <input name="medication" value={row.order} disabled />
+            <Input label="medication" value={row.order} disabled />
           </div>
 
           <br />

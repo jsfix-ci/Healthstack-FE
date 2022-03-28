@@ -2,18 +2,12 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
+import { ProductEntrySchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: any, event: any) => void;
-}
-
-const POS: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const ProductEntryList = ({ handleCreate, onRowClicked, items, onSearch }) => {
   return (
     <PageWrapper>
       <h2>POS</h2>
@@ -27,9 +21,7 @@ const POS: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-
-          <FilterMenu />
+          <FilterMenu schema={ProductEntrySchema} onSearch={onSearch} />
         </div>
 
         <Button onClick={handleCreate}>
@@ -40,8 +32,8 @@ const POS: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
           title="POS"
-          columns={columnHead}
-          data={rowData}
+          columns={ProductEntrySchema}
+          data={items}
           selectableRows
           pointerOnHover
           highlightOnHover
@@ -54,4 +46,4 @@ const POS: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   );
 };
 
-export default POS;
+export default ProductEntryList;

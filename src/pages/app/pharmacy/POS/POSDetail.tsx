@@ -3,8 +3,8 @@ import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import { FlexBox, Htag } from '../../../../ui/styled/global';
+import { PosDetailSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from '../Payment/PaymentList';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -12,14 +12,14 @@ interface Props {
   row?: any;
 }
 
-const POSDetails: React.FC<Props> = ({ row, backClick }) => {
+const ProductEntryDetails: React.FC<Props> = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
             <h2>POS</h2>
-            <span>Below are your POS’s details</span>
+            <span>Below are your POS details</span>
           </div>
           <div>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
@@ -58,8 +58,8 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
         <FullDetailsWrapper>
           <DataTable
             title="Product Items"
-            columns={columnHead}
-            data={row.data}
+            columns={PosDetailSchema}
+            data={row.productitems}
             selectableRows
             pointerOnHover
             highlightOnHover
@@ -71,4 +71,4 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
   );
 };
 
-export default POSDetails;
+export default ProductEntryDetails;

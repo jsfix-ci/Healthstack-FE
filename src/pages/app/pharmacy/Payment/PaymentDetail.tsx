@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
-import CustomSelect from '../../../../components/inputs/basic/Select';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const paymentOptions = ['Cash', 'Transfer'];
 
 const typeOptions = [
   {
@@ -25,9 +19,23 @@ const typeOptions = [
   },
 ];
 
-const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
-  const [values, setValues] = useState({});
+const PaymentDetails = ({ row, backClick, onSubmit }) => {
+  const [amount, setAmount] = useState(0);
+  const [fName, setfName] = useState(0);
+  const [paid, setPaid] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
+
+  useEffect(() => {
+    setAmount(row.paymentInfo.amountDue);
+  });
+  let calcAmount = amount - fName;
+  const paidUp = () => {
+    setPaid(fName);
+    setBalance(calcAmount);
+    setfName(0);
+  };
 
   return (
     <PageWrapper>
@@ -44,66 +52,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
         <FullDetailsWrapper>
           <HeadWrapper>
             <div>
-              <h2>Make deposit for {row.name}</h2>
-            </div>
-            <div>
-              <label
-                style={{
-                  padding: '14px 20px',
-                  background: '#ebffe8',
-                  color: '#0d4a07',
-                  border: 'none',
-                  borderRadius: '4px',
-                }}
-              >
-                Balance {row.amount}
-              </label>
-            </div>
-          </HeadWrapper>
-          <form action="">
-            <GridWrapper>
-              <CustomSelect
-                options={paymentOptions}
-                name="paymentOptions"
-                label="Payment Options"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Amount"
-                name="name"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Payment Details"
-                name="description"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </GridWrapper>
-            <BottomWrapper>
-              <Button label="Accept Payment" type="submit" />
-            </BottomWrapper>
-          </form>
-        </FullDetailsWrapper>
-
-        <FullDetailsWrapper>
-          <HeadWrapper>
-            <div>
-              <h2>Pay bills for {row.name}</h2>
+              <h2>Make deposit for {row.orderInfo.orderObj.clientname}</h2>
             </div>
             <div>
               <label
@@ -115,53 +64,92 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                   borderRadius: '4px',
                 }}
               >
-                Total Amount Due {row.amount}
+                Balance N {}
               </label>
             </div>
           </HeadWrapper>
-          <GridWrapper style={{ alignItems: 'start' }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <GridWrapper>
+              {PaymentDetailsSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={client.options}
+                />
+              ))}
+            </GridWrapper>
+            <BottomWrapper>
+              <Button label="Accept Payment" type="submit" />
+            </BottomWrapper>
+          </form>
+        </FullDetailsWrapper>
+
+        <FullDetailsWrapper>
+          <HeadWrapper>
             <div>
-              <label>ID</label>
-              <p>{row.id}</p>
+              <h2>Pay bills for {row.orderInfo.orderObj.clientname}</h2>
             </div>
             <div>
-              <label>Name</label>
-              <p>{row.name}</p>
+              <label
+                style={{
+                  padding: '14px 20px',
+                  background: '#ffb3bd',
+                  color: '#ED0423',
+                  border: 'none',
+                  borderRadius: '4px',
+                }}
+              >
+                Total Amount Due {amount}
+              </label>
             </div>
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-            <div>
-              <label>Status</label>
-              <p>{row.status}</p>
-            </div>
+          </HeadWrapper>
+          <GridWrapper>
+            {PaymentSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
             <div>
               <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
               {update === 'Part' && (
-                <div>
-                  <Input
-                    name="paymentType"
-                    onChange={(e) =>
-                      setValues({
-                        ...values,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                </div>
+                <>
+                  <div>
+                    <Input name="paymentType" value={fName} onChange={(e) => setfName(Number(e.target.value))} />
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        padding: '14px 20px',
+                        background: '#ffb3bd',
+                        color: '#ED0423',
+                        border: 'none',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      paid up {paid}
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      style={{
+                        padding: '14px 20px',
+                        background: '#ffb3bd',
+                        color: '#ED0423',
+                        border: 'none',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      Balance {balance}
+                    </label>
+                  </div>
+                </>
               )}
 
-              <Button>Update</Button>
-            </div>
-
-            <div>
-              <label>Description</label>
-              <p>{row.decription}</p>
-            </div>
-            <div>
-              <label>Amount</label>
-              <p>{row.amount}</p>
+              <Button onClick={paidUp}>Update</Button>
             </div>
           </GridWrapper>
           <BottomWrapper>

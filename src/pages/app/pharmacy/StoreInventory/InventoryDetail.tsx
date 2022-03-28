@@ -7,45 +7,19 @@ import CustomSelect from '../../../../components/inputs/basic/Select';
 import { columnHead } from '../../admin/Employees/data';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const InventoryDetails = ({ row, backClick, onSubmit }) => {
   const [values, setValues] = useState({});
   const [state, setState] = useState('all');
 
-  const SetPrice = () => {
-    const [values, setValues] = useState({});
-
+  const SetPrice = ({ row }) => {
     return (
       <PageWrapper>
         <GrayWrapper>
           <FullDetailsWrapper>
             <GridWrapper>
-              <Input
-                label="New Selling Price"
-                name="newPrice"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Old Price"
-                name="oldPrice"
-                value={row.price}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              <Input label="New Selling Price" name="newPrice" value={row.sellingprice} />
+              <Input label="Old Price" name="oldPrice" value={row.sellingprice} disabled />
             </GridWrapper>
             <BottomWrapper>
               <Button label="Clear Form" background="#FFE9E9" color="#ED0423" onClick={() => setState('all')} />
@@ -56,35 +30,14 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
       </PageWrapper>
     );
   };
-  const SetReOrder = () => {
-    const [values, setValues] = useState({});
-
+  const SetReOrder = ({ row }) => {
     return (
       <PageWrapper>
         <GrayWrapper>
           <FullDetailsWrapper>
             <GridWrapper>
-              <Input
-                label="New Reoder Level"
-                name="newReOrder"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Old Reoder Level"
-                name="oldReOrder"
-                value={row.reOrderLevel}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              <Input label="New Reoder Level" name="newReOrder" value={row.reorder_level} />
+              <Input label="Old Reoder Level" name="oldReOrder" value={row.reorder_level} disabled />
             </GridWrapper>
             <BottomWrapper>
               <Button label="Clear Form" background="#FFE9E9" color="#ED0423" onClick={() => setState('all')} />
@@ -274,7 +227,7 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <h4>Product Name: {row.product} </h4>
+          <h4>Product Name: {row.name} </h4>
           {state === 'all' && (
             <GridWrapper className="four-columns">
               <Button
@@ -302,10 +255,10 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
           )}
 
-          {state === 'price' && <SetPrice />}
+          {state === 'price' && <SetPrice row={row} />}
           {state === 'batch' && <SetBatches />}
           {state === 'audit' && <SetAudit />}
-          {state === 'reorder' && <SetReOrder />}
+          {state === 'reorder' && <SetReOrder row={row} />}
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

@@ -3,8 +3,8 @@ import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import { FlexBox, Htag } from '../../../../ui/styled/global';
+import { ProductEntryDetailSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from '../Payment/PaymentList';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -58,8 +58,8 @@ const ProductEntryDetails: React.FC<Props> = ({ row, backClick }) => {
         <FullDetailsWrapper>
           <DataTable
             title="Product Items"
-            columns={columnHead}
-            data={row.data}
+            columns={ProductEntryDetailSchema}
+            data={row.productitems}
             selectableRows
             pointerOnHover
             highlightOnHover

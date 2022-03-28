@@ -5,11 +5,7 @@ import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  backClick: () => void;
-}
-
-const ProductEntryCreate: React.FC<Props> = ({ backClick }) => {
+const ProductEntryCreate = ({ backClick, onSubmit }) => {
   const [values, setValues] = useState({});
 
   return (

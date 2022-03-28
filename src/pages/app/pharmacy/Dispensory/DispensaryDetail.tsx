@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DataTable from 'react-data-table-component';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { DispensaryCreateSchema, DispensaryDetailSchema, Schema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from './DispensaryList';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
-  const [values, setValues] = useState({});
-
+const DispensaryDetails = ({ row, backClick, onSubmit }) => {
+  const options = ['Sales', 'In-house', 'Dispense', 'Audit'];
+  let random = require('random-string-generator');
+  const invoiceNo = random(6, 'uppernumeric');
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      client: '',
+    },
+  });
   const rowData = [
     {
-      id: row.id,
-      name: row.name,
-      date: row.date,
-      description: row.description,
-      status: row.status,
-      amount: row.amount,
+      _id: row._id,
+      name: row.serviceInfo.name,
+      quantity: row.serviceInfo.quantity,
+      baseunit: row.serviceInfo.baseunit,
+      price: row.serviceInfo.price,
+      amount: row.serviceInfo.amount,
     },
   ];
   return (
@@ -43,54 +45,15 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
           <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
             <div>
               <label>Name</label>
-              <p>{row.name}</p>
+              <p>{row.orderInfo.orderObj.clientname}</p>
             </div>
 
-            <CustomSelect
-              label="Dispensary Mode"
-              name="hmo"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              options={['Mode 1', 'Mode 2', 'Mode 3']}
-            />
+            <CustomSelect label="Dispensary Mode" name="hmo" options={options} />
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
-            <Input
-              label="Date"
-              name="date"
-              type="date"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Phone Number"
-              name="phone"
-              type="tel"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+            <Input label="Date" name="date" value={new Date().toLocaleString()} disabled />
+            <Input label="Invoice" name="phone" value={invoiceNo} disabled />
+            <Input label="Quantity" name="quantity" value={row.paymentInfo.amountDue} />
           </GridWrapper>
 
           <br />
@@ -99,54 +62,70 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
           <h2>Billing Status: {row.mode}</h2>
           <br />
 
-          <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
-            <Input
-              label="Search Product"
-              name="search"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FullDetailsWrapper title="Create Employee">
+              {DispensaryCreateSchema.map((obj, index) => {
+                if (obj['length']) {
+                  const schemas = obj as Schema[];
 
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Amount"
-              name="amount"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Button label="+" type="submit" fullwidth={false} />
-          </GridWrapper>
-          <BottomWrapper>
-            <Button label="Adjust" type="submit" />
-          </BottomWrapper>
+                  return (
+                    <GridWrapper key={index}>
+                      {schemas.map((schema) => (
+                        <DynamicInput
+                          key={index}
+                          name={schema.key}
+                          control={control}
+                          label={schema.description}
+                          inputType={schema.inputType}
+                          options={schema.options || []}
+                        />
+                      ))}
+                    </GridWrapper>
+                  );
+                } else {
+                  const schema = obj as Schema;
+                  return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.description}
+                      inputType={schema.inputType}
+                      options={schema.options || []}
+                    />
+                  );
+                }
+              })}
+              <button
+                style={{
+                  borderRadius: '32px',
+                  background: '#f3f3f3',
+                  border: 'none',
+                  width: '32px',
+                  height: '32px',
+                }}
+                type="submit"
+              >
+                +
+              </button>
 
-          <DataTable
-            title="Product Items"
-            columns={columnHead}
-            data={rowData}
-            selectableRows
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
+              <BottomWrapper>
+                <Button label="Adjust" type="submit" />
+              </BottomWrapper>
+            </FullDetailsWrapper>
+          </form>
         </FullDetailsWrapper>
+
+        <DataTable
+          title="Product Items"
+          columns={DispensaryDetailSchema}
+          data={rowData}
+          selectableRows
+          pointerOnHover
+          highlightOnHover
+          striped
+        />
+
         <BottomWrapper>
           <Button label="Clear " background="#FFE9E9" color="#ED0423" />
           <Button label="Sell" />

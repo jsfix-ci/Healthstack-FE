@@ -1,208 +1,13 @@
 import React from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../../components/accordion';
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
+import { PaymentSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (
-    row: {
-      id: any;
-      date: any;
-      status: string;
-      description: string;
-      amount: string;
-    },
-    event: any
-  ) => void;
-}
-
-export interface DataProps {
-  id: any;
-  name: any;
-  date: string;
-  description: string;
-  status: string;
-  amount: string;
-}
-
-export const rowData = [
-  {
-    id: 1,
-    name: 'Simpa',
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-  {
-    id: 2,
-    name: 'Simpa',
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-  {
-    id: 3,
-    name: 'Simpa',
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-];
-
-const dataTree = [
-  {
-    title: 'Ada Chris',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of 1 unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultationof one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Eve Adam',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Simpa Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Simpa Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Simpa Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Simpa Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-  {
-    title: 'Simpa Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    children: [
-      {
-        title: 'Registration with 1 Unpaid bills.',
-        description: 'Prescription of one unpaid bill(s)',
-        data: rowData,
-      },
-      {
-        title: 'Consultation of 1 Unpaid bill',
-        description: 'Consultation of one unpaid bill(s)',
-        data: rowData,
-      },
-    ],
-  },
-];
-
-export const columnHead: TableColumn<DataProps>[] = [
-  {
-    name: 'S/N',
-    selector: (row) => row.id,
-    sortable: true,
-  },
-  {
-    name: 'Date',
-    selector: (row) => row.date,
-    sortable: true,
-  },
-  {
-    name: 'Description',
-    selector: (row) => row.description,
-    sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-];
-
-const Payments: React.FC<Props> = ({ onRowClicked }) => {
+const Payments = ({ onRowClicked, onSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -216,23 +21,20 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-
-          <FilterMenu />
+          <FilterMenu onSearch={onSearch} />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        {dataTree.map((data, index) => (
-          <AccordionBox title={data.title} key={index}>
-            {data.children.map((child) => {
+        {items.map((data, index) => (
+          <AccordionBox title={data.clientname} key={index}>
+            {data.bills.map((child, index) => {
               return (
-                <AccordionBox title={child.title}>
+                <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
                   <DataTable
-                    title={child.description}
-                    columns={columnHead}
-                    data={child.data}
-                    selectableRows
+                    title={`${child.catName} with ${child.order.length} Unpaid bills`}
+                    columns={PaymentSchema}
+                    data={child.order}
                     pointerOnHover
                     highlightOnHover
                     striped
@@ -247,5 +49,4 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
     </PageWrapper>
   );
 };
-
 export default Payments;

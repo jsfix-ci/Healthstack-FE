@@ -22,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   errorText,
   type = 'text',
   name,
+  value,
   onChange,
   onKeyDown,
   placeholder,
@@ -37,6 +38,7 @@ const Input: React.FC<InputProps> = ({
       type={type}
       label={label}
       name={name}
+      value={value}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
       size={size}
