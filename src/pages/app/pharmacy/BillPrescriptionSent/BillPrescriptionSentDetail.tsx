@@ -4,26 +4,36 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { FlexBox, ImageBox } from '../../../../ui/styled/global';
+import { BillPrescriptionSentDetailsSchema, Schema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
+const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
   const [values, setValues] = useState({});
   const [tab, setTab] = useState('0');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
+  const plan = row.client.paymentinfo.map((child) => {
+    return child.plan;
+  });
+  let random = require('random-string-generator');
+  const invoiceNo = random(6, 'uppernumeric');
+  console.log(invoiceNo);
+  
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      client: '',
+    },
+  });
+
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -41,8 +51,8 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
             <ImageBox src="https://via.placeholder.com/150" />
 
             <div>
-              <h1>Adam Mike Olu</h1>
-              <p>Cash</p>
+              <h1>{row.clientname}</h1>
+              <p>{row.client.paymentinfo[0].plan}</p>
               <p>HMO: Avon HMO</p>
             </div>
 
@@ -89,44 +99,14 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
           <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
             <div>
               <label>Name</label>
-              <p>{row.name}</p>
+              <p>{row.clientname}</p>
             </div>
 
-            <CustomSelect
-              label="HMO"
-              name="hmo"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              options={['HMO 1', 'HMO 2']}
-            />
+            <CustomSelect label="HMO" name="hmo" options={plan} />
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
-            <Input
-              label="Date"
-              name="date"
-              type="date"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Phone Number"
-              name="phone"
-              type="tel"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+            <Input label="Date" name="date" value={new Date().toLocaleString()} />
+            <Input label="Invoice" name="phone" value={invoiceNo} disabled />
             <Input
               label="Quantity"
               name="quantity"
@@ -141,71 +121,67 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
 
           <h2>Medication</h2>
           <div>
-            <p>Paracetamol</p>
+            <input name="medication" value={row.order} disabled />
           </div>
-          <Input
-            label="Price"
-            name="price"
-            onChange={(e) =>
-              setValues({
-                ...values,
-                [e.target.name]: e.target.value,
-              })
-            }
-          />
+
           <br />
 
           <h2>Instructions:</h2>
           <h2>Billing Status: {row.mode}</h2>
           <br />
 
-          <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
-            <Input
-              label="Seacrh Product"
-              name="search"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Amount"
-              name="amount"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <button
-              style={{
-                borderRadius: '32px',
-                background: '#f3f3f3',
-                border: 'none',
-                width: '32px',
-                height: '32px',
-              }}
-              type="submit"
-            >
-              +
-            </button>
-          </GridWrapper>
-          <BottomWrapper>
-            <Button label="Adjust" type="submit" />
-          </BottomWrapper>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FullDetailsWrapper title="Create Employee">
+              {BillPrescriptionSentDetailsSchema.map((obj, index) => {
+                if (obj['length']) {
+                  const schemas = obj as Schema[];
+
+                  return (
+                    <GridWrapper key={index}>
+                      {schemas.map((schema) => (
+                        <DynamicInput
+                          key={index}
+                          name={schema.key}
+                          control={control}
+                          label={schema.description}
+                          inputType={schema.inputType}
+                          options={schema.options || []}
+                        />
+                      ))}
+                    </GridWrapper>
+                  );
+                } else {
+                  const schema = obj as Schema;
+                  return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.description}
+                      inputType={schema.inputType}
+                      options={schema.options || []}
+                    />
+                  );
+                }
+              })}
+              <button
+                style={{
+                  borderRadius: '32px',
+                  background: '#f3f3f3',
+                  border: 'none',
+                  width: '32px',
+                  height: '32px',
+                }}
+                type="submit"
+              >
+                +
+              </button>
+
+              <BottomWrapper>
+                <Button label="Adjust" type="submit" />
+              </BottomWrapper>
+            </FullDetailsWrapper>
+          </form>
         </FullDetailsWrapper>
 
         <FullDetailsWrapper>

@@ -15,6 +15,10 @@ const Models = {
   LABORATORY_HELPER: 'labhelper',
   MEDICATION_HELPER: 'medicationhelper',
   ORDER: 'order',
+  BILLS: 'bills',
+  INVENTORY: 'inventory',
+  PRODUCTENTRY: 'productentry',
+  SERVICE: 'billing',
 };
 
 const DateFormats = {

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
-import CustomSelect from '../../../../components/inputs/basic/Select';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { BillServiceCreateSchema, Schema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  backClick: () => void;
-}
-
-const BillClientCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const BillClientCreate = ({ backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      client: '',
+    },
+  });
 
   return (
     <PageWrapper>
@@ -22,66 +23,74 @@ const BillClientCreate: React.FC<Props> = ({ backClick }) => {
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
             <GridWrapper>
-              <Input
-                label="Search for Client"
-                name="clientSearch"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <CustomSelect
-                label="Choose a Billing Mode"
-                name="billingMode"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={['Mode 1', 'Mode 2']}
-              />
+              {BillServiceCreateSchema.map((obj, index) => {
+                if (obj['length']) {
+                  const schemas = obj as Schema[];
 
-              <Input
-                name="datetime"
-                type="datetime-local"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
+                  return (
+                    <GridWrapper className="subgrid two-columns" key={index}>
+                      {schemas.map((schema) => (
+                        <DynamicInput
+                          key={index}
+                          name={schema.key}
+                          control={control}
+                          label={schema.description}
+                          inputType={schema.inputType}
+                          options={schema.options}
+                        />
+                      ))}
+                    </GridWrapper>
+                  );
+                } else {
+                  const schema = obj as Schema;
+                  return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.description}
+                      inputType={schema.inputType}
+                      options={schema.options}
+                    />
+                  );
                 }
-              />
-              <Input
-                label="Phone Number"
-                name="phoneNumber"
-                type="tel"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-
-              <Input
-                label="Choose a Service Item"
-                name="chooseServiceItem"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              })}
             </GridWrapper>
           </DetailsWrapper>
-
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <abbr title="Serial No">S/No</abbr>
+                </th>
+                <th>
+                  <abbr title="Category">Category</abbr>
+                </th>
+                <th>
+                  <abbr title="Name">Name</abbr>
+                </th>
+                <th>
+                  <abbr title="Quantity">Quanitity</abbr>
+                </th>
+                <th>
+                  <abbr title="Unit">Unit</abbr>
+                </th>
+                <th>
+                  <abbr title="Selling Price">Selling Price</abbr>
+                </th>
+                <th>
+                  <abbr title="Amount">Amount</abbr>
+                </th>
+                <th>
+                  <abbr title="Billing Mode">Mode</abbr>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
           <BottomWrapper>
             <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
             <Button label="Save Form" type="submit" />

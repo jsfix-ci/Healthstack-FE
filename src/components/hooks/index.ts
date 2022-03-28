@@ -9,6 +9,7 @@ import { DictionaryOf } from '../../types.d';
 
 interface Repository<T> {
   list: T[];
+  groupedData: T[];
   find: (_text) => Promise<T[]>;
   get: (_id) => Promise<T>;
   submit: (data: T) => Promise<T>;
@@ -31,6 +32,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const { user } = useContext(UserContext);
   const [findQuery, setFindQuery] = useState({});
   const [list, setList] = useState([]);
+  const [groupedData, setGroupedData] = useState([]);
 
   const remove = (obj): Promise<T> => {
     return Service.remove(typeof obj === 'string' ? obj : obj._id)
@@ -61,6 +63,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       .then((response) => {
         console.debug('received response of model ', modelName, ' with body ', { response });
         setList(response.data);
+        setGroupedData(response.groupedOrder);
         return response;
       })
       .catch((error) => {
@@ -119,6 +122,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
 
   return {
     list,
+    groupedData,
     find,
     setFindQuery,
     remove,

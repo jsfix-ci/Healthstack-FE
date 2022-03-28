@@ -1,32 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
-import Textarea from '../../../../components/inputs/basic/Textarea';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { BillServiceSchema } from '../../schema';
 import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  cancelEditClicked?: () => void;
-  row?: any;
-  backClick: () => void;
-}
-
-const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
-  const [values, setValue] = useState({
-    id: row.id,
-    date: row.date,
-    description: row.description,
-    status: row.status,
-    amount: row.amount,
-  });
+const BillModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm({ defaultValues: row });
 
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Band Details</h2>
-            <span>Below are your band’s details</span>
+            <h2>Bill Client Details</h2>
+            <span>Below are your bill client details</span>
           </div>
           <div>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
@@ -40,35 +29,24 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
             />
           </div>
         </HeadWrapper>
-        <GridWrapper>
-          <Input label="ID" value={values.id} disabled />
-          <Input
-            label="Date"
-            value={values.date}
-            type="datetime-local"
-            onChange={(e) => setValue({ ...values, date: e.target.value })}
-          />
-          <Input
-            label="Status"
-            value={values.status}
-            onChange={(e) => setValue({ ...values, status: e.target.value })}
-          />
-          <Input
-            label="Amount"
-            value={values.amount}
-            onChange={(e) => setValue({ ...values, amount: e.target.value })}
-          />
-          <Textarea
-            label="Description"
-            value={values.description}
-            onChange={(e) => setValue({ ...values, description: e.target.value })}
-          />
-        </GridWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GridWrapper>
+            {BillServiceSchema.map((client, index) => (
+              <DynamicInput
+                key={index}
+                name={client.key}
+                control={control}
+                label={client.name}
+                inputType={client.inputType}
+              />
+            ))}
+          </GridWrapper>
 
-        <BottomWrapper>
-          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
-          <Button label="Save Band" />
-        </BottomWrapper>
+          <BottomWrapper>
+            <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
+            <Button label="Save Band" />
+          </BottomWrapper>
+        </form>
       </GrayWrapper>
     </PageWrapper>
   );
