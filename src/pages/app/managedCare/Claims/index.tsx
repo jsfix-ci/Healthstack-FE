@@ -1,60 +1,40 @@
 import React from 'react';
 
+import useRepository from '../../../../components/hooks';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import ClaimsDetails from './ClaimsDetail';
 import Claims from './ClaimsList';
 
 const AppClaims = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    collectionsResource: { show, selectedCollection },
+  } = resource;
+
+  const navigate = (show: string) => (selectedCollection?: any) =>
+    setResource({
+      ...resource,
+      collectionsResource: {
+        ...resource.collectionsResource,
+        show,
+        selectedCollection: selectedCollection || resource.collectionsResource.selectedCollection,
+      },
+    });
+
+  const { list: subwallettransactions, find: getCollections } = useRepository<any>(Models.COLLECTION, navigate);
 
   return (
     <>
-      {resource.collectionsResource.show === 'lists' && (
+      {show === Views.LIST && (
         <Claims
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              collectionsResource: {
-                show: 'details',
-                selectedCollection: row,
-              },
-            }));
-          }}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getCollections}
+          items={subwallettransactions}
         />
       )}
 
-      {resource.collectionsResource.show === 'details' && (
-        <ClaimsDetails
-          row={resource.collectionsResource.selectedCollection}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
+      {show === Views.DETAIL && <ClaimsDetails row={selectedCollection} backClick={navigate(Views.LIST)} />}
     </>
   );
 };

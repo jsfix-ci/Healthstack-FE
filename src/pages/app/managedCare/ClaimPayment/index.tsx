@@ -1,49 +1,33 @@
+import useRepository from '../../../../components/hooks';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import ClaimPaymentDetails from './ClaimPaymentDetail';
 import ClaimPayments from './ClaimPaymentList';
 
 const AppClaimPayments = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    hmoAuthorizationsResource: { show, selectedHMOAuthorization },
+  } = resource;
+
+  const navigate = (show: string) => (selectedHMOAuthorization?: any) =>
+    setResource({
+      ...resource,
+      hmoAuthorizationsResource: {
+        ...resource.hmoAuthorizationsResource,
+        show,
+        selectedHMOAuthorization:
+          selectedHMOAuthorization || resource.hmoAuthorizationsResource.selectedHMOAuthorization,
+      },
+    });
+
+  const { list: bills } = useRepository<any>(Models.PAYMENT, navigate);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <ClaimPayments
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
-        />
-      )}
+      {show === Views.LIST && <ClaimPayments onRowClicked={(row) => navigate(Views.DETAIL)(row)} items={bills} />}
 
-      {resource.employeeResource.show === 'details' && (
-        <ClaimPaymentDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
+      {show === Views.DETAIL && <ClaimPaymentDetails row={selectedHMOAuthorization} backClick={navigate(Views.LIST)} />}
     </>
   );
 };

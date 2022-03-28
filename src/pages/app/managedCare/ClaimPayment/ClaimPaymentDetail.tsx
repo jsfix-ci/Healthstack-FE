@@ -2,6 +2,7 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
+import { PaymentSchema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -43,7 +44,13 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
           </HeadWrapper>
           <GridWrapper>
-            <div>
+            {PaymentSchema.map((schema) => (
+              <div key={schema.key}>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
+            {/* <div>
               <label>ID</label>
               <p>{row.id}</p>
             </div>
@@ -61,9 +68,9 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
             <div>
               <label>Service Details</label>
-              {/* {row.serviceDetails.map(service => (
+              {row.serviceDetails.map(service => (
                 <p>{service.HMO}</p>
-              ))} */}
+              ))}
             </div>
             <div>
               <label>Descriptions</label>
@@ -76,7 +83,7 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <div>
               <label>Departmental Unit</label>
               <p>{row.departmentalUnit}</p>
-            </div>
+            </div> */}
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
             <Input label="Authorization Code" name="authorizationCode" size="small" />

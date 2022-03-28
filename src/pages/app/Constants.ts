@@ -9,12 +9,15 @@ const Models = {
   APPOINTMENT: 'appointments',
   BAND: 'bands',
   CLIENT: 'client',
+  COLLECTION: 'subwallettransactions',
+  PAYMENT: 'bills',
   CLINICAL_DOCUMENT: 'clinicaldocument',
   EMPLOYEE: 'employee',
   LOCATION: 'location',
   LABORATORY_HELPER: 'labhelper',
   MEDICATION_HELPER: 'medicationhelper',
   ORDER: 'order',
+  Revenue: 'revenue',
 };
 
 const DateFormats = {
