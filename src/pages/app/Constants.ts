@@ -19,6 +19,7 @@ const Models = {
   INVENTORY: 'inventory',
   PRODUCTENTRY: 'productentry',
   SERVICE: 'billing',
+  SUBWALLET: 'subwallettransactions',
 };
 
 const DateFormats = {

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
+import useRepository from '../../../../components/hooks';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { Models } from '../../Constants';
 import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { subwalletQuery } from './query';
 
 const typeOptions = [
   {
@@ -19,23 +23,50 @@ const typeOptions = [
   },
 ];
 
-const PaymentDetails = ({ row, backClick, onSubmit }) => {
+const PaymentDetails = ({ row, backClick }) => {
+  const { submit: submitPayment, find: querySubwallet, user } = useRepository(Models.SUBWALLET);
+  const { submit: payForService } = useRepository(Models.INVOICE);
   const [amount, setAmount] = useState(0);
   const [fName, setfName] = useState(0);
   const [paid, setPaid] = useState(0);
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0.0);
   const { handleSubmit, control } = useForm();
-  const [update, setUpdate] = useState();
+  const [isFullPayment, setUpdate] = useState();
+
+  const paidUp = () => {
+    setPaid(fName);
+    setfName(0);
+  };
+
+  const acceptPayment = () => {
+    // TODO: replace with real object
+    const paymentObject = {};
+    submitPayment(paymentObject)
+      .then(() => setBalance(balance + paid))
+      .catch(console.error);
+  };
+
+  const submitServicePayment = () => {
+    if (isFullPayment) {
+      payForService({})
+        .then(() => {})
+        .then(() => {
+          toast;
+        })
+        .catch(console.error);
+    }
+    // else {
+    // }
+  };
 
   useEffect(() => {
     setAmount(row.paymentInfo.amountDue);
-  });
-  let calcAmount = amount - fName;
-  const paidUp = () => {
-    setPaid(fName);
-    setBalance(calcAmount);
-    setfName(0);
-  };
+    querySubwallet(subwalletQuery(user.currentEmployee.facility, row.participantInfo.clientId))
+      .then((res: any) => {
+        setBalance((res.data.length && res.data[0].amount) || '0.00');
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <PageWrapper>
@@ -64,11 +95,11 @@ const PaymentDetails = ({ row, backClick, onSubmit }) => {
                   borderRadius: '4px',
                 }}
               >
-                Balance N {}
+                Balance ₦ {balance}
               </label>
             </div>
           </HeadWrapper>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(acceptPayment)}>
             <GridWrapper>
               {PaymentDetailsSchema.map((client, index) => (
                 <DynamicInput
@@ -115,7 +146,7 @@ const PaymentDetails = ({ row, backClick, onSubmit }) => {
             ))}
             <div>
               <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
-              {update === 'Part' && (
+              {!isFullPayment && (
                 <>
                   <div>
                     <Input name="paymentType" value={fName} onChange={(e) => setfName(Number(e.target.value))} />
