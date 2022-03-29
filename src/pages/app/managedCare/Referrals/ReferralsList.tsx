@@ -6,12 +6,13 @@ import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { RevenueSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
+// import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
   onRowClicked?: (row: any, event: any) => void;
   handleSearch: (_event) => void;
+  items: any;
 }
 
 const Referrals: React.FC<Props> = ({ onRowClicked, items, handleSearch }) => {
@@ -34,7 +35,7 @@ const Referrals: React.FC<Props> = ({ onRowClicked, items, handleSearch }) => {
         <DataTable
           title="Referrals"
           columns={RevenueSchema}
-          data={rowData}
+          data={items}
           selectableRows
           pointerOnHover
           highlightOnHover

@@ -15,6 +15,7 @@ import { PageWrapper } from '../../styles';
 // }
 
 const ClaimPayments = ({ onRowClicked, items }) => {
+  console.log(items);
   return (
     <PageWrapper>
       <h2>ClaimPayments</h2>

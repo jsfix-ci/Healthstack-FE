@@ -17,7 +17,6 @@ const Models = {
   LABORATORY_HELPER: 'labhelper',
   MEDICATION_HELPER: 'medicationhelper',
   ORDER: 'order',
-  Revenue: 'revenue',
 };
 
 const DateFormats = {
