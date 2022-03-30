@@ -705,7 +705,11 @@ const BillServiceCreateSchema = [
       model: Models.SERVICE,
       or: ['baseunit', 'category', 'facilityname'],
       labelSelector: (obj) => `${obj.name} ${obj.baseunit} ${obj.contracts[0].price} `,
-      valueSelector: (obj) => [`${obj._id} ${obj.baseunit} ${obj.contracts[0].price}`],
+      valueSelector: ({ _id, baseunit, contracts }) => ({
+        inventoryId: _id,
+        baseunit,
+        price: (contracts.length && contracts[0].price) || 0.0,
+      }),
     },
   },
   {

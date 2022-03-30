@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
@@ -6,12 +6,17 @@ import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { BillServiceCreateSchema, Schema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const BillClientCreate = ({ backClick, onSubmit }) => {
+const BillClientCreate = ({ backClick, onSubmit: _ }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       client: '',
     },
   });
+  const [clientBills, setClientBills] = useState([]);
+
+  const addNewBill = (data) => {
+    setClientBills([...clientBills, data]);
+  };
 
   return (
     <PageWrapper>
@@ -23,13 +28,12 @@ const BillClientCreate = ({ backClick, onSubmit }) => {
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(addNewBill)}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
             <GridWrapper>
               {BillServiceCreateSchema.map((obj, index) => {
                 if (obj['length']) {
                   const schemas = obj as Schema[];
-
                   return (
                     <GridWrapper className="subgrid two-columns" key={index}>
                       {schemas.map((schema) => (
@@ -60,6 +64,7 @@ const BillClientCreate = ({ backClick, onSubmit }) => {
               })}
             </GridWrapper>
           </DetailsWrapper>
+          {clientBills.map((obj) => JSON.stringify(obj))}
           <table>
             <thead>
               <tr>
