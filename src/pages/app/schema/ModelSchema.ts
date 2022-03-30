@@ -22,6 +22,7 @@ const BandSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    //validator: yup.string().required('YOU MUST ENTER A NAME'),
   },
   {
     name: 'Band Type',
@@ -531,6 +532,7 @@ const BillServiceSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
   {
     name: 'Date',
