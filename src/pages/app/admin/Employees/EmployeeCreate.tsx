@@ -1,8 +1,10 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { getResolver } from '../../schema';
 import { EmployeeSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -12,7 +14,12 @@ interface Props {
 }
 
 const EmployeeCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
-  const { handleSubmit, control } = useForm();
+  const resolver = yupResolver(getResolver(EmployeeSchema));
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ resolver });
 
   return (
     <PageWrapper>
@@ -29,11 +36,13 @@ const EmployeeCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
             <GridWrapper>
               {EmployeeSchema.map((client, index) => (
                 <DynamicInput
+                  {...client}
                   key={index}
                   name={client.key}
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
+                  errors={errors}
                 />
               ))}
             </GridWrapper>

@@ -164,7 +164,6 @@ const EmployeeSchema = [
     key: 'firstname',
     description: 'Enter firstname',
     selector: (row) => row.firstname,
-
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
@@ -174,7 +173,6 @@ const EmployeeSchema = [
     key: 'lastname',
     description: 'Enter lastname',
     selector: (row) => row.lastname,
-
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
