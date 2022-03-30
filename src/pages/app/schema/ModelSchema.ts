@@ -26,12 +26,13 @@ const BandSchema = [
   {
     name: 'Band Type',
     key: 'bandType',
-    description: 'Enter name of band',
+    description: 'Band Type',
     selector: (row) => row.bandType,
     sortable: true,
     required: true,
-    inputType: InputType.SELECT_LIST,
     options: ['Provider', 'Company', 'Patient', 'Plan'],
+    inputType: InputType.SELECT_LIST,
+    // validator: yup.string().required('You must enter a band type'),
   },
   {
     name: 'Description of Band',
@@ -39,7 +40,7 @@ const BandSchema = [
     description: 'Enter description of band',
     selector: (row) => row.description,
     sortable: true,
-    required: false,
+    required: true,
     inputType: InputType.TEXT,
   },
 ];

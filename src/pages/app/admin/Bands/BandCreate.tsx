@@ -1,8 +1,10 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { getResolver } from '../../schema';
 import { BandSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -12,7 +14,13 @@ interface Props {
 }
 
 const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
-  const { handleSubmit, control } = useForm();
+  const resolver = yupResolver(getResolver(BandSchema));
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ resolver });
 
   return (
     <PageWrapper>
@@ -29,12 +37,14 @@ const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
             <GridWrapper>
               {BandSchema.map((client, index) => (
                 <DynamicInput
+                  {...client}
                   key={index}
                   name={client.key}
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
                   options={client.options}
+                  errors={errors}
                 />
               ))}
             </GridWrapper>
