@@ -98,6 +98,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
+        console.error(err);
       });
   };
 

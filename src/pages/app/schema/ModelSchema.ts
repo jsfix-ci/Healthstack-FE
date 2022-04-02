@@ -650,7 +650,11 @@ const BillServiceCreateSchema = [
         `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
           obj.email
         }`,
-      valueSelector: (obj) => obj._id,
+      valueSelector: ({ _id, firstname, lastname }) => ({
+        clientId: _id,
+        firstname,
+        lastname,
+      }),
       extraFields: {
         firstname: 'firstname',
         lastname: 'lastname',
@@ -685,7 +689,7 @@ const BillServiceCreateSchema = [
   ],
   {
     name: 'Name of Location',
-    key: 'name',
+    key: 'invoice',
     description: 'Invoice',
     selector: (row) => row.name,
     sortable: true,
@@ -704,8 +708,14 @@ const BillServiceCreateSchema = [
     options: {
       model: Models.SERVICE,
       or: ['baseunit', 'category', 'facilityname'],
-      labelSelector: (obj) => `${obj.name} ${obj.baseunit} ${obj.contracts[0].price} `,
-      valueSelector: (obj) => [`${obj._id} ${obj.baseunit} ${obj.contracts[0].price}`],
+      labelSelector: (obj) => `${obj.name}  `,
+      valueSelector: ({ _id, baseunit, contracts, category, name }) => ({
+        inventoryId: _id,
+        baseunit,
+        price: (contracts.length && contracts[0].price) || 0.0,
+        category,
+        name,
+      }),
     },
   },
   {
@@ -779,21 +789,24 @@ const BillPrescriptionSentDetailsSchema = [
     inputType: InputType.HIDDEN,
   },
   {
-    name: 'Medication',
-    key: 'medication',
-    description: 'Search for Medicine',
-    selector: (row) => row.medication,
+    name: 'Service',
+    key: 'inventoryId',
+    description: 'Search for  Service',
+    selector: (row) => row.name,
     sortable: true,
     required: true,
     inputType: InputType.SELECT_AUTO_SUGGEST,
     options: {
-      model: Models.MEDICATION_HELPER,
-      field: 'medication',
-      labelSelector: (obj) => `${obj.medication}`,
-      valueSelector: (obj) => obj.medication,
-      extraFields: {
-        instruction: 'instruction',
-      },
+      model: Models.SERVICE,
+      or: ['baseunit', 'category', 'facilityname'],
+      labelSelector: (obj) => `${obj.name}  `,
+      valueSelector: ({ _id, baseunit, contracts, category, name }) => ({
+        inventoryId: _id,
+        baseunit,
+        price: (contracts.length && contracts[0].price) || 0.0,
+        category,
+        name,
+      }),
     },
   },
   [
@@ -809,9 +822,9 @@ const BillPrescriptionSentDetailsSchema = [
 
     {
       name: 'Amount',
-      description: 'Enter description',
-      key: 'amount',
-      selector: (row) => row.amount,
+      description: 'Enter Amount',
+      key: 'Amount',
+      selector: (row) => row.Amount,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -1280,9 +1293,74 @@ const PosDetailSchema = [
     inputType: InputType.TEXT,
   },
 ];
+const BillCreateDetailSchema = [
+  {
+    name: 'S/N',
+    key: 'clientId',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'category',
+    key: 'category',
+    description: 'Enter category',
+    selector: (row) => row.inventoryId.category,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Name',
+    key: 'inventoryId.name',
+    description: 'Enter Name',
+    selector: (row) => row.inventoryId.name,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Quantity',
+    key: 'quantity',
+    description: 'Enter quantity',
+    selector: (row) => row.quantity,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Unit',
+    key: 'inventoryId.baseunit',
+    description: 'Enter Unit',
+    selector: (row) => row.inventoryId.baseunit,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Selling Price',
+    key: 'inventoryId.price',
+    description: 'Enter selling price',
+    selector: (row) => row.inventoryId.price,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Amount',
+    key: 'Amount',
+    description: 'Enter amount',
+    selector: (row) => row.Amount,
+    sortable: true,
+    required: false,
+    inputType: InputType.TEXT,
+  },
+];
 
 export {
   BandSchema,
+  BillCreateDetailSchema,
   BillPrescriptionSchema,
   BillPrescriptionSentDetailsSchema,
   BillServiceCreateSchema,

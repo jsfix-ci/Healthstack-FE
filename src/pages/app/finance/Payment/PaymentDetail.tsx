@@ -20,7 +20,6 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
   const [values, setValues] = useState({});
   const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
-
   const typeOptions = [
     {
       value: 'Full',

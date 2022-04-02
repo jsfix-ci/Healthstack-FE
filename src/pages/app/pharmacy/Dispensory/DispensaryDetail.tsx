@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
@@ -116,15 +117,7 @@ const DispensaryDetails = ({ row, backClick, onSubmit }) => {
           </form>
         </FullDetailsWrapper>
 
-        <DataTable
-          title="Product Items"
-          columns={DispensaryDetailSchema}
-          data={rowData}
-          selectableRows
-          pointerOnHover
-          highlightOnHover
-          striped
-        />
+        <CustomTable title="Product Items" columns={DispensaryDetailSchema} data={rowData} highlightOnHover striped />
 
         <BottomWrapper>
           <Button label="Clear " background="#FFE9E9" color="#ED0423" />

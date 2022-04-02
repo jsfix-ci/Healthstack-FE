@@ -20,4 +20,17 @@ const paymentQuery = (facilityId?: string, val?: string) => {
   };
 };
 
-export { paymentQuery };
+const subwalletQuery = (facilityId: string, clientId: string) => {
+  return {
+    query: {
+      client: clientId,
+      organization: facilityId,
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      },
+    },
+  };
+};
+
+export { paymentQuery, subwalletQuery };

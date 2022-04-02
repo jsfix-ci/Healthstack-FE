@@ -19,6 +19,10 @@ const Models = {
   INVENTORY: 'inventory',
   PRODUCTENTRY: 'productentry',
   SERVICE: 'billing',
+  INVOICE: 'invoice',
+  SUBWALLET: 'subwallet',
+  SUBWALLETTX: 'subwallettransactions',
+  BILLCREATE: 'createbilldirect',
 };
 
 const DateFormats = {
