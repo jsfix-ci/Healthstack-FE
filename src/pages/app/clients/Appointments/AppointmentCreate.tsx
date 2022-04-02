@@ -1,16 +1,21 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { AppointmentSchema, Schema } from '../../schema';
+import { AppointmentSchema, getResolver, Schema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const AppointmentCreate = ({ onSubmit, backClick }) => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
-      client: '',
-    },
+  const resolver = yupResolver(getResolver(AppointmentSchema.flat() as any[]));
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver,
   });
   return (
     <PageWrapper>
@@ -32,12 +37,14 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
                   <GridWrapper className="subgrid two-columns" key={index}>
                     {schemas.map((schema, childIndex) => (
                       <DynamicInput
+                        {...schema}
                         key={childIndex}
                         name={schema.key}
                         control={control}
                         label={schema.description}
                         inputType={schema.inputType}
                         options={schema.options || []}
+                        errors={errors}
                       />
                     ))}
                   </GridWrapper>
@@ -46,12 +53,14 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
                 const schema = obj as Schema;
                 return (
                   <DynamicInput
+                    {...schema}
                     key={index}
                     name={schema.key}
                     control={control}
                     label={schema.description}
                     inputType={schema.inputType}
                     options={schema.options || []}
+                    errors={errors}
                   />
                 );
               }
