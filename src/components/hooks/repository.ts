@@ -24,12 +24,14 @@ interface Repository<T> {
     };
   };
   setFindQuery: (query) => void;
-  facilityId: string | null;
+  facility: any;
+  locationType: any;
+  setLocationType: (_locationType) => void;
 }
 
 const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
   let Service = client.service(modelName);
-  const { user } = useContext(UserContext);
+  const { user, facility, locationType, setLocationType } = useContext(UserContext);
   const [findQuery, setFindQuery] = useState({});
   const [list, setList] = useState([]);
   const [groupedData, setGroupedData] = useState([]);
@@ -46,17 +48,19 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const find = async (query?: any): Promise<T[]> => {
+    console.debug({ query });
+    const isString = typeof query === 'string';
+    const extras = isString ? {} : { ...findQuery, ...query };
     const params = {
       query: {
-        facility: user.stacker ? -1 : user.currentEmployee.facilityDetail._id,
-        name: typeof query === 'string' && query ? { $regex: query, $options: 'i' } : undefined,
+        //facility: user.stacker ? -1 : facility._id,
+        name: isString && query ? { $regex: query, $options: 'i' } : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,
         },
       },
-      ...findQuery,
-      ...query,
+      ...extras,
     };
     console.debug('calling find with query  of model ', modelName, 'with parameters', params);
     return Service.find(params)
@@ -74,7 +78,8 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const spreadSubData = (data): DictionaryOf<string> => {
     let result = {};
     Object.entries(data).map(([key, value]) => {
-      if (typeof value === 'object' && !data.documentname) {
+      // Exceptions
+      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
@@ -86,15 +91,16 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const submit = (dataIn) => {
     const data = spreadSubData(dataIn);
     const values = getFormStrings(data._id);
-    console.debug('submitted data', JSON.stringify({ data }));
+    console.debug('submitted ' + modelName + ' data ', JSON.stringify({ data }));
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
 
     return (data._id ? Service.update(data._id, data) : Service.create(data))
-      .then(() => {
+      .then((data) => {
         onNavigate && onNavigate(Views.LIST)();
         toast(`${modelName.toUpperCase()} ${values.message}`);
+        return data;
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
@@ -118,6 +124,10 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   }, []);
 
   useEffect(() => {
+    console.debug({ user });
+  }, [user, facility]);
+
+  useEffect(() => {
     find();
   }, [findQuery]);
 
@@ -130,7 +140,9 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     submit,
     get,
     user,
-    facilityId: user?.currentEmployee?.facilityDetail?._id,
+    facility,
+    locationType,
+    setLocationType,
   };
 };
 

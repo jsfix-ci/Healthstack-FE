@@ -1,7 +1,6 @@
 import * as yup from 'yup';
 
 import { Models } from '../Constants';
-import { toDurationString } from '../DateUtils';
 import { InputType, Schema } from './util';
 
 const BandSchema = [
@@ -9,7 +8,6 @@ const BandSchema = [
     name: 'S/N',
     key: '_id',
     description: 'Enter name of band',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     required: true,
     inputType: InputType.HIDDEN,
@@ -287,7 +285,6 @@ const LocationSchema = [
     name: 'S/N',
     key: '_id',
     description: 'Enter name of location',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     required: true,
     inputType: InputType.HIDDEN,
@@ -309,6 +306,7 @@ const LocationSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
+    options: ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'],
   },
 ];
 
@@ -317,7 +315,6 @@ const OrganisationSchema: Schema[] = [
     name: 'S/N',
     key: '_id',
     description: 'ID',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     inputType: InputType.HIDDEN,
   },
@@ -471,7 +468,7 @@ const ModulesSchema = [
       { label: 'Finance', value: 'moduleFinance' },
       { label: 'Immunization', value: 'moduleImmunization' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
   {
     name: 'Module 2',
@@ -496,7 +493,7 @@ const ModulesSchema = [
       { label: 'Theatre', value: 'moduleTheatre' },
       { label: 'User Profile', value: 'moduleUser Profile' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
 ];
 
@@ -570,173 +567,7 @@ const OnboardingEmployeeSchema = [
     required: true,
   },
 ];
-const BillServiceSchema = [
-  {
-    name: 'S/N',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-    sortable: true,
-    required: true,
-    inputType: InputType.HIDDEN,
-  },
-  {
-    name: 'Name',
-    key: 'orderInfo.orderObj.clientname',
-    description: 'Enter name of band',
-    selector: (row) => row.orderInfo.orderObj.clientname,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT_AREA,
-  },
-  {
-    name: 'Date',
-    key: 'createdAt',
-    description: 'Enter date',
-    selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT_AREA,
-  },
-  {
-    name: 'Description of Band',
-    key: 'orderInfo.orderObj.order',
-    description: 'Enter description of band',
-    selector: (row) => row.orderInfo.orderObj.order,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT_AREA,
-  },
-  {
-    name: 'Status',
-    key: 'billing_status',
-    description: 'Enter status',
-    selector: (row) => row.billing_status,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT_AREA,
-  },
-  {
-    name: 'Amount',
-    key: 'serviceInfo.amount',
-    description: 'Enter amount',
-    selector: (row) => row.serviceInfo.amount,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT_AREA,
-  },
-];
-const BillServiceCreateSchema = [
-  {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-    description: 'ID',
-    sortable: true,
-    required: true,
-    inputType: InputType.HIDDEN,
-  },
-  {
-    name: 'Client',
-    key: 'clientId',
-    description: 'Search for  Client',
-    selector: (row) => `${row.firstname} ${row.lastname}`,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_AUTO_SUGGEST,
-    options: {
-      model: Models.EMPLOYEE,
-      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
-      labelSelector: (obj) =>
-        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
-          obj.email
-        }`,
-      valueSelector: ({ _id, firstname, lastname }) => ({
-        clientId: _id,
-        firstname,
-        lastname,
-      }),
-      extraFields: {
-        firstname: 'firstname',
-        lastname: 'lastname',
-        dob: 'dob',
-        gender: 'gender',
-        phone: 'phone',
-        email: 'email',
-      },
-    },
-  },
-  {
-    name: 'Billing Mode',
-    description: 'Billing Mode',
-    key: 'billing_mode',
-    selector: (row) => row.appointment_type,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_LIST,
-    options: ['Cash', 'Family', 'Hmo'],
-  },
 
-  [
-    {
-      name: 'Date and Time',
-      key: 'start_time',
-      description: 'Time and Date',
-      selector: (row) => row.start_time,
-      sortable: true,
-      required: true,
-      inputType: InputType.DATETIME,
-    },
-  ],
-  {
-    name: 'Name of Location',
-    key: 'invoice',
-    description: 'Invoice',
-    selector: (row) => row.name,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-    options: [],
-  },
-  {
-    name: 'Service',
-    key: 'inventoryId',
-    description: 'Search for  Service',
-    selector: (row) => row.name,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_AUTO_SUGGEST,
-    options: {
-      model: Models.SERVICE,
-      or: ['baseunit', 'category', 'facilityname'],
-      labelSelector: (obj) => `${obj.name}  `,
-      valueSelector: ({ _id, baseunit, contracts, category, name }) => ({
-        inventoryId: _id,
-        baseunit,
-        price: (contracts.length && contracts[0].price) || 0.0,
-        category,
-        name,
-      }),
-    },
-  },
-  {
-    name: 'Quantity',
-    key: 'quantity',
-    description: 'Quantity',
-    selector: (row) => row.quantity,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-  },
-  {
-    name: 'Amount',
-    key: 'Amount',
-    description: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-  },
-];
 const PaymentDetailsSchema = [
   {
     name: 'S/N',
@@ -1363,8 +1194,6 @@ export {
   BillCreateDetailSchema,
   BillPrescriptionSchema,
   BillPrescriptionSentDetailsSchema,
-  BillServiceCreateSchema,
-  BillServiceSchema,
   CollectionSchema,
   DispensaryCreateSchema,
   DispensaryDetailSchema,

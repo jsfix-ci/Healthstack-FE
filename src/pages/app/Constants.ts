@@ -23,6 +23,11 @@ const Models = {
   SUBWALLET: 'subwallet',
   SUBWALLETTX: 'subwallettransactions',
   BILLCREATE: 'createbilldirect',
+  CHANNEL: 'messaging',
+  CONVERSATION_CONFIG: 'conversation-config',
+  QUESTIONNAIRE: 'questionnaire',
+  QUESTION: 'question',
+  SUBMISSION: 'conversation',
 };
 
 const DateFormats = {
@@ -30,6 +35,18 @@ const DateFormats = {
   // eslint-disable-next-line quotes
   API_DATE: "yyyy-MM-dd'T'HH:mm:ss",
   CONTROL_DATE_TIME: 'MM/dd/yyyy hh:mm:ss aa',
+  CONTROL_DATE: 'MM/dd/yyyy',
 };
 
-export { DateFormats, Models, Views };
+const ClinicalDocuments = {
+  CLINICAL_NOTE: 'Clinical Note',
+  LAB_NOTE: 'Lab Result',
+  DOCTOR_NOTE: 'Doctor Note',
+  NURSING_NOTE: 'Nursing Note',
+  VITAL_SIGNS: 'Vital Signs',
+  PROGRESS_NOTE: 'Progress Note',
+  PRESCRIPTION: 'Prescription',
+  LAB_ORDER: 'Lab Order',
+};
+
+export { ClinicalDocuments, DateFormats, Models, Views };

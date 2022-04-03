@@ -2,8 +2,6 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../../components/accordion';
-// import CustomTable from '../../../../components/customtable';
-// import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { BillPrescriptionSchema } from '../../schema';
