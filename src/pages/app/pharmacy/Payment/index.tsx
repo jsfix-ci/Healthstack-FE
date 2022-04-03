@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import PaymentDetails from './PaymentDetail';
@@ -10,7 +10,7 @@ import { paymentQuery } from './query';
 const AppPaymentsPharmacy = () => {
   const { resource, setResource } = useObjectState();
   const {
-    paymentsResource: { show, selectedPayment },
+    paymentsResource: { show, selectedPayment: selectedPayments },
   } = resource;
 
   const handleNavigation = (show: string) => (selectedPayment?: any) =>
@@ -34,14 +34,19 @@ const AppPaymentsPharmacy = () => {
     <>
       {show === Views.LIST && (
         <Payments
-          onRowClicked={(row) => handleNavigation(Views.DETAIL)(row)}
+          onMakePayment={(rows) => handleNavigation(Views.DETAIL)(rows)}
           onSearch={setSearchText}
           items={payments}
         />
       )}
 
       {show === Views.DETAIL && (
-        <PaymentDetails row={selectedPayment} backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />
+        <PaymentDetails
+          row={selectedPayments[0]}
+          selectedPayments={selectedPayments}
+          backClick={handleNavigation(Views.LIST)}
+          onSubmit={handleSubmit}
+        />
       )}
     </>
   );

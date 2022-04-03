@@ -16,6 +16,8 @@ interface InputProps {
   placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -29,6 +31,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   size = 'medium',
   disabled = false,
+  min,
+  max,
 }) => (
   <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
@@ -45,6 +49,7 @@ const Input: React.FC<InputProps> = ({
       size={size}
       disabled={disabled}
       sx={{ background: 'white' }}
+      inputProps={{ min, max }}
     />
   </FormControl>
 );

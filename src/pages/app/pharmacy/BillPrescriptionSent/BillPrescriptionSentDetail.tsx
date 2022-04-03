@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
@@ -17,15 +17,15 @@ import { Models } from '../../Constants';
 import { BillCreateDetailSchema, BillPrescriptionSentDetailsSchema, Schema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
-  const { submit: submitBill } = useRepository(Models.ORDER);
+const BillPrescriptionSentDetails = ({ row, backClick, onSubmit: _ }) => {
+  const { submit } = useRepository(Models.ORDER);
   const [values, setValues] = useState({});
   const [tab, setTab] = useState('0');
   const [clientBills, setClientBills] = useState([]);
 
+  submit; //TODO: remove
+
   const addNewBill = (data) => {
-    console.log(data);
-    
     setClientBills([...clientBills, data]);
   };
 

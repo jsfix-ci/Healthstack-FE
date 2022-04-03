@@ -6,7 +6,7 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { BillServiceSchema } from '../../schema/ModelSchema';
+import { BillServiceSchema } from '../../schema/pharmacy';
 import { PageWrapper } from '../../styles';
 
 interface Props {

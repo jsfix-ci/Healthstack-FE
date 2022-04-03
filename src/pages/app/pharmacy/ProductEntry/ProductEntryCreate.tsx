@@ -5,7 +5,7 @@ import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const ProductEntryCreate = ({ backClick, onSubmit }) => {
+const ProductEntryCreate = ({ backClick, onSubmit: _ }) => {
   const [values, setValues] = useState({});
 
   return (

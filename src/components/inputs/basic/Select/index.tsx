@@ -15,9 +15,10 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   errorText?: string;
   onChange?: (_: any) => void;
   defaultValue?: string;
+  disabled?: boolean;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({ label, options, name, defaultValue, onChange, errorText }) => {
+const CustomSelect: React.FC<SelectProps> = ({ label, options, disabled, name, defaultValue, onChange, errorText }) => {
   const [optionsList, setOptionsList] = useState([]);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const CustomSelect: React.FC<SelectProps> = ({ label, options, name, defaultValu
 
   return (
     <Box sx={{ margin: '10px 0' }}>
-      <FormControl fullWidth>
+      <FormControl disabled={disabled} fullWidth>
         <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"

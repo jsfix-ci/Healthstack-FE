@@ -1,13 +1,16 @@
-import React from 'react';
-import DataTable from 'react-data-table-component';
+import React, { useState } from 'react';
 
 import AccordionBox from '../../../../components/accordion';
+import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentLineSchema } from '../../schema/payment';
 import { PageWrapper } from '../../styles';
 
-const Payments = ({ onRowClicked, onSearch, items }) => {
+const Payments = ({ onMakePayment, onSearch, items }) => {
+  const [selectedPayments, setSelectedPayments] = useState([]);
+
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -22,6 +25,7 @@ const Payments = ({ onRowClicked, onSearch, items }) => {
           }}
         >
           <FilterMenu onSearch={onSearch} />
+          <Button label="Pay" onClick={() => onMakePayment(selectedPayments)} />
         </div>
       </TableMenu>
 
@@ -31,14 +35,15 @@ const Payments = ({ onRowClicked, onSearch, items }) => {
             {data.bills.map((child, index) => {
               return (
                 <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
-                  <DataTable
+                  <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                    columns={PaymentSchema}
+                    columns={PaymentLineSchema}
                     data={child.order}
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={onRowClicked}
+                    selectable
+                    onSelectedRowsChange={({ selectedRows }) => setSelectedPayments(selectedRows)}
                   />
                 </AccordionBox>
               );

@@ -1,55 +1,85 @@
-import React, { useState } from 'react';
+import sumBy from 'lodash/sumBy';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
-import { BillCreateDetailSchema, BillServiceCreateSchema, Schema } from '../../schema';
+import { BillCreateDetailSchema, Schema } from '../../schema';
+import { BillCustomerSchema, BillServiceSchema } from '../../schema/pharmacy';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { getBillingInfo, getSellingPrice } from './utils';
 
 const BillClientCreate = ({ backClick, onSubmit: _ }) => {
-  const { submit: submitBill, user } = useRepository(Models.BILLCREATE);
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
-      client: '',
-    },
-  });
+  const { user, submit: submitBilling } = useRepository(Models.BILLCREATE);
+  const { find: findLocation } = useRepository(Models.LOCATION);
+  const [location, setLocation] = useState<any>({});
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const { handleSubmit, control } = useForm();
 
+  const [client, setClient] = useState<any>({});
   const [clientBills, setClientBills] = useState([]);
 
-  const addNewBill = (data) => {
-    setClientBills([...clientBills, data]);
+  const addNewBill = ({
+    clientId,
+    inventoryId: { category, name, _id: billingId, productId, contracts, baseunit, costprice },
+    quantity,
+  }) => {
+    setClient(clientId);
+    console.debug({ clientId });
+    const { paymentOption } = getBillingInfo(clientId.paymentinfo);
+    const { sellingPrice } = getSellingPrice(contracts, paymentOption);
+    const amount = sellingPrice * quantity;
+    const serviceItem = {
+      productId,
+      name,
+      quantity,
+      sellingprice: sellingPrice,
+      amount,
+      baseunit,
+      costprice,
+      category: category === 'Inventory' ? 'Prescription' : category,
+      billingId,
+      billingContract: contracts,
+      billMode: paymentOption,
+    };
+    const serviceItems = [...clientBills, serviceItem];
+    setClientBills(serviceItems);
+    setTotalAmount(sumBy(serviceItems, (obj) => +obj.amount));
   };
   const createBill = () => {
-    let serviceList = [];
     let document: any = {};
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName;
-      document.documentdetail = clientBills;
-      clientBills.forEach((element) => {
-        document.clientname = element.clientId.firstname + ' ' + ' ' + element.clientId.lastname;
-        document.clientobj = element.clientId;
-        document.createdBy = user._id;
-        document.createdByname = user.firstname + ' ' + user.lastname;
-      });
     }
+    document.documentdetail = clientBills;
+    document.documentname = 'Billed Orders';
+    document.location = location.locationName + ' ' + location.locationType;
+    document.locationId = location._id;
+    document.client = client._id;
+    document.clientname = client.firstname + ' ' + client.middlename + ' ' + client.lastname;
+    document.clientobj = client;
+    document.createdBy = user._id;
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
 
-    document.documentdetail.forEach((element) => {
+    const serviceItems = document.documentdetail.map((element) => {
       let orderinfo = {
         documentationId: '',
-        order_category: element.inventoryId.category,
+        order_category: element.category,
         order: element.name,
         instruction: '',
         destination_name: document.facilityname,
         destination: document.facility,
         order_status: 'Billed',
 
-        clientId: element.client,
-        clientobj: element.clientId,
-        client: element.clientId.clientId,
+        clientId: client._id,
+        clientobj: client,
+        client: client,
 
         order_action: [],
         medication_action: [],
@@ -62,20 +92,13 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
           orderObj: orderinfo,
         },
         serviceInfo: {
-          price: element.sellingprice,
-          quantity: element.quantity,
-          productId: element.productId,
-          name: element.name,
-          baseunit: element.baseunit,
-          amount: element.amount,
-          billingId: element.billingId,
-          billingContract: element.billingContract,
+          ...element,
           createdby: user._id,
         },
         paymentInfo: {
-          amountDue: element.Amount,
+          amountDue: element.amount,
           paidup: 0,
-          balance: element.Amount,
+          balance: element.amount,
           paymentDetails: [],
         },
         participantInfo: {
@@ -89,23 +112,31 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
         createdBy: user._id,
         billing_status: 'Unpaid',
       };
-      let items = {
+      let serviceItem = {
         orderinfo,
         billInfo,
       };
 
-      serviceList.push(items);
+      return serviceItem;
     });
+    console.debug({ document, serviceItems });
 
-    submitBill({
+    submitBilling({
       document,
-      serviceList,
-      clientBills,
-    })
-      .then((res) => console.debug(res))
-      .catch((err) => console.error(err));
+      serviceList: serviceItems,
+    });
   };
 
+  //FIXME: This should come from the global context, This is an hack, not production ready
+  const loadLocation = () => {
+    findLocation(undefined)
+      .then((res: any) => setLocation(res.data[0]))
+      .catch(() => toast.error('Location not loaded'));
+  };
+
+  useEffect(() => {
+    loadLocation();
+  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -117,62 +148,61 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form onSubmit={handleSubmit(addNewBill)}>
-          <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
+          <DetailsWrapper title="" defaultExpanded={true}>
             <GridWrapper>
-              {BillServiceCreateSchema.map((obj, index) => {
-                if (obj['length']) {
-                  const schemas = obj as Schema[];
-                  return (
-                    <GridWrapper className="subgrid two-columns" key={index}>
-                      {schemas.map((schema) => (
-                        <DynamicInput
-                          key={index}
-                          name={schema.key}
-                          control={control}
-                          label={schema.description}
-                          inputType={schema.inputType}
-                          options={schema.options}
-                        />
-                      ))}
-                    </GridWrapper>
-                  );
-                } else {
-                  const schema = obj as Schema;
-                  return (
-                    <DynamicInput
-                      key={index}
-                      name={schema.key}
-                      control={control}
-                      label={schema.description}
-                      inputType={schema.inputType}
-                      options={schema.options}
-                    />
-                  );
-                }
+              {BillCustomerSchema.map((obj, index) => {
+                const schema = obj as Schema;
+                return (
+                  <DynamicInput
+                    key={index}
+                    name={schema.key}
+                    control={control}
+                    label={schema.description}
+                    inputType={schema.inputType}
+                    options={schema.options}
+                    readonly={clientBills.length > 0}
+                  />
+                );
               })}
             </GridWrapper>
+            <GridWrapper>
+              {BillServiceSchema.map((obj, index) => {
+                const schema = obj as Schema;
+                return (
+                  <DynamicInput
+                    key={index}
+                    name={schema.key}
+                    control={control}
+                    label={schema.description}
+                    inputType={schema.inputType}
+                    options={schema.options}
+                  />
+                );
+              })}
+            </GridWrapper>
+
+            <button
+              style={{
+                borderRadius: '32px',
+                background: '#0000FF',
+                border: 'none',
+                color: '#fff',
+                width: '44px',
+                height: '44px',
+              }}
+              type="submit"
+            >
+              +
+            </button>
           </DetailsWrapper>
           <CustomTable
-            title="Service Items"
+            title={'Total : ' + totalAmount}
             columns={BillCreateDetailSchema}
             data={clientBills}
             pointerOnHover
             highlightOnHover
             striped
           />
-          <button
-            style={{
-              borderRadius: '32px',
-              background: '#0000FF',
-              border: 'none',
-              color: '#fff',
-              width: '44px',
-              height: '44px',
-            }}
-            type="submit"
-          >
-            +
-          </button>
         </form>
         <BottomWrapper>
           <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />

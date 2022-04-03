@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { BillServiceSchema } from '../../schema';
+import { BillServiceSchema } from '../../schema/pharmacy';
 import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const BillModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {

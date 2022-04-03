@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
 import { autoSuggestStyles } from '../../pages/app/styles';
+import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
 
 const searchProvidedOptions = (options, value) => {
@@ -18,7 +19,7 @@ const searchProvidedOptions = (options, value) => {
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
 
-const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
+const AutoSuggestInput = ({ defaultValue, label, readonly, options, onChange }) => {
   let Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -47,6 +48,7 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
     placeholder: label,
     value,
     onChange: (_, value) => setValue(value.newValue),
+    readonly,
   };
 
   const onSuggestionsClearRequested = () => {
@@ -68,7 +70,10 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
     if (defaultValue) setDefaultValue();
   }, [defaultValue]);
 
-  return (
+  console.debug({ readonly });
+  return readonly ? (
+    <Input value={value} defaultValue={value} disabled />
+  ) : (
     <div className={classes.container}>
       <div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-rooti">
         <Autosuggest

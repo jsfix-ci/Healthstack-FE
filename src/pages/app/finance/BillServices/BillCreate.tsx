@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { BillServiceCreateSchema, Schema } from '../../schema';
+import { BillCustomerSchema } from '../../schema/pharmacy';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -32,37 +32,35 @@ const BillCreate: React.FC<Props> = ({ backClick, onSubmit, invoice }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
             <GridWrapper>
-              {BillServiceCreateSchema.map((obj, index) => {
-                if (obj['length']) {
-                  const schemas = obj as Schema[];
-
-                  return (
-                    <GridWrapper className="subgrid two-columns" key={index}>
-                      {schemas.map((schema) => (
-                        <DynamicInput
-                          key={index}
-                          name={schema.key}
-                          control={control}
-                          label={schema.description}
-                          inputType={schema.inputType}
-                          options={schema.options || { invoice }}
-                        />
-                      ))}
-                    </GridWrapper>
-                  );
-                } else {
-                  const schema = obj as Schema;
-                  return (
+              {BillCustomerSchema.map((field, index) => {
+                return (
+                  <GridWrapper className="subgrid two-columns" key={index}>
                     <DynamicInput
                       key={index}
-                      name={schema.key}
+                      name={field.key}
                       control={control}
-                      label={schema.description}
-                      inputType={schema.inputType}
-                      options={schema.options || { invoice }}
+                      label={field.description}
+                      inputType={field.inputType}
+                      options={field.options || { invoice }}
                     />
-                  );
-                }
+                  </GridWrapper>
+                );
+              })}
+            </GridWrapper>
+            <GridWrapper>
+              {BillCustomerSchema.map((field, index) => {
+                return (
+                  <GridWrapper className="subgrid two-columns" key={index}>
+                    <DynamicInput
+                      key={index}
+                      name={field.key}
+                      control={control}
+                      label={field.description}
+                      inputType={field.inputType}
+                      options={field.options || { invoice }}
+                    />
+                  </GridWrapper>
+                );
               })}
             </GridWrapper>
           </DetailsWrapper>

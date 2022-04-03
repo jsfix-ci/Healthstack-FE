@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 import AccordionBox from '../../../../components/accordion';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentLineSchema } from '../../schema/payment';
 import { PageWrapper } from '../../styles';
 
 const Dispensary = ({ onRowClicked, onSearch, items }) => {
@@ -21,7 +21,7 @@ const Dispensary = ({ onRowClicked, onSearch, items }) => {
             height: '40px',
           }}
         >
-          <FilterMenu schema={PaymentSchema} onSearch={onSearch} />
+          <FilterMenu schema={PaymentLineSchema} onSearch={onSearch} />
         </div>
       </TableMenu>
 
@@ -33,7 +33,7 @@ const Dispensary = ({ onRowClicked, onSearch, items }) => {
                 <AccordionBox key={index} title={`${child.catName} with ${child.order.length} paid bills`}>
                   <DataTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                    columns={PaymentSchema}
+                    columns={PaymentLineSchema}
                     data={child.order}
                     pointerOnHover
                     highlightOnHover

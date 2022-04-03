@@ -16,6 +16,7 @@ const Models = {
   MEDICATION_HELPER: 'medicationhelper',
   ORDER: 'order',
   BILLS: 'bills',
+  BILLING: 'billing',
   INVENTORY: 'inventory',
   PRODUCTENTRY: 'productentry',
   SERVICE: 'billing',

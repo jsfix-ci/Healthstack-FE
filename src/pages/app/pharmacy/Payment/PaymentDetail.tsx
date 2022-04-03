@@ -1,49 +1,29 @@
+import sumBy from 'lodash/sumBy';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
-import useRepository from '../../../../components/hooks';
-import Input from '../../../../components/inputs/basic/Input';
-import RadioButton from '../../../../components/inputs/basic/Radio';
+import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
-import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentWalletSchema } from '../../schema/payment';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import PaymentLine from './PaymentLine';
 import { subwalletQuery } from './query';
 
-const typeOptions = [
-  {
-    value: 'Full',
-    label: 'full',
-  },
-  {
-    value: 'Part',
-    label: 'Part',
-  },
-];
-
-const PaymentDetails = ({ row, backClick, onSubmit }) => {
+const PaymentDetails = ({ selectedPayments, row, backClick, onSubmit: _ }) => {
   const { find: querySubwallet, user } = useRepository(Models.SUBWALLET);
   const { submit: submitPayment } = useRepository(Models.SUBWALLETTX);
   const { submit: payForService } = useRepository(Models.INVOICE);
-  const [amount, setAmount] = useState(0);
-  const [fName, setfName] = useState(0);
-  const [paid, setPaid] = useState(0);
+  const [totalAmountPaying, setTotalAmountPaying] = useState(0);
+  const [totalAmountDue, setTotalAmountDue] = useState(0);
   const [source, setSource] = useState('');
-  const [balance, setBalance] = useState(0.0);
-  const [balanceDue, setBalanceDue] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(0.0);
   const { handleSubmit, control } = useForm();
-  const [isFullPayment, setUpdate] = useState();
-
-  const calcAmount = amount - fName;
-  const paidUp = () => {
-    setBalanceDue(calcAmount);
-    setPaid(fName);
-    setfName(0);
-  };
 
   const acceptPayment = (data) => {
-    const amountPaid = Number(data.amount);
+    const amountPaid = +data.amount;
 
     const paymentObject = {
       client: row.participantInfo.clientId,
@@ -58,48 +38,65 @@ const PaymentDetails = ({ row, backClick, onSubmit }) => {
       facility: user.currentEmployee.facilityDetail._id,
       type: 'Deposit',
     };
-    submitPayment(paymentObject)
-      .then(() => setBalance(balance + amountPaid))
-      .catch(console.error);
+    console.debug({ paymentObject });
+    submitPayment;
+    payForService;
+    // submitPayment(paymentObject)
+    //   .then(() => setBalance(balance + amountPaid))
+    //   .catch(console.error);
   };
 
   const submitServicePayment = () => {
-    const remBalance = balance - amount;
-    if (isFullPayment !== 'Part') {
-      const paymentObj = {
-        clientId: row.participantInfo.clientId,
-        clientName: source,
-        client: row.participantInfo.client,
-        facilityId: user.currentEmployee.facilityDetail._id,
-        totalamount: amount,
-        createdby: user._id,
-        status: 'Fully Paid',
-        balance: remBalance,
-        facilityName: user.currentEmployee.facilityDetail.facilityName,
-      };
-      payForService(paymentObj)
-        .then(() => {})
+    const remBalance = walletBalance - totalAmountPaying;
 
-        .then(() => {
-          setBalance(remBalance);
-        })
-        .catch(console.error);
+    if (totalAmountPaying > walletBalance) {
+      toast.warning(
+        'Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid'
+      );
+
+      return;
     }
+
+    const paymentObj = {
+      clientId: row.participantInfo.clientId,
+      clientName: source,
+      client: row.participantInfo.client,
+      facilityId: user.currentEmployee.facilityDetail._id,
+      totalamount: totalAmountPaying,
+      createdby: user._id,
+      status: remBalance === 0 ? 'Fully Paid' : 'Part Payment',
+      balance: remBalance,
+      bills: [],
+      facilityName: user.currentEmployee.facilityDetail.facilityName,
+    };
+    paymentObj;
+
+    // payForService(paymentObj)
+    //   .then(() => {})
+
+    //   .then(() => {
+    //     setBalance(remBalance);
+    //   })
+    //   .catch(console.error);
+
     // else {
     // }
   };
 
   useEffect(() => {
     setSource(row.participantInfo.client.firstname + ' ' + row.participantInfo.client.lastname);
-    setAmount(row.paymentInfo.amountDue);
     querySubwallet(subwalletQuery(user.currentEmployee.facility, row.participantInfo.clientId))
       .then((res: any) => {
         if (res.data.length > 0) {
-          setBalance(res.data[0].amount);
+          setWalletBalance(res.data[0].amount);
         }
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    setTotalAmountDue(sumBy(selectedPayments, (obj: any) => obj.paymentInfo.amountDue));
+  });
 
   return (
     <PageWrapper>
@@ -128,13 +125,26 @@ const PaymentDetails = ({ row, backClick, onSubmit }) => {
                   borderRadius: '4px',
                 }}
               >
-                Balance ₦ {balance}
+                Balance ₦ {walletBalance}
+              </label>
+            </div>
+            <div>
+              <label
+                style={{
+                  padding: '14px 20px',
+                  background: '#ffb3bd',
+                  color: '#ED0423',
+                  border: 'none',
+                  borderRadius: '4px',
+                }}
+              >
+                Balance after payment ₦ {walletBalance - totalAmountPaying}
               </label>
             </div>
           </HeadWrapper>
           <form onSubmit={handleSubmit(acceptPayment)}>
             <GridWrapper>
-              {PaymentDetailsSchema.map((client, index) => (
+              {PaymentWalletSchema.map((client, index) => (
                 <DynamicInput
                   key={index}
                   name={client.key}
@@ -166,57 +176,17 @@ const PaymentDetails = ({ row, backClick, onSubmit }) => {
                   borderRadius: '4px',
                 }}
               >
-                Total Amount Due {amount}
+                Total Amount Due {totalAmountDue}
               </label>
             </div>
           </HeadWrapper>
 
-          <GridWrapper>
-            {PaymentSchema.map((schema) => (
-              <div>
-                <label>{schema.name}</label>
-                <p>{schema.selector(row)}</p>
-              </div>
-            ))}
-            <div>
-              <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
-              {isFullPayment === 'Part' && (
-                <>
-                  <div>
-                    <Input name="paymentType" value={fName} onChange={(e) => setfName(Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label
-                      style={{
-                        padding: '14px 20px',
-                        background: '#ffb3bd',
-                        color: '#ED0423',
-                        border: 'none',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      paid up {paid}
-                    </label>
-                  </div>
-                  <div>
-                    <label
-                      style={{
-                        padding: '14px 20px',
-                        background: '#ffb3bd',
-                        color: '#ED0423',
-                        border: 'none',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      Balance Due {balanceDue}
-                    </label>
-                  </div>
-                </>
-              )}
-
-              <Button onClick={paidUp}>Update</Button>
-            </div>
-          </GridWrapper>
+          {selectedPayments.map((payment) => (
+            <PaymentLine
+              payment={payment}
+              updateAmountPaying={(amount) => setTotalAmountPaying(totalAmountPaying + amount)}
+            />
+          ))}
           <BottomWrapper>
             <Button label="Pay" onClick={submitServicePayment} />
           </BottomWrapper>

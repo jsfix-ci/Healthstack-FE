@@ -5,7 +5,7 @@ import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentLineSchema } from '../../schema/payment';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -57,7 +57,7 @@ const Payments: React.FC<Props> = ({ onRowClicked, handleSearch, dataTree }) => 
                 <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
                   <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                    columns={PaymentSchema}
+                    columns={PaymentLineSchema}
                     data={child.order}
                     pointerOnHover
                     highlightOnHover

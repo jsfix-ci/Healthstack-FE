@@ -1,5 +1,4 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
@@ -9,11 +8,11 @@ import CustomSelect from '../../../../components/inputs/basic/Select';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { DispensaryCreateSchema, DispensaryDetailSchema, Schema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { randomString } from '../../Utils';
 
 const DispensaryDetails = ({ row, backClick, onSubmit }) => {
   const options = ['Sales', 'In-house', 'Dispense', 'Audit'];
-  let random = require('random-string-generator');
-  const invoiceNo = random(6, 'uppernumeric');
+  const invoiceNo = randomString(6);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       client: '',
