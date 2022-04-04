@@ -167,6 +167,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Firstname'),
   },
   {
     name: 'Last Name',
@@ -176,6 +177,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Lastname'),
   },
   {
     name: 'Profession',
@@ -185,6 +187,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Profession'),
   },
   {
     name: 'Phone number',
@@ -194,6 +197,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Phone number'),
   },
   {
     name: 'Email',
@@ -203,6 +207,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your valid Email'),
   },
   {
     name: 'Department',
@@ -212,6 +217,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Department'),
   },
   {
     name: 'Department Unit',
@@ -221,6 +227,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Departmental Unit'),
   },
 ];
 
