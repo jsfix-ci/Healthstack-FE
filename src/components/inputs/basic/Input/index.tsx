@@ -11,10 +11,13 @@ interface InputProps {
   helperText?: string;
   name?: string;
   type?: string;
+  defaultValue?: string;
   value?: any;
   placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,12 +25,14 @@ const Input: React.FC<InputProps> = ({
   errorText,
   type = 'text',
   name,
-  value,
+  defaultValue = '',
   onChange,
   onKeyDown,
   placeholder,
   size = 'medium',
   disabled = false,
+  min,
+  max,
 }) => (
   <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
@@ -38,12 +43,13 @@ const Input: React.FC<InputProps> = ({
       type={type}
       label={label}
       name={name}
-      value={value}
+      defaultValue={defaultValue}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
       size={size}
       disabled={disabled}
       sx={{ background: 'white' }}
+      inputProps={{ min, max }}
     />
   </FormControl>
 );

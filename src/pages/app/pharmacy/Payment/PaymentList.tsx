@@ -1,13 +1,13 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../../components/accordion';
+import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentLineSchema } from '../../schema/payment';
 import { PageWrapper } from '../../styles';
 
-const Payments = ({ onRowClicked, onSearch, items }) => {
+const Payments = ({ onMakePayment, onSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -26,19 +26,19 @@ const Payments = ({ onRowClicked, onSearch, items }) => {
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        {items.map((data, index) => (
-          <AccordionBox title={data.clientname} key={index}>
-            {data.bills.map((child, index) => {
+        {items.map((data) => (
+          <AccordionBox title={data.clientname} key={data.client_id}>
+            {data.bills.map((child) => {
               return (
-                <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
-                  <DataTable
+                <AccordionBox key={child.catName} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
+                  <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                    columns={PaymentSchema}
-                    data={child.order}
+                    columns={PaymentLineSchema}
+                    data={[...child.order]}
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={onRowClicked}
+                    onRowClicked={(row) => onMakePayment([row])}
                   />
                 </AccordionBox>
               );

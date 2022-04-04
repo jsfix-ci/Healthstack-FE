@@ -36,6 +36,7 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   dense?: boolean;
   progressPending?: any;
+  onSelectedRowsChange?: any;
 }
 
 const customStyles = {
@@ -103,6 +104,7 @@ const CustomTable: React.FC<Props> = ({
   dense = false,
   progressPending,
   selectable = false,
+  onSelectedRowsChange,
 }) => {
   return (
     <DataTable
@@ -122,6 +124,7 @@ const CustomTable: React.FC<Props> = ({
       style={{
         width: '100%',
       }}
+      onSelectedRowsChange={onSelectedRowsChange}
       progressComponent={<CustomLoader />}
       progressPending={progressPending}
       noDataComponent={<EmptyData />}

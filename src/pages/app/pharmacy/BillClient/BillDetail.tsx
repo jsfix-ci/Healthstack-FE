@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { BillServiceSchema } from '../../schema';
+import { BillServiceSchema } from '../../schema/pharmacy';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const BillDetails = ({ editBtnClicked, row, backClick, deleteBtnClicked }) => {

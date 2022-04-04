@@ -7,16 +7,27 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
+import useRepository from '../../../../components/hooks/repository';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { FlexBox, ImageBox } from '../../../../ui/styled/global';
-import { BillPrescriptionSentDetailsSchema, Schema } from '../../schema';
+import { Models } from '../../Constants';
+import { BillCreateDetailSchema, BillPrescriptionSentDetailsSchema, Schema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
+const BillPrescriptionSentDetails = ({ row, backClick, onSubmit: _ }) => {
+  const { submit } = useRepository(Models.ORDER);
   const [values, setValues] = useState({});
   const [tab, setTab] = useState('0');
+  const [clientBills, setClientBills] = useState([]);
+
+  submit; //TODO: remove
+
+  const addNewBill = (data) => {
+    setClientBills([...clientBills, data]);
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
@@ -24,8 +35,6 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
   const plan = row.client.paymentinfo.map((child) => {
     return child.plan;
   });
-  let random = require('random-string-generator');
-  const invoiceNo = random(6, 'uppernumeric');
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -105,7 +114,7 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
             <Input label="Date" name="date" value={new Date().toLocaleString()} />
-            <Input label="Invoice" name="phone" value={invoiceNo} disabled />
+            <Input label="Invoice" name="phone" value="#456ghn" disabled />
             <Input
               label="Quantity"
               name="quantity"
@@ -129,7 +138,7 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
           <h2>Billing Status: {row.mode}</h2>
           <br />
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(addNewBill)}>
             <FullDetailsWrapper title="Create Employee">
               {BillPrescriptionSentDetailsSchema.map((obj, index) => {
                 if (obj['length']) {
@@ -163,13 +172,22 @@ const BillPrescriptionSentDetails = ({ row, backClick, onSubmit }) => {
                   );
                 }
               })}
+              <CustomTable
+                title="Service Items"
+                columns={BillCreateDetailSchema}
+                data={clientBills}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
               <button
                 style={{
                   borderRadius: '32px',
-                  background: '#f3f3f3',
+                  background: '#0000FF',
                   border: 'none',
-                  width: '32px',
-                  height: '32px',
+                  color: '#fff',
+                  width: '44px',
+                  height: '44px',
                 }}
                 type="submit"
               >

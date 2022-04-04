@@ -5,7 +5,7 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
+import { PaymentClientSchema, PaymentWalletSchema } from '../../schema/payment';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -20,7 +20,6 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
   const [values, setValues] = useState({});
   const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
-
   const typeOptions = [
     {
       value: 'Full',
@@ -65,7 +64,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
           </HeadWrapper>
           <form onSubmit={handleSubmit(handleAccept)}>
             <GridWrapper>
-              {PaymentDetailsSchema.map((client, index) => (
+              {PaymentWalletSchema.map((client, index) => (
                 <DynamicInput
                   key={index}
                   name={client.key}
@@ -102,7 +101,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
             </div>
           </HeadWrapper>
           <GridWrapper>
-            {PaymentSchema.map((schema) => (
+            {PaymentClientSchema.map((schema) => (
               <div>
                 <label>{schema.name}</label>
                 <p>{schema.selector(row)}</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
-import { BillServiceSchema } from '../../schema/ModelSchema';
+import { BillServiceSchema } from '../../schema/pharmacy';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
