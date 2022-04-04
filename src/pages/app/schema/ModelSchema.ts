@@ -244,7 +244,7 @@ const LocationSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    validator: yup.string().min(5, 'Enter a valid Location'),
+    validator: yup.string().required(),
   },
   {
     name: 'Location Type',
@@ -254,7 +254,7 @@ const LocationSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    validator: yup.string().min(5, 'Enter a valid Location Type'),
+    validator: yup.string().required(),
   },
 ];
 
