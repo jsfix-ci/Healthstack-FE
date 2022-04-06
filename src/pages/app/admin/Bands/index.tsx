@@ -48,7 +48,7 @@ function AppBands() {
           handleDelete={() => handleDelete(selectedBand)}
         />
       )}
-      {resource.bandResource.show === Views.EDIT && (
+      {show === Views.EDIT && (
         <BandModify
           row={selectedBand}
           backClick={navigate(Views.LIST)}

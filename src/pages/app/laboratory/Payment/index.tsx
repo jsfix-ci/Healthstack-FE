@@ -1,57 +1,49 @@
 import React from 'react';
 
+import useRepository from '../../../../components/hooks';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import PaymentDetails from './PaymentDetail';
 import Payments from './PaymentList';
 const AppPaymentsLab = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    paymentsResource: { show, selectedPayment },
+  } = resource;
+
+  const navigate = (show: string) => (selectedPayment?: any) =>
+    setResource({
+      ...resource,
+      paymentsResource: {
+        ...resource.paymentsResource,
+        show,
+        selectedPayment: selectedPayment || resource.paymentsResource.selectedPayment,
+      },
+    });
+
+  const {
+    list: bills,
+    find: getBills,
+    // remove: handleDelete,
+    // submit: handleSubmit,
+  } = useRepository<any>(Models.PAYMENT, navigate);
 
   return (
     <>
-      {resource.paymentsResource.show === 'lists' && (
+      {show === Views.LIST && (
         <Payments
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                show: 'details',
-                selectedPayment: row,
-              },
-            }));
-          }}
+          handleCreate={navigate(Views.CREATE)}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getBills}
+          items={bills}
         />
       )}
 
-      {resource.paymentsResource.show === 'details' && (
+      {show === Views.DETAIL && (
         <PaymentDetails
-          row={resource.paymentsResource.selectedPayment}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={selectedPayment}
+          backClick={navigate(Views.LIST)}
+          editBtnClicked={() => navigate(Views.EDIT)(selectedPayment)}
         />
       )}
     </>

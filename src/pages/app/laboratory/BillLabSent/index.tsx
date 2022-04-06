@@ -1,58 +1,50 @@
 import React from 'react';
 
+import useRepository from '../../../../components/hooks';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import BillLabSentDetails from './BillLabSentDetail';
 import BillLabSent from './BillLabSentList';
 
 const AppBillLabSent = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    billClientResource: { show, selectedBillClient },
+  } = resource;
+
+  const navigate = (show: string) => (selectedBillClient?: any) =>
+    setResource({
+      ...resource,
+      billClientResource: {
+        ...resource.billClientResource,
+        show,
+        selectedBillClient: selectedBillClient || resource.billClientResource.selectedBillClient,
+      },
+    });
+
+  const {
+    list: order,
+    find: getOrders,
+    // remove: handleDelete,
+    // submit: handleSubmit,
+  } = useRepository<any>(Models.ORDER, navigate);
 
   return (
     <>
-      {resource.billPrescriptionSentResource.show === 'lists' && (
+      {show === Views.LIST && (
         <BillLabSent
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                show: 'details',
-                selectedBillPrescriptionSent: row,
-              },
-            }));
-          }}
+          handleCreate={navigate(Views.CREATE)}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getOrders}
+          items={order}
         />
       )}
 
-      {resource.billPrescriptionSentResource.show === 'details' && (
+      {show === Views.DETAIL && (
         <BillLabSentDetails
-          row={resource.billPrescriptionSentResource.selectedBillPrescriptionSent}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={selectedBillClient}
+          backClick={navigate(Views.LIST)}
+          editBtnClicked={() => navigate(Views.EDIT)(selectedBillClient)}
         />
       )}
     </>
