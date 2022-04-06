@@ -1,3 +1,5 @@
+import * as yup from 'yup';
+
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
 import { InputType } from './util';
@@ -159,6 +161,7 @@ const ClientMiniSchema = [
     selector: (row) => row.firstname,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid First Name'),
     inputType: InputType.TEXT,
   },
 
@@ -169,6 +172,7 @@ const ClientMiniSchema = [
     selector: (row) => row.middlename,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Middle Name'),
     inputType: InputType.TEXT,
   },
 
@@ -179,6 +183,7 @@ const ClientMiniSchema = [
     selector: (row) => row.lastname,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Last Name'),
     inputType: InputType.TEXT,
   },
 
@@ -189,6 +194,7 @@ const ClientMiniSchema = [
     selector: (row) => row.dob,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Date of Birth'),
     inputType: InputType.TEXT,
   },
 
@@ -199,6 +205,7 @@ const ClientMiniSchema = [
     selector: (row) => row.gender,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Gender'),
     inputType: InputType.TEXT,
   },
 
@@ -209,6 +216,7 @@ const ClientMiniSchema = [
     selector: (row) => row.maritalstatus,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Marital Status'),
     inputType: InputType.TEXT,
   },
 
@@ -219,6 +227,7 @@ const ClientMiniSchema = [
     selector: (row) => row.email,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Email'),
     inputType: InputType.TEXT,
   },
 
@@ -229,6 +238,7 @@ const ClientMiniSchema = [
     selector: (row) => row.phone,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Phone Number'),
     inputType: InputType.TEXT,
   },
 
@@ -239,6 +249,7 @@ const ClientMiniSchema = [
     selector: (row) => row.residentialaddress,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Residential Address'),
     inputType: InputType.TEXT,
   },
 
@@ -249,6 +260,7 @@ const ClientMiniSchema = [
     selector: (row) => row.town,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Town Name'),
     inputType: InputType.TEXT,
   },
 
@@ -259,6 +271,7 @@ const ClientMiniSchema = [
     selector: (row) => row.state,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid State'),
     inputType: InputType.TEXT,
   },
 
@@ -269,6 +282,7 @@ const ClientMiniSchema = [
     selector: (row) => row.country,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Country Name'),
     inputType: InputType.TEXT,
   },
 
@@ -279,6 +293,7 @@ const ClientMiniSchema = [
     selector: (row) => row.nextofkin,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Next of Kin Name'),
     inputType: InputType.TEXT,
   },
 
@@ -289,6 +304,7 @@ const ClientMiniSchema = [
     selector: (row) => row.nextofkinphone,
     sortable: true,
     required: true,
+    validator: yup.string().required('Enter a valid Next of Kin Phone Number'),
     inputType: InputType.TEXT,
   },
 ];

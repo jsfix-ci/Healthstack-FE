@@ -1,9 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+// import * as yup from 'yup';
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { ClientMiniSchema } from '../../schema';
+import { ClientMiniSchema, getResolver } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import ClientFullForm from './ClientFullForm';
 
@@ -20,7 +22,13 @@ interface ClientDetailsProps {
 const ClientQuickForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) => {
   const [isFullRegistration, setFullRegistration] = useState(false);
 
-  const { control, handleSubmit } = useForm();
+  const resolver = yupResolver(getResolver(ClientMiniSchema));
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver });
 
   return (
     <>
@@ -45,8 +53,16 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) 
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsWrapper title="Create Client" defaultExpanded={true}>
                 <GridWrapper>
-                  {ClientMiniSchema.map(({ inputType, key, name }) => (
-                    <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
+                  {ClientMiniSchema.map((client, index) => (
+                    <DynamicInput
+                      {...client}
+                      key={index}
+                      name={client.key}
+                      control={control}
+                      inputType={client.inputType}
+                      label={client.name}
+                      errors={errors}
+                    />
                   ))}
                 </GridWrapper>
               </DetailsWrapper>
