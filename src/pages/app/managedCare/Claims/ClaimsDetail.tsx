@@ -3,17 +3,11 @@ import React, { useEffect, useState } from 'react';
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { ButtonGroup } from '../../../../ui/styled/global';
 import { Models } from '../../Constants';
 import { CollectionSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-
-// interface Props {
-//   editBtnClicked?: () => void;
-//   backClick: () => void;
-//   row?: any;
-// }
 
 const ClaimsDetails = ({ row, backClick }) => {
   const { find: getCollections, user } = useRepository<any>(Models.COLLECTION);
@@ -37,7 +31,6 @@ const ClaimsDetails = ({ row, backClick }) => {
     });
   }, []);
 
-  // console.log(row);
   return (
     <PageWrapper>
       <GrayWrapper>

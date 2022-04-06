@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CustomTable from '../../../../components/customtable';
-import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { CollectionSchema } from '../../schema/ModelSchema';
@@ -23,7 +22,7 @@ interface Props {
   ) => void;
 }
 
-const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
+const Collections: React.FC<Props> = ({ onRowClicked, items }) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>
@@ -36,8 +35,6 @@ const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => 
             height: '40px',
           }}
         >
-          <SearchInput onChange={(e) => handleSearch(e.target.value)} />
-
           <FilterMenu />
         </div>
       </TableMenu>

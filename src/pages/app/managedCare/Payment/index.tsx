@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import PaymentDetails from './PaymentDetail';
@@ -21,13 +21,11 @@ const AppPayments = () => {
       },
     });
 
-  const { list: bills, find: getPayment } = useRepository<any>(Models.PAYMENT, navigate);
+  const { list: bills } = useRepository<any>(Models.PAYMENT, navigate);
 
   return (
     <>
-      {show === Views.LIST && (
-        <Payments onRowClicked={(row) => navigate(Views.DETAIL)(row)} handleSearch={getPayment} items={bills} />
-      )}
+      {show === Views.LIST && <Payments onRowClicked={(row) => navigate(Views.DETAIL)(row)} items={bills} />}
 
       {show === Views.DETAIL && <PaymentDetails row={selectedPayment} backClick={navigate(Views.LIST)} />}
     </>

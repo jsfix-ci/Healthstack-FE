@@ -1,18 +1,19 @@
 import React from 'react';
 
 import CustomTable from '../../../../components/customtable';
-import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
+import { LocationSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
+  handleSearch?: (_event) => void;
   onRowClicked?: (row: any, event: any) => void;
+  items: any;
 }
 
-const Laboratory: React.FC<Props> = ({ onRowClicked }) => {
+const Laboratory: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Laboratory</h2>
@@ -25,25 +26,15 @@ const Laboratory: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <SearchInput />
-          {/* <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Employees"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          /> */}
-
-          <FilterMenu />
+          <FilterMenu onSearch={handleSearch} />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <CustomTable
           title="Laboratory"
-          columns={columnHead}
-          data={rowData}
+          columns={LocationSchema}
+          data={items}
           pointerOnHover
           highlightOnHover
           striped

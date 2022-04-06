@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { ButtonGroup } from '../../../../ui/styled/global';
 import { Models } from '../../Constants';
 // import { columnHead } from './data';

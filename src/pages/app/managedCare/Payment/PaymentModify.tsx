@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { Schema } from '../../schema';
+import { PaymentSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -12,18 +14,10 @@ interface Props {
   onSubmit: (_data) => void;
 }
 
-const PaymentModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row, backClick }) => {
-  const [values, setValue] = useState({
-    id: row.id,
-    fname: row.fname,
-    lname: row.lname,
-    profession: row.profession,
-    phone: row.phone,
-    email: row.email,
-    department: row.department,
-    departmentalUnit: row.departmentalUnit,
+const PaymentModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row: bills, backClick }) => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: bills,
   });
-  const { handleSubmit } = useForm();
 
   return (
     <PageWrapper>
@@ -47,49 +41,16 @@ const PaymentModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row, back
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <GridWrapper>
-            <Input label="ID" value={values.id} disabled />
-            <Input
-              label="First Name"
-              value={values.fname}
-              placeholder={values.fname}
-              onChange={(e) => setValue({ ...values, fname: e.target.value })}
-            />
-            <Input
-              label="Last Name"
-              value={values.lname}
-              placeholder={values.lname}
-              onChange={(e) => setValue({ ...values, lname: e.target.value })}
-            />
-            <Input
-              label="Profession"
-              value={values.profession}
-              placeholder={values.profession}
-              onChange={(e) => setValue({ ...values, profession: e.target.value })}
-            />
-            <Input
-              label="Phone"
-              value={values.phone}
-              placeholder={values.phone}
-              onChange={(e) => setValue({ ...values, phone: e.target.value })}
-            />
-            <Input
-              label="Email"
-              value={values.email}
-              placeholder={values.email}
-              onChange={(e) => setValue({ ...values, email: e.target.value })}
-            />
-            <Input
-              label="Department"
-              value={values.department}
-              placeholder={values.department}
-              onChange={(e) => setValue({ ...values, department: e.target.value })}
-            />
-            <Input
-              label="Departmental Unit"
-              value={values.departmentalUnit}
-              placeholder={values.departmentalUnit}
-              onChange={(e) => setValue({ ...values, departmentalUnit: e.target.value })}
-            />
+            {PaymentSchema.map((client: Schema, index) => (
+              <DynamicInput
+                key={index}
+                name={client.key}
+                control={control}
+                label={client.name}
+                inputType={client.inputType}
+                options={client.options}
+              />
+            ))}
           </GridWrapper>
         </form>
 

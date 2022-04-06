@@ -242,7 +242,7 @@ const PaymentDetails = ({ row, onBackClick }) => {
             highlightOnHover
             onRowClicked={(data) => handlePaymentsChanged([data])}
             striped
-            // selectable
+            selectable
             // onSelectedRowsChange={({ selectedRows }) => setSelectedPaymentItems([...selectedRows])}
             // progressPending={progressPending}
           />

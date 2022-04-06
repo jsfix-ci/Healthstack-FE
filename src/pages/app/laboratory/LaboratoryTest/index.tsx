@@ -1,58 +1,45 @@
 import React from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import LaboratoryDetails from './LaboratoryDetail';
 import Laboratory from './LaboratoryList';
 
 const AppLaboratory = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    locationResource: { show, selectedLocation },
+  } = resource;
+
+  const navigate = (show: string) => (selectedLocation?: any) =>
+    setResource({
+      ...resource,
+      locationResource: {
+        ...resource.locationResource,
+        show,
+        selectedLocation: selectedLocation || resource.locationResource.selectedLocation,
+      },
+    });
+
+  const { list: location, find: getLocation } = useRepository<any>(Models.LOCATION, navigate);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
+      {show === Views.LIST && (
         <Laboratory
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+          handleCreate={navigate(Views.CREATE)}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getLocation}
+          items={location}
         />
       )}
 
-      {resource.employeeResource.show === 'details' && (
+      {show === Views.DETAIL && (
         <LaboratoryDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={selectedLocation}
+          backClick={navigate(Views.LIST)}
+          editBtnClicked={() => navigate(Views.EDIT)(selectedLocation)}
         />
       )}
     </>

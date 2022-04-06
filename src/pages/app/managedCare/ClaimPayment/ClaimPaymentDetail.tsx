@@ -50,40 +50,6 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                 <p>{schema.selector(row)}</p>
               </div>
             ))}
-            {/* <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Category</label>
-              <p>{row.category}</p>
-            </div>
-            <div>
-              <label>Description</label>
-              <p>{row.description}</p>
-            </div>
-            <div>
-              <label>Amount</label>
-              <p>{row.amount}</p>
-            </div>
-            <div>
-              <label>Service Details</label>
-              {row.serviceDetails.map(service => (
-                <p>{service.HMO}</p>
-              ))}
-            </div>
-            <div>
-              <label>Descriptions</label>
-              <p>{row.description}</p>
-            </div>
-            <div>
-              <label>Status</label>
-              <p>{row.status}</p>
-            </div>
-            <div>
-              <label>Departmental Unit</label>
-              <p>{row.departmentalUnit}</p>
-            </div> */}
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
             <Input label="Authorization Code" name="authorizationCode" size="small" />

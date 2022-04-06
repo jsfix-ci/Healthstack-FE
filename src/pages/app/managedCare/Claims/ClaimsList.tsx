@@ -7,22 +7,6 @@ import { TableMenu } from '../../../../ui/styled/global';
 import { CollectionSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
-// interface Props {
-//   handleCreate?: () => void;
-//   handleSearch?: (_event) => void;
-//   onRowClicked?: (
-//     row: {
-//       id: any;
-//       name: string;
-//       client: string;
-//       amount: string;
-//       mode: string;
-//     },
-//     event: any
-//   ) => void;
-//   items?: [];
-// }
-
 const Claims = ({ handleSearch, onRowClicked, items }) => {
   return (
     <PageWrapper>

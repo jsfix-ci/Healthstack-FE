@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import ReferralsDetails from './ReferralsDetail';
