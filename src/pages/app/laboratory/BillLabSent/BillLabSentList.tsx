@@ -1,5 +1,4 @@
 import React from 'react';
-// import { TableColumn } from 'react-data-table-component';
 import { DebounceInput } from 'react-debounce-input';
 
 import AccordionBox from '../../../../components/accordion';
