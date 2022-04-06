@@ -1,10 +1,8 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { getResolver } from '../../schema';
 import { LocationSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -16,13 +14,7 @@ interface Props {
 const locationType = ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'];
 
 const LocationCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
-  const resolver = yupResolver(getResolver(LocationSchema));
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({ resolver });
-
+  const { handleSubmit, control } = useForm();
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -38,14 +30,12 @@ const LocationCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
             <GridWrapper>
               {LocationSchema.map((client, index) => (
                 <DynamicInput
-                  {...client}
                   key={index}
                   name={client.key}
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
                   options={locationType}
-                  errors={errors}
                 />
               ))}
             </GridWrapper>
