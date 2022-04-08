@@ -132,9 +132,6 @@ const PaymentDetails = ({ selectedPayments, row, backClick, onSubmit: _ }) => {
         }
       })
       .catch(console.error);
-  }, []);
-
-  useEffect(() => {
     setTotalAmountDue(sumBy(selectedPayments, (obj: any) => obj.paymentInfo.amountDue));
   }, []);
 

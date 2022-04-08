@@ -38,7 +38,8 @@ const Payments = ({ onMakePayment, onSearch, items }) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={(row) => onMakePayment([row])}
+                    selectable
+                    onRowClicked={(row) => onMakePayment([row, row])}
                   />
                 </AccordionBox>
               );

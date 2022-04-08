@@ -22,7 +22,7 @@ const BillDetails = ({ editBtnClicked, row, backClick, deleteBtnClicked }) => {
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            {BillServiceSchema.map((schema) => (
+            {BillServiceSchema.filter((obj: any) => obj.schema).map((schema) => (
               <div key={schema.key}>
                 <label>{schema.name}</label>
                 <p>{schema.selector(row)}</p>

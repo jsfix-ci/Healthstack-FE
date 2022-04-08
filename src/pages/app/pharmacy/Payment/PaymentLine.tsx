@@ -10,8 +10,8 @@ import AmountLabel from './AmountLabel';
 
 const PaymentLine = ({ payment, updateAmountPaying }) => {
   const [isFullPayment, setIsFullPayment] = useState(true);
-  const [amountDue] = useState(payment.paymentInfo.amountDue);
-  const [amountPaying, setAmountPaying] = useState(payment.paymentInfo.amountDue);
+  const [amountDue] = useState(payment.paymentInfo.balance);
+  const [amountPaying, setAmountPaying] = useState(payment.paymentInfo.balance);
   const [balanceDue, setBalanceDue] = useState(0);
 
   const handleUpdate = () => {
@@ -29,7 +29,7 @@ const PaymentLine = ({ payment, updateAmountPaying }) => {
         date: new Date().toLocaleString(),
       };
       paying.proposedpayment = {
-        balance: +paying.paymentInfo.balance - +payObj.amount,
+        balance: 0,
         paidup: +paying.paymentInfo.paidup + +payObj.amount,
         amount: payObj.amount,
       };
