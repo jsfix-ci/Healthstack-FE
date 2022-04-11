@@ -23,4 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+<<<<<<< HEAD
 yarn.lock
+=======
+yarn.lock
+.env
+Dockerfile.dev
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971

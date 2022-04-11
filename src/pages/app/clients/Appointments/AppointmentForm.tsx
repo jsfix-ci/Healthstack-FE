@@ -19,9 +19,18 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
     resolver,
 =======
 const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
-  const { handleSubmit, control } = useForm({
+  const resolver = yupResolver(getResolver(AppointmentSchema.flat() as any[]));
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: selectedData,
+<<<<<<< HEAD
 >>>>>>> 242735c9ab7c2634373245d69791a677e1ec6c5b:src/pages/app/clients/Appointments/AppointmentForm.tsx
+=======
+    resolver,
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971
   });
 
   return (
@@ -44,7 +53,11 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                   <GridWrapper className="subgrid two-columns" key={index}>
                     {schemas.map((field, childIndex) => (
                       <DynamicInput
+<<<<<<< HEAD
                         {...schema}
+=======
+                        {...field}
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971
                         key={childIndex}
                         name={field.key}
                         control={control}
@@ -58,7 +71,11 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                         inputType={field.inputType}
                         options={field.options || []}
                         data={selectedData}
+<<<<<<< HEAD
 >>>>>>> 242735c9ab7c2634373245d69791a677e1ec6c5b:src/pages/app/clients/Appointments/AppointmentForm.tsx
+=======
+                        errors={errors}
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971
                       />
                     ))}
                   </GridWrapper>
@@ -67,7 +84,11 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                 const field = obj as Schema;
                 return (
                   <DynamicInput
+<<<<<<< HEAD
                     {...schema}
+=======
+                    {...field}
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971
                     key={index}
                     name={field.key}
                     control={control}
@@ -81,7 +102,11 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                     inputType={field.inputType}
                     options={field.options || []}
                     data={selectedData}
+<<<<<<< HEAD
 >>>>>>> 242735c9ab7c2634373245d69791a677e1ec6c5b:src/pages/app/clients/Appointments/AppointmentForm.tsx
+=======
+                    errors={errors}
+>>>>>>> e53b3ff5b9553632ee87d5007f5f373fe501a971
                   />
                 );
               }
