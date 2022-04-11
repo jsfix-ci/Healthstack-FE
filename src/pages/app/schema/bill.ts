@@ -75,6 +75,8 @@ const BillServiceSchema = [
     description: 'Category',
     sortable: true,
     required: true,
+    inputType: InputType.SELECT_LIST,
+    options: ['Prescription'],
   },
   {
     name: 'Service',

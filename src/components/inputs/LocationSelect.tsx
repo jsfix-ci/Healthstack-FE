@@ -147,7 +147,7 @@ const CustomSelect = React.forwardRef(function CustomSelect(
   props: SelectUnstyledProps<string>,
   ref: React.ForwardedRef<any>
 ) {
-  const components: SelectUnstyledProps<number>['components'] = {
+  const components: SelectUnstyledProps<string>['components'] = {
     Root: StyledButton,
     Listbox: StyledListbox,
     Popper: StyledPopper,

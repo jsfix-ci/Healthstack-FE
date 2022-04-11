@@ -80,7 +80,15 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     let result = {};
     Object.entries(data).map(([key, value]) => {
       // Exceptions
-      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions && !data.client) {
+      if (
+        typeof value === 'object' &&
+        !data.documentname &&
+        !data.questions &&
+        !data.interactions &&
+        !data.client &&
+        !data.document &&
+        !data.serviceList
+      ) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
