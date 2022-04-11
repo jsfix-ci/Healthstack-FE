@@ -57,7 +57,7 @@ const ClaimsDetails = ({ row, backClick }) => {
                 borderRadius: '4px',
               }}
             >
-              {/* Current Balance {row.amount} */}
+              Current Balance {row.amount}
             </label>
           </ButtonGroup>
         </HeadWrapper>

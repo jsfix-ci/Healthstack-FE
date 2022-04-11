@@ -8,22 +8,22 @@ import { CollectionSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 // import { columnHead, rowData } from './data';
 
-interface Props {
-  handleSearch: (_event) => void;
-  onRowClicked?: (
-    row: {
-      id: any;
-      name: string;
-      client: string;
-      amount: string;
-      mode: string;
-    },
-    event: any
-  ) => void;
-  items: any[];
-}
+// interface Props {
+//   handleSearch: (_event) => void;
+//   onRowClicked?: (
+//     row: {
+//       id: any;
+//       name: string;
+//       client: string;
+//       amount: string;
+//       mode: string;
+//     },
+//     event: any
+//   ) => void;
+//   items: any[];
+// }
 
-const PreAuthorizations: React.FC<Props> = ({ onRowClicked, items, handleSearch }) => {
+const PreAuthorizations = ({ handleSearch, onRowClicked, items }) => {
   return (
     <PageWrapper>
       <h2>PreAuthorizations</h2>

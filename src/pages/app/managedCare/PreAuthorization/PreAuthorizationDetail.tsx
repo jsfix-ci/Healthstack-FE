@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
+import useRepository from '../../../../components/hooks';
 import { ButtonGroup } from '../../../../ui/styled/global';
+import { Models } from '../../Constants';
 // import { columnHead } from './data';
 import { CollectionSchema } from '../../schema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
@@ -15,6 +17,27 @@ interface Props {
 }
 
 const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
+  const { find: getCollections, user } = useRepository<any>(Models.COLLECTION);
+
+  const [credits, setCredits] = useState([]);
+  const [debits, setDebits] = useState([]);
+
+  useEffect(() => {
+    getCollections({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        client: row.client,
+
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    }).then((res: any) => {
+      setCredits(res.data.filter((obj) => obj.category === 'credit'));
+      setDebits(res.data.filter((obj) => obj.category === 'debit'));
+    });
+  }, []);
+
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -42,7 +65,7 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
           <GridWrapper className="two-columns">
             <AccordionBox defaultExpanded={true} title="Credit">
               <CustomTable
-                data={row.credit}
+                data={credits}
                 columns={CollectionSchema}
                 title="Credit"
                 pointerOnHover
@@ -52,7 +75,7 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             </AccordionBox>
             <AccordionBox defaultExpanded={true} title="Debit">
               <CustomTable
-                data={row.debit}
+                data={debits}
                 columns={CollectionSchema}
                 title="Debit"
                 pointerOnHover

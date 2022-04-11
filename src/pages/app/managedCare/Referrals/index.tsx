@@ -21,47 +21,20 @@ const AppReferrals = () => {
       },
     });
 
-  const {
-    list: bands,
-    find: getBands,
-    remove: handleDelete,
-    submit: handleSubmit,
-  } = useRepository<any>(Models.BAND, navigate);
+  const { list: subwallettransactions, find: getRevenue } = useRepository<any>(Models.COLLECTION, navigate);
 
   return (
     <>
-      {resource.revenuesResource.show === 'lists' && (
+      {show === Views.LIST && (
         <Referrals
-        onRowClicked={(row) => navigate(Views.DETAIL)(row)}
-        handleSearch={getCollections}
-        items={subwallettransactions}
-        handleCreate={navigate(Views.CREATE)}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getRevenue}
+          items={subwallettransactions}
+          handleCreate={navigate(Views.CREATE)}
         />
       )}
 
-      {resource.revenuesResource.show === 'details' && (
-        <ReferralsDetails
-          row={resource.revenuesResource.selectedRevenue}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              revenuesResource: {
-                ...prevState.revenuesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              revenuesResource: {
-                ...prevState.revenuesResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
+      {show === Views.DETAIL && <ReferralsDetails row={selectedRevenue} backClick={navigate(Views.LIST)} />}
     </>
   );
 };
