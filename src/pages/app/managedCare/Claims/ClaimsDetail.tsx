@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
+import useRepository from '../../../../components/hooks';
 import { ButtonGroup } from '../../../../ui/styled/global';
+import { Models } from '../../Constants';
+import { CollectionSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from './data';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
+// interface Props {
+//   editBtnClicked?: () => void;
+//   backClick: () => void;
+//   row?: any;
+// }
 
-const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
+const ClaimsDetails = ({ row, backClick }) => {
+  const { find: getCollections, user } = useRepository<any>(Models.COLLECTION);
+
+  const [credits, setCredits] = useState([]);
+  const [debits, setDebits] = useState([]);
+
+  useEffect(() => {
+    getCollections({
+      query: {
+        facility: user.currentEmployee.facilityDetail._id,
+        client: row.client,
+
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    }).then((res: any) => {
+      setCredits(res.data.filter((obj) => obj.category === 'credit'));
+      setDebits(res.data.filter((obj) => obj.category === 'debit'));
+    });
+  }, []);
+
+  // console.log(row);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -33,7 +57,7 @@ const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
                 borderRadius: '4px',
               }}
             >
-              Current Balance {row.amount}
+              {/* Current Balance {row.amount} */}
             </label>
           </ButtonGroup>
         </HeadWrapper>
@@ -41,8 +65,8 @@ const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
           <GridWrapper className="two-columns">
             <AccordionBox defaultExpanded={true} title="Credit">
               <CustomTable
-                data={row.credit}
-                columns={columnHead}
+                data={credits}
+                columns={CollectionSchema}
                 title="Credit"
                 pointerOnHover
                 highlightOnHover
@@ -51,8 +75,8 @@ const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
             </AccordionBox>
             <AccordionBox defaultExpanded={true} title="Debit">
               <CustomTable
-                data={row.debit}
-                columns={columnHead}
+                data={debits}
+                columns={CollectionSchema}
                 title="Debit"
                 pointerOnHover
                 highlightOnHover

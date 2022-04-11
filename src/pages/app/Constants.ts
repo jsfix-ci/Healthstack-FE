@@ -9,6 +9,8 @@ const Models = {
   APPOINTMENT: 'appointments',
   BAND: 'bands',
   CLIENT: 'client',
+  COLLECTION: 'subwallettransactions',
+  PAYMENT: 'bills',
   CLINICAL_DOCUMENT: 'clinicaldocument',
   DOCUMENT_TYPES: 'documentclass',
   EMPLOYEE: 'employee',
@@ -30,6 +32,7 @@ const Models = {
   QUESTIONNAIRE: 'questionnaire',
   QUESTION: 'question',
   SUBMISSION: 'conversation',
+  Revenue: 'revenue',
 };
 
 const DateFormats = {

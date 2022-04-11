@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
@@ -8,9 +9,10 @@ interface Props {
   cancelEditClicked?: () => void;
   row?: any;
   backClick: () => void;
+  onSubmit: (_data) => void;
 }
 
-const PaymentModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
+const PaymentModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     fname: row.fname,
@@ -21,6 +23,7 @@ const PaymentModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) =
     department: row.department,
     departmentalUnit: row.departmentalUnit,
   });
+  const { handleSubmit } = useForm();
 
   return (
     <PageWrapper>
@@ -42,55 +45,57 @@ const PaymentModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) =
             />
           </div>
         </HeadWrapper>
-        <GridWrapper>
-          <Input label="ID" value={values.id} disabled />
-          <Input
-            label="First Name"
-            value={values.fname}
-            placeholder={values.fname}
-            onChange={(e) => setValue({ ...values, fname: e.target.value })}
-          />
-          <Input
-            label="Last Name"
-            value={values.lname}
-            placeholder={values.lname}
-            onChange={(e) => setValue({ ...values, lname: e.target.value })}
-          />
-          <Input
-            label="Profession"
-            value={values.profession}
-            placeholder={values.profession}
-            onChange={(e) => setValue({ ...values, profession: e.target.value })}
-          />
-          <Input
-            label="Phone"
-            value={values.phone}
-            placeholder={values.phone}
-            onChange={(e) => setValue({ ...values, phone: e.target.value })}
-          />
-          <Input
-            label="Email"
-            value={values.email}
-            placeholder={values.email}
-            onChange={(e) => setValue({ ...values, email: e.target.value })}
-          />
-          <Input
-            label="Department"
-            value={values.department}
-            placeholder={values.department}
-            onChange={(e) => setValue({ ...values, department: e.target.value })}
-          />
-          <Input
-            label="Departmental Unit"
-            value={values.departmentalUnit}
-            placeholder={values.departmentalUnit}
-            onChange={(e) => setValue({ ...values, departmentalUnit: e.target.value })}
-          />
-        </GridWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GridWrapper>
+            <Input label="ID" value={values.id} disabled />
+            <Input
+              label="First Name"
+              value={values.fname}
+              placeholder={values.fname}
+              onChange={(e) => setValue({ ...values, fname: e.target.value })}
+            />
+            <Input
+              label="Last Name"
+              value={values.lname}
+              placeholder={values.lname}
+              onChange={(e) => setValue({ ...values, lname: e.target.value })}
+            />
+            <Input
+              label="Profession"
+              value={values.profession}
+              placeholder={values.profession}
+              onChange={(e) => setValue({ ...values, profession: e.target.value })}
+            />
+            <Input
+              label="Phone"
+              value={values.phone}
+              placeholder={values.phone}
+              onChange={(e) => setValue({ ...values, phone: e.target.value })}
+            />
+            <Input
+              label="Email"
+              value={values.email}
+              placeholder={values.email}
+              onChange={(e) => setValue({ ...values, email: e.target.value })}
+            />
+            <Input
+              label="Department"
+              value={values.department}
+              placeholder={values.department}
+              onChange={(e) => setValue({ ...values, department: e.target.value })}
+            />
+            <Input
+              label="Departmental Unit"
+              value={values.departmentalUnit}
+              placeholder={values.departmentalUnit}
+              onChange={(e) => setValue({ ...values, departmentalUnit: e.target.value })}
+            />
+          </GridWrapper>
+        </form>
 
         <BottomWrapper>
           <Button label="Delete Employee" background="#FFE9E9" color="#ED0423" />
-          <Button label="Save Employee" />
+          <Button label="Save Employee" type="submit" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

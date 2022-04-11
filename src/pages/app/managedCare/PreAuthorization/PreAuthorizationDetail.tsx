@@ -4,8 +4,9 @@ import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import { ButtonGroup } from '../../../../ui/styled/global';
+// import { columnHead } from './data';
+import { CollectionSchema } from '../../schema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from './data';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -42,7 +43,7 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             <AccordionBox defaultExpanded={true} title="Credit">
               <CustomTable
                 data={row.credit}
-                columns={columnHead}
+                columns={CollectionSchema}
                 title="Credit"
                 pointerOnHover
                 highlightOnHover
@@ -52,7 +53,7 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             <AccordionBox defaultExpanded={true} title="Debit">
               <CustomTable
                 data={row.debit}
-                columns={columnHead}
+                columns={CollectionSchema}
                 title="Debit"
                 pointerOnHover
                 highlightOnHover

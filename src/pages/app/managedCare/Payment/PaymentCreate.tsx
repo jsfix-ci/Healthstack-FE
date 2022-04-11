@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
@@ -50,10 +51,12 @@ const clientFormData = [
 ];
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const PaymentCreate: React.FC<Props> = ({ backClick }) => {
+const PaymentCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
   const [values, setValues] = useState({});
+  const { handleSubmit } = useForm();
 
   return (
     <PageWrapper>
@@ -65,7 +68,7 @@ const PaymentCreate: React.FC<Props> = ({ backClick }) => {
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Payment">
             <GridWrapper>
               {clientFormData.map((client, index) => (
