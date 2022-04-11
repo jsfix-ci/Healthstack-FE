@@ -9,6 +9,7 @@ import { DictionaryOf } from '../../types.d';
 
 interface Repository<T> {
   list: T[];
+  groupedList: any[];
   find: (_text) => Promise<T[]>;
   get: (_id) => Promise<T>;
   submit: (data: T) => Promise<T>;
@@ -24,15 +25,18 @@ interface Repository<T> {
   };
   setFindQuery: (query) => void;
   facility: any;
+  location: any;
+  setLocation: (_location) => void;
   locationType: any;
-  setLocationType: (_locationType) => void;
+  setLocationType: (_location) => void;
 }
 
 const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
   let Service = client.service(modelName);
-  const { user, facility, locationType, setLocationType } = useContext(UserContext);
-  const [findQuery, setFindQuery] = useState({});
+  const { user, facility, location, setLocation, locationType, setLocationType } = useContext(UserContext);
+  const [findQuery, setFindQuery] = useState(null);
   const [list, setList] = useState([]);
+  const [groupedList, setGroupedList] = useState([]);
 
   const remove = (obj): Promise<T> => {
     return Service.remove(typeof obj === 'string' ? obj : obj._id)
@@ -46,7 +50,6 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const find = async (query?: any): Promise<T[]> => {
-    console.debug({ query });
     const isString = typeof query === 'string';
     const extras = isString ? {} : { ...findQuery, ...query };
     const params = {
@@ -60,15 +63,16 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       },
       ...extras,
     };
-    console.debug('calling find with query  of model ', modelName, 'with parameters', params);
     return Service.find(params)
       .then((response) => {
-        console.debug('received response of model ', modelName, ' with body ', { response });
+        console.debug('received response of model ', modelName, ' with body ', { params: { ...params }, response });
         setList(response.data);
+        //TODO: This is a hack for billclient list table, find a better way
+        setGroupedList(response.groupedOrder);
         return response;
       })
       .catch((error) => {
-        console.error({ error });
+        console.error('received error of model ', modelName, ' with body ', { params: { ...params }, error });
       });
   };
 
@@ -76,7 +80,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     let result = {};
     Object.entries(data).map(([key, value]) => {
       // Exceptions
-      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions) {
+      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions && !data.client) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
@@ -113,22 +117,19 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     Service.on('updated', find);
     Service.on('patched', find);
     Service.on('removed', find);
-    find();
+    if (onNavigate) find();
     return () => {
       Service = null;
     };
   }, []);
 
   useEffect(() => {
-    console.debug({ user });
-  }, [user, facility]);
-
-  useEffect(() => {
-    find();
+    if (findQuery) find();
   }, [findQuery]);
 
   return {
     list,
+    groupedList,
     find,
     setFindQuery,
     remove,
@@ -136,6 +137,8 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     get,
     user,
     facility,
+    location,
+    setLocation,
     locationType,
     setLocationType,
   };

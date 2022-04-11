@@ -25,7 +25,6 @@ const Attend = ({ appointment, backClick }) => {
   const [client, setClient] = useState<any>({});
   const [prescriptions, setPrescriptions] = useState([]);
   const [tests, setTests] = useState([]);
-  const [location, setLocation] = useState();
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,15 +35,31 @@ const Attend = ({ appointment, backClick }) => {
   };
 
   const { find: findClinicalDocument, submit, user } = useRepository(Models.CLINICAL_DOCUMENT);
+  const [, setDocumentTypes] = useState([]);
   const { get: getClient } = useRepository(Models.CLIENT);
-  const { find } = useRepository(Models.ORDER);
-  const { find: findLocation } = useRepository(Models.LOCATION);
+  const { find, location } = useRepository(Models.ORDER);
+  const { find: findDocumentTypes } = useRepository(Models.DOCUMENT_TYPES);
 
   const [clinicalDocuments, setClinicalDocuments] = useState([]);
 
   const loadClient = () => {
     getClient(appointment.clientId).then((client) => {
       setClient(client);
+    });
+  };
+
+  const loadDocumentTypes = () => {
+    findDocumentTypes({
+      query: {
+        /* locationType:"DocumentClass",*/
+        facility: user.currentEmployee.facilityDetail._id,
+        $limit: 100,
+        $sort: {
+          name: 1,
+        },
+      },
+    }).then((res: any) => {
+      setDocumentTypes(res.data);
     });
   };
 
@@ -60,17 +75,9 @@ const Attend = ({ appointment, backClick }) => {
   const loadOrders = (orderType, setList) => {
     find(queryOrders(orderType, appointment.clientId))
       .then((response: any) => {
-        console.debug({ data: response.data });
         setList(response.data.filter((obj) => obj.documentname !== 'Lab Order'));
       })
       .catch((err) => toast.error(loadError(orderType, err)));
-  };
-
-  //FIXME: This should come from the global context, This is an hack, not production ready
-  const loadLocation = () => {
-    findLocation(undefined)
-      .then((res: any) => setLocation(res.data[0]))
-      .catch(() => toast.error('Location not loaded'));
   };
 
   useEffect(() => {
@@ -78,13 +85,12 @@ const Attend = ({ appointment, backClick }) => {
     loadDocuments();
     loadOrders('Prescription', setPrescriptions);
     loadOrders('Lab Order', setTests);
-    loadLocation();
+    loadDocumentTypes();
   }, []);
 
   const changeFormSchema = (documentName: string) => {
     handleCloseMenu();
     setCurrentDocumentName(documentName);
-    console.debug({ documentName, documentSchemas, documentSchema: documentSchemas[documentName] });
   };
 
   const handleSubmit = (data) => {
