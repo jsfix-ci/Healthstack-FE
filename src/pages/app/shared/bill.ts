@@ -1,8 +1,8 @@
 import { Models } from '../Constants';
 import { toDurationString, toShortDate } from '../DateUtils';
-import { InputType } from './util';
+import { InputType } from '../schema/util';
 
-const BillCustomerSchema = [
+export const BillCustomerSchema = [
   {
     name: 'ID',
     key: '_id',
@@ -21,11 +21,19 @@ const BillCustomerSchema = [
     inputType: InputType.SELECT_AUTO_SUGGEST,
     options: {
       model: Models.CLIENT,
-      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
+      or: [
+        'firstname',
+        'lastname',
+        'middlename',
+        'phone',
+        'clientTags',
+        'mrn',
+        'specificDetails',
+      ],
       labelSelector: (obj) =>
-        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
-          obj.email
-        }`,
+        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${
+          obj.gender
+        } ${obj.profession} ${obj.phone} ${obj.email}`,
       valueSelector: (obj) => obj,
     },
   },
@@ -60,14 +68,17 @@ const BillCustomerSchema = [
   },
 ];
 
-const BillsSummary = [
+export const BillsSummary = [
   { name: 'S/N', selector: (row) => row.sn },
   { name: 'Client Name', selector: (row) => row.clientname },
   { name: 'Bills', selector: (row) => row.bills.length },
-  { name: 'Bill Items', selector: (row) => row.bills.map((obj) => obj.order).flat().length },
+  {
+    name: 'Bill Items',
+    selector: (row) => row.bills.map((obj) => obj.order).flat().length,
+  },
 ];
 
-const BillServiceSchema = [
+export const BillServiceSchema = [
   {
     name: 'Category',
     key: 'category',
@@ -124,7 +135,7 @@ const BillServiceSchema = [
   },
 ];
 
-const BillCreateDetailSchema = [
+export const BillCreateDetailSchema = [
   {
     name: 'S/N',
     key: 'clientId',
@@ -246,7 +257,7 @@ export const BillPrescriptionSchema = [
   },
 ];
 
-const BillPrescriptionSentDetailsSchema = [
+export const BillPrescriptionSentDetailsSchema = [
   {
     name: 'ID',
     key: '_id',
@@ -299,11 +310,3 @@ const BillPrescriptionSentDetailsSchema = [
     },
   ],
 ];
-
-export {
-  BillCreateDetailSchema,
-  BillCustomerSchema,
-  BillPrescriptionSentDetailsSchema,
-  BillServiceSchema,
-  BillsSummary,
-};

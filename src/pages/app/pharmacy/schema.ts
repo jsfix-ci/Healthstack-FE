@@ -1,18 +1,24 @@
 import { Models } from '../Constants';
 import { toShortDate } from '../DateUtils';
-import { InputType } from './util';
+import { InputType } from '../schema/util';
 
 export const PaymentsSummary = [
   { name: 'S/N', selector: (row) => row.sn },
   { name: 'Client Name', selector: (row) => row.clientname },
   { name: 'Bills', selector: (row) => row.bills.length },
-  { name: 'Bill Items', selector: (row) => row.bills.map((obj) => obj.order).flat().length },
+  {
+    name: 'Bill Items',
+    selector: (row) => row.bills.map((obj) => obj.order).flat().length,
+  },
 ];
 
 export const DispensorySummary = [
   { name: 'S/N', selector: (row) => row.sn },
   { name: 'Client Name', selector: (row) => row.clientname },
-  { name: 'Bill Items', selector: (row) => row.bills.map((obj) => obj.order).flat().length },
+  {
+    name: 'Bill Items',
+    selector: (row) => row.bills.map((obj) => obj.order).flat().length,
+  },
 ];
 
 export const DispensaryCreateSchema = [

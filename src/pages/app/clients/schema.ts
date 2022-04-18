@@ -1,15 +1,16 @@
+import * as yup from 'yup';
+
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
-import { InputType } from './util';
+import { InputType } from '../schema/util';
 
-const AppointmentSchema = [
+const getAppointmentSchema = (facilityId) => [
   {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-    description: 'ID',
+    name: 'S/N',
+    key: 'sn',
+    selector: (row) => row.sn,
+    description: 'SN',
     sortable: true,
-    required: true,
     inputType: InputType.HIDDEN,
   },
   {
@@ -21,11 +22,20 @@ const AppointmentSchema = [
     required: true,
     inputType: InputType.SELECT_AUTO_SUGGEST,
     options: {
-      model: Models.EMPLOYEE,
-      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
+      model: Models.CLIENT,
+      or: [
+        'firstname',
+        'lastname',
+        'middlename',
+        'phone',
+        'clientTags',
+        'mrn',
+        'specificDetails',
+      ],
       labelSelector: (obj) =>
         [
           obj.firstname,
+          obj.middlename,
           obj.lastname,
           obj.dob && toDurationString(obj.dob),
           obj.gender,
@@ -35,9 +45,19 @@ const AppointmentSchema = [
         ]
           .filter((str) => str)
           .join(' '),
-      valueSelector: ({ _id, firstname, lastname, dob, gender, phone, email }) => ({
+      valueSelector: ({
+        _id,
+        firstname,
+        middlename,
+        lastname,
+        dob,
+        gender,
+        phone,
+        email,
+      }) => ({
         clientId: _id,
         firstname,
+        middlename: middlename || firstname,
         lastname,
         dob,
         gender,
@@ -45,6 +65,9 @@ const AppointmentSchema = [
         email,
       }),
     },
+    validator: yup
+      .object()
+      .shape({ firstname: yup.string().required('Client name is required') }),
   },
   {
     name: 'Location',
@@ -64,6 +87,9 @@ const AppointmentSchema = [
         location_type: locationType,
       }),
     },
+    validator: yup.object().shape({
+      location_name: yup.string().required('Location name is required'),
+    }),
   },
   {
     name: 'Employee',
@@ -76,14 +102,24 @@ const AppointmentSchema = [
     options: {
       model: Models.EMPLOYEE,
       or: ['firstname', 'lastname', 'profession', 'department'],
+      fields: { facility: facilityId },
       labelSelector: (obj) => `${obj.firstname} ${obj.lastname}`,
-      valueSelector: ({ _id, firstname, lastname, profession, department }) => ({
+      valueSelector: ({
+        _id,
+        firstname,
+        lastname,
+        profession,
+        department,
+      }) => ({
         practionerId: _id,
         practitioner_name: `${firstname} ${lastname}`,
         practitioner_profession: profession,
         practitioner_department: department,
       }),
     },
+    validator: yup.object().shape({
+      practitioner_name: yup.string().required('Practioner name is required'),
+    }),
   },
   [
     {
@@ -94,6 +130,7 @@ const AppointmentSchema = [
       sortable: true,
       required: true,
       inputType: InputType.DATETIME,
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Classification',
@@ -117,6 +154,7 @@ const AppointmentSchema = [
           label: 'Home Visit',
         },
       ],
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Appointment Type',
@@ -126,7 +164,8 @@ const AppointmentSchema = [
       sortable: true,
       required: true,
       inputType: InputType.SELECT_LIST,
-      options: ['New', 'Type B', 'Followup', '', 'Annual Checkup'],
+      options: ['New', 'Type B', 'Followup', 'Annual Checkup'],
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Appointment Status',
@@ -135,8 +174,16 @@ const AppointmentSchema = [
       selector: (row) => row.appointment_status,
       sortable: true,
       required: true,
-      options: ['Scheduled', 'Confirmed', 'Checked In', 'Vitals Taken', 'With Nurse', 'With Doctor'],
+      options: [
+        'Scheduled',
+        'Confirmed',
+        'Checked In',
+        'Vitals Taken',
+        'With Nurse',
+        'With Doctor',
+      ],
       inputType: InputType.SELECT_LIST,
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
   ],
   {
@@ -147,16 +194,17 @@ const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT_AREA,
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
 ];
 
 const ClientMiniSchema = [
   {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
+    name: 'S/N',
+    key: 'sn',
+    description: 'SN',
+    selector: (row) => row.sn,
     sortable: true,
-    required: true,
     inputType: InputType.HIDDEN,
   },
   {
@@ -462,7 +510,12 @@ const ClientFullSchema = {
       sortable: true,
       required: true,
       inputType: InputType.SELECT_LIST,
-      options: ['Ibadan S/W', 'Lagos Central', 'Abuja Central', 'Kaduna Central'],
+      options: [
+        'Ibadan S/W',
+        'Lagos Central',
+        'Abuja Central',
+        'Kaduna Central',
+      ],
     },
 
     {
@@ -586,7 +639,7 @@ const ClientFullSchema = {
     {
       name: 'Next of kin Phone',
       key: 'nextofkinphone',
-      description: '234 000 000 0000',
+      description: 'Next of kin Phone',
       selector: (row) => row.nextofkinphone,
       sortable: true,
       required: true,
@@ -772,4 +825,4 @@ const ClientFullSchema = {
   ],
 };
 
-export { AppointmentSchema, ClientFullSchema, ClientMiniSchema };
+export { ClientFullSchema, ClientMiniSchema, getAppointmentSchema };
