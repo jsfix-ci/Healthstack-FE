@@ -1,8 +1,14 @@
-import { PopperUnstyled } from '@mui/base';
-import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
-import SelectUnstyled, { selectUnstyledClasses, SelectUnstyledProps } from '@mui/base/SelectUnstyled';
-import { styled } from '@mui/system';
-import * as React from 'react';
+import { SelectUnstyled } from '@mui/base';
+import OptionUnstyled, {
+  optionUnstyledClasses,
+} from '@mui/base/OptionUnstyled';
+import {
+  selectUnstyledClasses,
+  SelectUnstyledProps,
+} from '@mui/base/SelectUnstyled';
+import { styled } from '@mui/material';
+// import { styled } from '@mui/system';
+import React, { useEffect, useState } from 'react';
 
 import { LocationWrapper } from '../../ui/styled/global';
 
@@ -72,7 +78,7 @@ const StyledButton = styled('button')(
   & img {
     margin-right: 10px;
   }
-  `
+  `,
 );
 
 const StyledListbox = styled('ul')(
@@ -92,7 +98,7 @@ const StyledListbox = styled('ul')(
   outline: 0px;
   position:relative;
   zIndex:1000;
-  `
+  `,
 );
 
 const StyledOption = styled(OptionUnstyled)(
@@ -136,33 +142,48 @@ const StyledOption = styled(OptionUnstyled)(
   & img {
     margin-right: 10px;
   }
-  `
+  `,
 );
 
-const StyledPopper = styled(PopperUnstyled)`
-  z-index: 1;
-`;
+// const StyledPopper = styled(PopperUnstyled)`
+//   z-index: 1;
+// `;
 
 const CustomSelect = React.forwardRef(function CustomSelect(
-  props: SelectUnstyledProps<number>,
-  ref: React.ForwardedRef<any>
+  props: SelectUnstyledProps<string>,
+  ref: React.ForwardedRef<any>,
 ) {
-  const components: SelectUnstyledProps<number>['components'] = {
+  const components: SelectUnstyledProps<string>['components'] = {
     Root: StyledButton,
     Listbox: StyledListbox,
-    Popper: StyledPopper,
+    // Popper: StyledPopper,
     ...props.components,
   };
 
   return <SelectUnstyled {...props} ref={ref} components={components} />;
 });
 
-export default function LocationSelect({ locations = [], onChange }) {
+export default function LocationSelect({
+  defaultLocationId,
+  locations = [],
+  onChange,
+}) {
+  const [value, setValue] = useState(defaultLocationId);
+
+  useEffect(() => {
+    setValue(defaultLocationId);
+  }, [defaultLocationId]);
   return (
     <LocationWrapper>
-      <CustomSelect onChange={onChange}>
-        {locations.map((c) => (
-          <StyledOption key={c.location} value={c.location}>
+      <CustomSelect
+        onChange={(value) => {
+          setValue(value);
+          onChange(value);
+        }}
+        value={value}
+      >
+        {locations.map((c, i) => (
+          <StyledOption key={i} value={c.location}>
             <img
               loading="lazy"
               width="20"
@@ -171,8 +192,6 @@ export default function LocationSelect({ locations = [], onChange }) {
               alt={`Flag of ${c.label}`}
             />
             {c.label}
-
-            {/* ({c.code}) +{c.phone} */}
           </StyledOption>
         ))}
       </CustomSelect>

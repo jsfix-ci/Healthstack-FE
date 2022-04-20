@@ -1,6 +1,6 @@
 import DatePicker from '@mui/lab/DatePicker';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import { FormGroup, TextField } from '@mui/material';
+import { FormGroup, FormHelperText, TextField } from '@mui/material';
 import { useRef } from 'react';
 import { Controller } from 'react-hook-form';
 import JSONInput from 'react-json-editor-ajrm';
@@ -13,14 +13,26 @@ import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { DateFormats } from '../../pages/app/Constants';
 import { toAPIDate } from '../../pages/app/DateUtils';
-import { InputType } from '../../pages/app/schema';
+import { InputType } from '../../pages/app/schema/util';
 import AutoSuggestInput from './AutoSuggestInput';
 
 const DynamicInput = (props) => {
-  const { inputType, label, name, data = {}, options, control, errors = {} } = props;
+  const {
+    inputType,
+    label,
+    name,
+    data = {},
+    options,
+    control,
+    errors = {},
+    readonly,
+    defaultValue,
+  } = props;
   const ref = useRef();
   if (inputType === InputType.HIDDEN && data[name]) {
-    return <input type="hidden" value={data[name]} />;
+    return (
+      <input type="hidden" value={data[name]} defaultValue={defaultValue} />
+    );
   } else if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -31,7 +43,13 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Input {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+          <Input
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -43,7 +61,14 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Input {...field} label={label} errorText={errors[name]?.message} type="number" defaultValue={data[name]} />
+          <Input
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            type="number"
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -55,7 +80,13 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Textarea {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+          <Textarea
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -67,7 +98,33 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <RadioButton {...field} title={label} options={options} defaultValue={data[name]} />
+          <RadioButton
+            {...field}
+            title={label}
+            disabled={readonly}
+            options={options}
+            defaultValue={data[name]}
+          />
+        )}
+      />
+    );
+  }
+
+  if (inputType === InputType.SELECT_CHECKBOX) {
+    return (
+      <Controller
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <CheckboxInput
+            ref={ref}
+            {...field}
+            label={label}
+            disabled={readonly}
+            defaultValue={data[name]}
+            options={options}
+            errorText={errors[name]?.message}
+          />
         )}
       />
     );
@@ -84,24 +141,12 @@ const DynamicInput = (props) => {
             label={label}
             options={options}
             errorText={errors[name]?.message}
-            defaultValue={data[name]}
+            defaultValue={defaultValue != undefined ? defaultValue : data[name]}
+            disabled={readonly}
           />
         )}
       />
     );
-  }
-
-  if (inputType === InputType.SELECT_CHECKBOX) {
-    return options.map((option, i) => (
-      <Controller
-        key={i}
-        control={control}
-        name={option.value || option}
-        render={({ field }) => (
-          <CheckboxInput ref={ref} {...field} label={option.label || option} errorText={errors[name]?.message} />
-        )}
-      />
-    ));
   }
 
   if (inputType === InputType.DATETIME) {
@@ -110,22 +155,29 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field }) => (
-          <DateTimePicker
-            {...field}
-            label={label}
-            onChange={(value) => field.onChange({ target: { value: toAPIDate(value) } })}
-            inputFormat={DateFormats.CONTROL_DATE_TIME}
-            value={data[name]}
-            renderInput={(params) => (
-              <TextField
-                ref={ref}
-                {...params}
-                error={errors[name]?.message}
-                defaultValue={data[name]}
-                sx={{ width: '100%' }}
-              />
+          <>
+            <DateTimePicker
+              {...field}
+              label={label}
+              onChange={(value) =>
+                field.onChange({ target: { value: toAPIDate(value) } })
+              }
+              inputFormat={DateFormats.CONTROL_DATE_TIME}
+              value={data[name]}
+              renderInput={(params) => (
+                <TextField
+                  ref={ref}
+                  {...params}
+                  disabled={readonly}
+                  error={errors[name]?.message}
+                  defaultValue={data[name]}
+                />
+              )}
+            />
+            {errors[name] && (
+              <FormHelperText error>{errors[name].message}</FormHelperText>
             )}
-          />
+          </>
         )}
       />
     );
@@ -137,22 +189,29 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field }) => (
-          <DatePicker
-            {...field}
-            label={label}
-            onChange={(value) => field.onChange({ target: { value: toAPIDate(value) } })}
-            inputFormat={DateFormats.CONTROL_DATE}
-            value={data[name]}
-            renderInput={(params) => (
-              <TextField
-                ref={ref}
-                {...params}
-                error={errors[name]?.message}
-                defaultValue={data[name]}
-                sx={{ width: '100%' }}
-              />
+          <>
+            <DatePicker
+              {...field}
+              label={label}
+              onChange={(value) =>
+                field.onChange({ target: { value: toAPIDate(value) } })
+              }
+              inputFormat={DateFormats.CONTROL_DATE}
+              value={data[name]}
+              renderInput={(params) => (
+                <TextField
+                  ref={ref}
+                  {...params}
+                  disabled={readonly}
+                  error={!!errors[name]?.message}
+                  defaultValue={data[name]}
+                />
+              )}
+            />
+            {errors[name]?.message && (
+              <FormHelperText error>{errors[name]?.message}</FormHelperText>
             )}
-          />
+          </>
         )}
       />
     );
@@ -164,7 +223,14 @@ const DynamicInput = (props) => {
         control={control}
         name={name}
         render={({ field: { ref: _re, ...field } }) => (
-          <AutoSuggestInput label={label} options={options} defaultValue={data[name]} {...field} />
+          <AutoSuggestInput
+            label={label}
+            options={options}
+            defaultValue={data[name]}
+            readonly={readonly}
+            error={errors[name]}
+            {...field}
+          />
         )}
       />
     );
@@ -174,7 +240,12 @@ const DynamicInput = (props) => {
     return (
       <FormGroup>
         <label>{label}</label>
-        <JSONInput id="a_unique_id" placeholder={{ id: 'value' }} locale={locale} height="550px" />
+        <JSONInput
+          id="a_unique_id"
+          placeholder={{ id: 'value' }}
+          locale={locale}
+          height="550px"
+        />
       </FormGroup>
     );
   }
@@ -184,7 +255,14 @@ const DynamicInput = (props) => {
       name={name}
       control={control}
       render={({ field }) => (
-        <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+        <Input
+          ref={ref}
+          {...field}
+          label={label}
+          disabled={readonly}
+          errorText={errors[name]?.message}
+          defaultValue={data[name]}
+        />
       )}
     />
   );

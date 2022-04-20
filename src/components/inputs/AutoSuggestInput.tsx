@@ -1,3 +1,4 @@
+import { FormHelperText } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
@@ -5,21 +6,34 @@ import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
 import { autoSuggestStyles } from '../../pages/app/styles';
+import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
-import SearchInput from './Search';
 
+/* eslint-disable */
 const searchProvidedOptions = (options, value) => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
   return inputLength === 0
     ? []
-    : options.filter((option) => (option.label || option).toLowerCase().slice(0, inputLength) === inputValue);
+    : options.filter(
+        (option) =>
+          (option.label || option).toLowerCase().slice(0, inputLength) ===
+          inputValue,
+      );
 };
+/* eslint-enable */
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
 
-const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
+const AutoSuggestInput = ({
+  defaultValue,
+  label,
+  readonly,
+  options,
+  onChange,
+  error,
+}) => {
   let Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -27,14 +41,20 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
 
   // Use your imagination to render suggestions.
   const renderSuggestion = (suggestion) => (
-    <div>{options.labelSelector ? options.labelSelector(suggestion) : suggestion.label || suggestion}</div>
+    <div>
+      {options.labelSelector
+        ? options.labelSelector(suggestion)
+        : suggestion.label || suggestion}
+    </div>
   );
 
   const onSuggestionsFetchRequested = ({ value: searchText }) => {
     if (options.length) {
       setSuggestions(searchProvidedOptions(options, searchText));
     } else {
-      Service.find(autoSuggestQuery(options, searchText))
+      const query = autoSuggestQuery(options, searchText);
+      console.debug({ query });
+      Service.find(query)
         .then((res) => {
           setSuggestions(res.data);
         })
@@ -48,6 +68,7 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
     placeholder: label,
     value,
     onChange: (_, value) => setValue(value.newValue),
+    readOnly: readonly,
   };
 
   const onSuggestionsClearRequested = () => {
@@ -57,8 +78,10 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
   const setDefaultValue = () => {
     Service.get(defaultValue)
       .then((data) => {
-        const label = (options.labelSelector && options.labelSelector(data)) || '';
-        const value = (options.valueSelector && options.valueSelector(data)) || '';
+        const label =
+          (options.labelSelector && options.labelSelector(data)) || '';
+        const value =
+          (options.valueSelector && options.valueSelector(data)) || '';
         onChange(value);
         setValue(label);
       })
@@ -69,7 +92,9 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
     if (defaultValue) setDefaultValue();
   }, [defaultValue]);
 
-  return (
+  return readonly ? (
+    <Input value={value} defaultValue={value} disabled />
+  ) : (
     <div className={classes.container}>
       <div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-rooti">
         <Autosuggest
@@ -78,13 +103,21 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           getSuggestionValue={options.labelSelector || getSuggestionValue}
           onSuggestionSelected={(_, { suggestion }) =>
-            onChange(options.valueSelector ? options.valueSelector(suggestion) : suggestion._id)
+            onChange(
+              options.valueSelector
+                ? options.valueSelector(suggestion)
+                : suggestion._id,
+            )
           }
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
           theme={classes}
-          renderInputComponent={(params) => <SearchInput {...params} placeholder={label} className="auto-search" />}
         />
+        {error && (
+          <FormHelperText error>
+            {(Object.values(error as any)[0] || ({} as any)).message}
+          </FormHelperText>
+        )}
       </div>
     </div>
   );

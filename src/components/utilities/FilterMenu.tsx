@@ -1,13 +1,15 @@
+import { Grow, MenuList, Popper } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import MenuList from '@mui/material/MenuList';
-import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-// import DateRange from '../inputs/DateRange';
-// import DebouncedInput from '../inputs/DebouncedInput';
+import DateRange from '../inputs/DateRange';
+import SearchInput from '../inputs/Search';
 
-const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
+const FilterMenu = ({
+  schema = [],
+  onSearch = (_) => {},
+  dateField = false,
+}) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -16,14 +18,17 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
       return;
     }
 
     setOpen(false);
   };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
+  function handleListKeyDown(event) {
     if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
@@ -88,10 +93,18 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+              transformOrigin:
+                placement === 'bottom-start' ? 'left top' : 'left bottom',
             }}
           >
-            <div style={{ background: '#fff', minWidth: '200px', border: '1px solid #CDD2D7', borderRadius: '4px' }}>
+            <div
+              style={{
+                background: '#fff',
+                minWidth: '200px',
+                border: '1px solid #CDD2D7',
+                borderRadius: '4px',
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -125,8 +138,11 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
           </Grow>
         )}
       </Popper>
-      {/* <DebouncedInput label="Search here" onChangeValue={onSearch ? onSearch : () => {}} />
-      {dateField && <DateRange />} */}
+      <SearchInput
+        label="Search here"
+        onChange={onSearch ? onSearch : () => {}}
+      />
+      {dateField && <DateRange />}
     </div>
   );
 };

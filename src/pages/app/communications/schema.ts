@@ -1,5 +1,5 @@
 import { Models } from '../Constants';
-import { InputType } from './util';
+import { InputType } from '../schema/util';
 
 const ChannelSchema = [
   {
@@ -154,7 +154,8 @@ const SubmissionSchema = [
     name: 'Questionnaire',
     key: 'questionnaire',
     description: 'Questionnaire',
-    selector: (row) => (row.questionnaire ? row.questionnaire.name : row.questionGroup.name),
+    selector: (row) =>
+      row.questionnaire ? row.questionnaire.name : row.questionGroup.name,
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
@@ -217,11 +218,17 @@ const SubmissionSchema = [
     name: 'Interaction',
     key: 'currentInteraction',
     description: 'Interaction',
-    selector: (row) => (row.currentInteraction ? row.currentInteraction.name : ''),
+    selector: (row) =>
+      row.currentInteraction ? row.currentInteraction.name : '',
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
   },
 ];
 
-export { ChannelSchema, ConversationConfigSchema, QuestionnaireSchema, SubmissionSchema };
+export {
+  ChannelSchema,
+  ConversationConfigSchema,
+  QuestionnaireSchema,
+  SubmissionSchema,
+};

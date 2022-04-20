@@ -1,4 +1,14 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { Views } from '../pages/app/Constants';
 import client from './feathers';
@@ -7,8 +17,10 @@ interface UserContextProps {
   user?: any;
   setUser?: (_user: any) => void;
   facility?: any;
+  location?: any;
+  setLocation?: (_location: any) => void;
   locationType?: any;
-  setLocationType?: (_location: any) => void;
+  setLocationType?: (_locationType: any) => void;
 }
 
 const userDefaultValues: UserContextProps = {
@@ -41,8 +53,8 @@ interface ObjectContextProps {
     show: string;
     selectedBillPrescriptionSent: {};
   };
-  dispensaryResource: { show: string; selectedDispensary: {} };
-  storyInventoryResource: { show: string; selectedStoreInventory: {} };
+  dispensoryResource: { show: string; selectedDispensory: {} };
+  storeInventoryResource: { show: string; selectedStoreInventory: {} };
   productEntryResource: { show: string; selectedProductEntry: {} };
   posResource: { show: string; selectedPOS: {} };
   selectedDocumentation: string;
@@ -118,11 +130,11 @@ const objectDefaultValues: ObjectContextProps = {
     show: 'lists',
     selectedBillPrescriptionSent: {},
   },
-  dispensaryResource: {
+  dispensoryResource: {
     show: 'lists',
-    selectedDispensary: {},
+    selectedDispensory: {},
   },
-  storyInventoryResource: {
+  storeInventoryResource: {
     show: 'lists',
     selectedStoreInventory: {},
   },
@@ -162,8 +174,22 @@ export const UserContext = createContext<UserContextProps>(userDefaultValues);
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const [facility, setFacility] = useState(null);
+  const [location, setLocation] = useState(null);
   const [locationType, setLocationType] = useState('Front Desk');
-  const memoedValue = useMemo(() => ({ user, setUser, facility, locationType, setLocationType }), [user, locationType]);
+  const navigate = useNavigate();
+
+  const memoedValue = useMemo(
+    () => ({
+      user,
+      setUser,
+      facility,
+      location,
+      setLocation,
+      locationType,
+      setLocationType,
+    }),
+    [user, location, locationType],
+  );
 
   const authenticateUser = () => {
     return client
@@ -173,22 +199,28 @@ export const UserProvider: React.FC = ({ children }) => {
         setFacility(resp.user.currentEmployee.facilityDetail);
       })
       .catch((error) => {
-        console.error(`Cannot reauthenticate user with server at this time ${error}`);
-        const savedUser = JSON.parse(localStorage.getItem('user'));
-        setFacility(savedUser.currentEmployee.facilityDetail);
-        setUser(savedUser);
+        console.warn(
+          `Cannot reauthenticate user with server at this time ${error}`,
+        );
+        const userString = localStorage.getItem('user');
+        if (userString) {
+          const savedUser = userString && JSON.parse(userString);
+          setFacility(savedUser.currentEmployee.facilityDetail);
+          setUser(savedUser);
+        } else {
+          toast.info('Please login');
+          navigate('/');
+        }
       });
   };
-
-  useEffect(() => {
-    console.debug({ locationType });
-  }, [locationType]);
 
   useEffect(() => {
     authenticateUser();
   }, []);
 
-  return <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>
+  );
 };
 
 export const ObjectContext = createContext({
@@ -206,7 +238,11 @@ export function ObjectProvider({
   const [resource, setResource] = useState(value);
   // const memoedValue = useMemo(() => ({ state }), [state]);
 
-  return <ObjectContext.Provider value={{ resource, setResource }}>{children}</ObjectContext.Provider>;
+  return (
+    <ObjectContext.Provider value={{ resource, setResource }}>
+      {children}
+    </ObjectContext.Provider>
+  );
 }
 
 export const useObjectState = () => {

@@ -2,8 +2,10 @@ import React from 'react';
 
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 
-const SubmissionLine = ({ control, interaction: { question, questionCaption, response } }) => {
-  console.debug({ response, question, questionCaption });
+const SubmissionLine = ({
+  control,
+  interaction: { question, questionCaption, response },
+}) => {
   return (
     <div className="grid grid-cols-3">
       <div className="field">
