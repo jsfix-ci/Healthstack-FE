@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+import { TableMenu } from '../../../components/TableMenu';
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
 import { InputType } from '../schema/util';
@@ -196,26 +197,21 @@ const getAppointmentSchema = (facilityId) => [
     inputType: InputType.TEXT_AREA,
     // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
-];
-
-const ClientMiniSchema = [
   {
-<<<<<<< HEAD:src/pages/app/schema/client.tsx
-    cell: (row) => <button id={row._id}>Action</button>,
+    cell: (row) => <TableMenu size="small" row={row} onDeleteRow={deleteRow} />,
     allowOverflow: true,
     button: true,
     width: '56px',
   },
+];
+
+const deleteRow = () => null;
+const ClientMiniSchema = [
   {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-=======
     name: 'S/N',
     key: 'sn',
     description: 'SN',
     selector: (row) => row.sn,
->>>>>>> cf4fa34fb81244525fa01cc5297edf635c5c6b64:src/pages/app/clients/schema.ts
     sortable: true,
     inputType: InputType.HIDDEN,
   },
@@ -360,10 +356,25 @@ const ClientMiniSchema = [
     required: true,
     inputType: InputType.TEXT,
   },
+  {
+    cell: (row) => <TableMenu size="small" row={row} onDeleteRow={deleteRow} />,
+    allowOverflow: true,
+    button: true,
+    width: '56px',
+  },
 ];
 
 const ClientFullSchema = {
   _id: [
+    {
+      cell: (row) => (
+        <TableMenu size="small" row={row} onDeleteRow={deleteRow} />
+      ),
+      allowOverflow: true,
+      button: true,
+      width: '56px',
+    },
+
     {
       name: 'ID',
       key: '_id',

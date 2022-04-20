@@ -200,25 +200,12 @@ const getAppointmentSchema = (facilityId) => [
 
 const ClientMiniSchema = [
   {
-<<<<<<< HEAD:src/pages/app/schema/client.tsx
     cell: (row) => <button id={row._id}>Action</button>,
     allowOverflow: true,
     button: true,
     width: '56px',
   },
-  {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-=======
-    name: 'S/N',
-    key: 'sn',
-    description: 'SN',
-    selector: (row) => row.sn,
->>>>>>> cf4fa34fb81244525fa01cc5297edf635c5c6b64:src/pages/app/clients/schema.ts
-    sortable: true,
-    inputType: InputType.HIDDEN,
-  },
+
   {
     name: 'First Name',
     key: 'firstname',
