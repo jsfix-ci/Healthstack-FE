@@ -152,6 +152,12 @@ const AppointmentSchema = [
 
 const ClientMiniSchema = [
   {
+    cell: (row) => <button id={row._id}>Action</button>,
+    allowOverflow: true,
+    button: true,
+    width: '56px',
+  },
+  {
     name: 'ID',
     key: '_id',
     selector: (row) => row._id && row._id.substring(0, 7),
