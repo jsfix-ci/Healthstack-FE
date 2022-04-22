@@ -75,6 +75,7 @@ const useRepository = <T>(
       },
       ...extras,
     };
+
     return (
       Service &&
       Service.find(params)
@@ -151,7 +152,7 @@ const useRepository = <T>(
     Service.on('updated', find);
     Service.on('patched', find);
     Service.on('removed', find);
-    if (onNavigate) find();
+    // if (onNavigate) find();
     return () => {
       Service = null;
     };
