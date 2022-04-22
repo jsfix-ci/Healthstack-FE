@@ -1,31 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
+import CustomTable from '../../../../components/customtable';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import {
   BottomWrapper,
-  FullDetailsWrapper,
+  DetailsWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-import { ServicesSchema } from '../schema';
+import { BillCreateDetailSchema, BillServiceSchema } from '../schema';
 
-interface Props {
-  backClick: () => void;
-  onSubmit: (_data, _event) => void;
-  handleSearch: (_event) => void;
-}
-
-const ServiceCreate: React.FC<Props> = ({
-  backClick,
-  onSubmit,
-  handleSearch,
-}) => {
+const ServiceCreate = ({ backClick, onSubmit: _ }) => {
   const { handleSubmit, control } = useForm();
+
+  const [clientBills, setClientBills] = useState([]);
+
+  const addNewBill = (data) => {
+    setClientBills(data);
+  };
 
   return (
     <PageWrapper>
@@ -34,7 +30,7 @@ const ServiceCreate: React.FC<Props> = ({
           <div>
             <h2>Create Service</h2>
             <span>
-              Create a new Service by filling out the form below to get started.
+              Create a New Service by filling out the form below to get started.
             </span>
           </div>
           <Button
@@ -44,31 +40,52 @@ const ServiceCreate: React.FC<Props> = ({
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <FullDetailsWrapper title="Create Employee">
-            <GridWrapper className="two-columns">
-              <Input
-                label="Search for Service Category"
-                name="Servicesearch"
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-              {ServicesSchema.map((client, index) => (
-                <DynamicInput
-                  key={index}
-                  name={client.key}
-                  control={control}
-                  label={client.name}
-                  inputType={client.inputType}
-                />
-              ))}
+        <form onSubmit={handleSubmit(addNewBill)}>
+          <DetailsWrapper title="Create Service" defaultExpanded={true}>
+            <GridWrapper>
+              {BillServiceSchema.filter((obj) => obj.key).map(
+                (schema, index) => {
+                  return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.description}
+                      inputType={schema.inputType}
+                      options={schema.options}
+                    />
+                  );
+                }
+              )}
+              <button
+                style={{
+                  borderRadius: '32px',
+                  background: '#f3f3f3',
+                  border: 'none',
+                  width: '32px',
+                  height: '32px',
+                  cursor: 'pointer',
+                  margin: '1rem 0',
+                }}
+                type="submit"
+              >
+                +
+              </button>
             </GridWrapper>
-          </FullDetailsWrapper>
-
-          <BottomWrapper>
-            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-            <Button label="Save Form" type="submit" />
-          </BottomWrapper>
+            <CustomTable
+              title={'Total'}
+              columns={BillCreateDetailSchema}
+              data={clientBills}
+              pointerOnHover
+              highlightOnHover
+              striped
+            />
+          </DetailsWrapper>
         </form>
+        <BottomWrapper>
+          <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+          <Button label="Save Form" />
+        </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );

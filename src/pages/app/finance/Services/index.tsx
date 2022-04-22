@@ -1,272 +1,60 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
-import { useObjectState, UserContext } from '../../../../context/context';
-import client from '../../../../context/feathers';
-import { FormType } from '../../schema/util';
-import { getFormStrings } from '../../Utils';
+import useRepository from '../../../../components/hooks/repository';
+import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
+import { serviceQuery } from './query';
 import ServiceCreate from './ServiceCreate';
 import ServiceDetails from './ServiceDetail';
-import Servicess from './ServiceList';
-import ServiceModify from './ServiceModify';
+import Services from './ServiceList';
 
 const AppServices = () => {
   const { resource, setResource } = useObjectState();
-  let ServicesServ = client.service('billing');
+  const {
+    servicesResource: { show, selectedService },
+  } = resource;
 
-  const { user } = useContext(UserContext);
-  const [facilities, setFacilities] = useState([]);
-  const [, setVal] = useState('');
-  const [, setFacility] = useState([]);
-
-  let services = resource.servicesResource.selectedService;
-
-  const backClick = () => {
-    setResource((prevState) => ({
-      ...prevState,
+  const handleNavigation = (show: string) => (selectedService?: any) =>
+    setResource({
+      ...resource,
       servicesResource: {
-        ...prevState.servicesResource,
-        show: 'lists',
+        ...resource.servicesResource,
+        show,
+        selectedService:
+          selectedService || resource.servicesResource.selectedService,
       },
-    }));
-  };
-  const getFacilities = () => {
-    if (user.employeeData) {
-      ServicesServ.find({
-        query: {
-          facility: user.employeeData[0].facility,
-
-          $sort: {
-            category: 1,
-          },
-        },
-      }).then((res) => {
-        const findServices = res;
-        toast('Services fetched successfully');
-
-        setFacilities(findServices.groupedOrder);
-      });
-    } else {
-      if (user.stacker) {
-        toast('You do not qualify to view this');
-        return;
-      }
-    }
-  };
-
-  const handleDelete = () => {
-    ServicesServ.remove(services)
-      .then(() => {
-        toast('Services deleted successfully');
-        getFacilities();
-        backClick();
-      })
-      .catch((err) => {
-        toast('Error deleting Services, probable network issues or ' + err);
-      });
-  };
-
-  const handleSearch1 = (val) => {
-    setVal(val);
-
-    if (val.length >= 3) {
-      ServicesServ.find({
-        query: {
-          category: {
-            $regex: val,
-            $options: 'i',
-          },
-
-          $limit: 1000,
-          $sort: {
-            category: 1,
-          },
-        },
-      })
-        .then((res) => {
-          setFacility(res.groupedOrder);
-        })
-        .catch((err) => {
-          toast({
-            message: 'Error searching Service category  ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        });
-    }
-  };
-
-  const handleSearch = (val) => {
-    const field = 'name';
-    ServicesServ.find({
-      query: {
-        [field]: {
-          $regex: val,
-          $options: 'i',
-        },
-        facility: user.employeeData[0].facility,
-        $limit: 20,
-        $sort: {
-          createdAt: -1,
-        },
-      },
-    })
-      .then((res) => {
-        setFacilities(res.groupedOrder);
-      })
-      .catch((err) => {
-        console.error(err);
-        toast('Error during search ' + err);
-      });
-  };
-
-  const onSubmit = (data) => {
-    const values = getFormStrings(data._id);
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id;
-    }
-    (data._id ? ServicesServ.update(data._id, data) : ServicesServ.create(data))
-
-      .then(() => {
-        toast(`Services ${values.message}`);
-      })
-      .catch((err) => {
-        toast(`Error occurred : ${err}`);
-      });
-  };
-
-  const onSubmit1 = (data) => {
-    let obj = {
-      name: data.source,
-      category: data.categoryname,
-      facility: user.employeeData[0].facility,
-      facilityname: user.employeeData[0].facility.facilityName,
-      panel: data.panel,
-      panelServices: data.panelList,
-      contracts: data.productItem,
-      createdBy: user._id,
-    };
-
-    ServicesServ.create(obj)
-      .then(() => {
-        toast({
-          message: 'Service created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      })
-      .catch((err) => {
-        toast({
-          message: 'Error creating Services ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
-  };
-
+    });
+  const {
+    groupedList: service,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository(Models.BILLING, handleNavigation);
+  const [searchText, setSearchText] = useState('');
   useEffect(() => {
-    if (!ServicesServ) {
-      ServicesServ = client.service('billing');
-      ServicesServ.on('created', () => getFacilities());
-      ServicesServ.on('updated', () => getFacilities());
-      ServicesServ.on('patched', () => getFacilities());
-      ServicesServ.on('removed', () => getFacilities());
-    }
-    user && getFacilities();
-    return () => {
-      ServicesServ = null;
-    };
-  }, [user]);
+    setFindQuery(serviceQuery(undefined, searchText || undefined));
+  }, [searchText]);
   return (
     <>
-      {resource.servicesResource.show === 'lists' && (
-        <Servicess
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                show: 'details',
-                selectedService: row,
-              },
-            }));
-          }}
-          dataTree={facilities}
-          handleSearch={handleSearch}
+      {show === Views.LIST && (
+        <Services
+          handleCreate={handleNavigation(Views.CREATE)}
+          onRowClicked={(row) => handleNavigation(Views.DETAIL)(row)}
+          onSearch={setSearchText}
+          progressPending={false}
+          items={service}
         />
       )}
-      {resource.servicesResource.show === FormType.CREATE && (
+      {show === Views.CREATE && (
         <ServiceCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          handleSearch={handleSearch1}
-          onSubmit={onSubmit1}
+          backClick={handleNavigation(Views.LIST)}
+          onSubmit={handleSubmit}
         />
       )}
-      {resource.servicesResource.show === FormType.DETAIL && (
+      {show === Views.DETAIL && (
         <ServiceDetails
-          row={resource.servicesResource.selectedService}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'edit',
-              },
-            }))
-          }
-          handleDelete={handleDelete}
-        />
-      )}
-      {resource.servicesResource.show === FormType.EDIT && (
-        <ServiceModify
-          row={resource.servicesResource.selectedService}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'details',
-              },
-            }))
-          }
-          onSubmit={onSubmit}
+          row={selectedService}
+          backClick={handleNavigation(Views.LIST)}
+          editBtnClicked={() => handleNavigation(Views.EDIT)(selectedService)}
         />
       )}
     </>
