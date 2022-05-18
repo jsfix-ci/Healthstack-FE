@@ -11,6 +11,12 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import Preloader from '../../components/utilities/Preloader';
 import { UserContext } from '../../context/context';
 import client from '../../context/feathers';
+import socialMediaAuth from '../../firebase-auth/auth/auth';
+import {
+  facebookProvider,
+  // githubProvider,
+  googleProvider,
+} from '../../firebase-auth/config/authMethod';
 
 function Login() {
   const navigate = useNavigate();
@@ -47,6 +53,11 @@ function Login() {
       });
   };
 
+  const handleSocialClick = async (provider) => {
+    alert('clicked');
+    await socialMediaAuth(provider);
+  };
+
   return (
     <>
       {loaderTimer ? (
@@ -74,14 +85,15 @@ function Login() {
 
           <div className="bottom-center">
             <p>or continue with</p>
-            <a href="">
+            <a href="" onClick={() => handleSocialClick(googleProvider)}>
               <i className="bi bi-google" />
             </a>
-            <a href="">
+            <a href="" onClick={() => handleSocialClick(facebookProvider)}>
               <i className="bi bi-facebook" />
             </a>
             <a href="">
               <i className="bi bi-linkedin" />
+              {/* <i className="fa-brands fa-github"></i> */}
             </a>
 
             <p>
