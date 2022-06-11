@@ -80,14 +80,6 @@ export const BillsSummary = [
 
 export const BillServiceSchema = [
   {
-    name: 'Category',
-    key: 'category',
-    selector: (row) => row.category,
-    description: 'Category',
-    sortable: true,
-    required: true,
-  },
-  {
     name: 'Service',
     key: 'inventoryId',
     description: 'Search for  Service',

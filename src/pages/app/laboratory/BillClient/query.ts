@@ -3,14 +3,14 @@ const LabClientQuery = (facilityId?: string, val?: string) => {
     query: {
       $or: val && [
         {
-          "participantInfo.paymentmode.detail.principalName": {
+          'participantInfo.paymentmode.detail.principalName': {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
-      "participantInfo.billingFacility": facilityId,
-      billing_status: "Unpaid",
+      'participantInfo.billingFacility': facilityId,
+      billing_status: 'Unpaid',
       $limit: 30,
       $sort: {
         createdAt: -1,

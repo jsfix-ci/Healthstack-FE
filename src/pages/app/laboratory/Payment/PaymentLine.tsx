@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import Button from "../../../../components/buttons/Button";
-import Input from "../../../../components/inputs/basic/Input";
-import RadioButton from "../../../../components/inputs/basic/Radio";
-import { InputType } from "../../schema/util";
-import { GridWrapper } from "../../styles";
-import { PaymentLineSchema } from "../schema";
-import AmountLabel from "./AmountLabel";
+import Button from '../../../../components/buttons/Button';
+import Input from '../../../../components/inputs/basic/Input';
+import RadioButton from '../../../../components/inputs/basic/Radio';
+import { InputType } from '../../schema/util';
+import { GridWrapper } from '../../styles';
+import { PaymentLineSchema } from '../schema';
+import AmountLabel from './AmountLabel';
 
-const FULL = "Full";
-const PART = "Part";
+const FULL = 'Full';
+const PART = 'Part';
 
 const PaymentLine = ({ payment, draftPayment }) => {
   const [isFullPayment, setIsFullPayment] = useState(true);
@@ -24,13 +24,13 @@ const PaymentLine = ({ payment, draftPayment }) => {
 
   const handleUpdate = () => {
     if (!amountPaying) {
-      toast.info("Please enter an amount as part payment");
+      toast.info('Please enter an amount as part payment');
       return;
     }
 
     draftPayment(payment, isFullPayment, amountPaying);
     setBalanceDue(amountDue - amountPaying);
-    toast.success("Part payment updated successfully");
+    toast.success('Part payment updated successfully');
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const PaymentLine = ({ payment, draftPayment }) => {
   return (
     <GridWrapper>
       {PaymentLineSchema.filter(
-        (obj) => obj.inputType !== InputType.HIDDEN
+        (obj) => obj.inputType !== InputType.HIDDEN,
       ).map((schema, i) => (
         <div key={i}>
           <label>{schema.name}</label>

@@ -2,6 +2,7 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import EmptyData from '../empty';
+import { customStyles } from './styles';
 
 interface Props {
   title?: string;
@@ -16,54 +17,6 @@ interface Props {
   progressPending?: any;
   onSelectedRowsChange?: any;
 }
-
-const customStyles = {
-  header: {
-    style: {
-      minHeight: '40px',
-    },
-  },
-  headRow: {
-    style: {
-      background: '#F8F8F8',
-      color: '#03045E',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      border: 'none',
-      boxShadow: '0 3px 3px 0 rgba(3,4,94,0.2)',
-    },
-  },
-  headCells: {
-    style: {
-      '&:not(:last-of-type)': {
-        border: 'none',
-      },
-      background: '#F8F8F8',
-      fontWeight: 'bold',
-      fontSize: '0.75rem',
-      border: 'none',
-    },
-  },
-  cells: {
-    style: {
-      border: 'none',
-    },
-  },
-  rows: {
-    style: {
-      border: 'none',
-      background: '#F8F8F8',
-      padding: '16px',
-      fontSize: '14px',
-      fontWeight: '500',
-      fontFamily: 'Manrope, sans-serif',
-    },
-    stripedStyle: {
-      background: '#fff',
-      border: 'none',
-    },
-  },
-};
 
 const CustomLoader = () => (
   <div style={{ padding: '24px' }}>
@@ -87,7 +40,7 @@ const CustomTable: React.FC<Props> = ({
   return (
     <DataTable
       title={title}
-      columns={columns.filter((obj) => obj.selector)}
+      columns={columns.filter((obj) => obj.selector && obj.inputType)}
       data={data.map((obj, i) => ({ ...obj, sn: i + 1 }))} //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}

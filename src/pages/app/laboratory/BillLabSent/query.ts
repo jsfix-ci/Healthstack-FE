@@ -5,26 +5,26 @@ const orderQuery = (facilityId?: string, val?: string) => {
         {
           order: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           order_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           clientname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
-      order_category: "Prescription",
-      fulfilled: "False",
+      order_category: 'Prescription',
+      fulfilled: 'False',
       destination: facilityId,
-      order_status: "Pending",
+      order_status: 'Pending',
       $limit: 50,
       $sort: {
         createdAt: -1,

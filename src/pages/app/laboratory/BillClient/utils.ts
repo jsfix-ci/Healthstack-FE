@@ -1,39 +1,39 @@
-import { Dictionary } from "../../../../types.d";
+import { Dictionary } from '../../../../types.d';
 
 export const getSellingPrice = (contracts, billMode) => {
   let sellingPrice = 0;
-  let errorMessage = "";
-  if (billMode.type === "HMO Cover") {
+  let errorMessage = '';
+  if (billMode.type === 'HMO Cover') {
     let contract = contracts.filter(
-      (el) => el.source_org === billMode.detail.organizationId
+      (el) => el.source_org === billMode.detail.organizationId,
     );
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {
       sellingPrice = 0;
       errorMessage =
-        "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ";
+        'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ';
     }
   }
-  if (billMode.type === "Company Cover") {
+  if (billMode.type === 'Company Cover') {
     let contract = contracts.filter(
-      (el) => el.source_org === billMode.detail.organizationId
+      (el) => el.source_org === billMode.detail.organizationId,
     );
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {
       sellingPrice = 0;
       errorMessage =
-        "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash";
+        'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash';
     }
   }
-  if (billMode.type === "Cash" || billMode.type === "Family Cover") {
+  if (billMode.type === 'Cash' || billMode.type === 'Family Cover') {
     let contract = contracts.filter((el) => el.source_org === el.dest_org);
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {
       errorMessage =
-        "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ";
+        'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ';
       sellingPrice = 0;
     }
   }
@@ -61,52 +61,52 @@ export const getBillingInfo = (clientPaymentInfo) => {
 
   if (activePayment) {
     switch (activePayment.paymentmode) {
-      case "Cash":
+      case 'Cash':
         paymentOption = createPaymentMode(
           activePayment,
-          "Cash",
-          "Cash",
-          "Cash"
+          'Cash',
+          'Cash',
+          'Cash',
         );
-        paymentOptionName === "Cash";
+        paymentOptionName === 'Cash';
         break;
-      case "Family":
+      case 'Family':
         paymentOption = createPaymentMode(
           activePayment,
-          "Family Cover",
-          "familyCover",
-          "Family Cover"
+          'Family Cover',
+          'familyCover',
+          'Family Cover',
         );
-        paymentOptionName = "Family Cover";
+        paymentOptionName = 'Family Cover';
 
         break;
-      case "Company":
+      case 'Company':
         paymentOptionName =
-          "Company: " +
+          'Company: ' +
           activePayment.organizationName +
-          "(" +
+          '(' +
           activePayment.plan +
-          ")";
+          ')';
 
         paymentOption = createPaymentMode(
           activePayment,
           paymentOptionName,
-          "CompanyCover",
-          "Company Cover"
+          'CompanyCover',
+          'Company Cover',
         );
         break;
-      case "HMO":
+      case 'HMO':
         paymentOptionName =
-          "HMO: " +
+          'HMO: ' +
           activePayment.organizationName +
-          "(" +
+          '(' +
           activePayment.plan +
-          ")";
+          ')';
         paymentOption = createPaymentMode(
           activePayment,
           paymentOptionName,
-          "HMOCover",
-          "HMO Cover"
+          'HMOCover',
+          'HMO Cover',
         );
         break;
       default:
