@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import * as yup from 'yup';
 
 import { TableMenu } from '../../../components/TableMenu';

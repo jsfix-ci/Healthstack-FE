@@ -40,7 +40,7 @@ html{
     margin:0 auto;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6,p{
   padding: 0;margin: 0
 }
 
@@ -236,8 +236,8 @@ export const Container = styled.div`
 `;
 
 export const Text = styled(NavText)`
-  color: ${(props) => (props.color ? props.color : '#ffffff')};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : '.9em')};
+  color: ${props => (props.color ? props.color : '#ffffff')};
+  font-size: ${props => (props.fontSize ? props.fontSize : '.9em')};
   margin-right: 1em;
   border: 1px solid #232f3e;
   padding: 0.5em 0.1em;
@@ -259,10 +259,9 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
-  flex-direction: ${(props) =>
+  flex-direction: ${props =>
     props.flexDirection ? props.flexDirection : 'column'};
-  align-items: ${(props) =>
-    props.alignItems ? props.alignItems : 'flex-start'};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -277,18 +276,17 @@ export const Wrapper = styled(NavItemWrapper)`
 `;
 
 export const Stat = styled(StatWrapper)`
-  padding: ${(props) => (props.padding ? props.padding : '30px')};
+  padding: ${props => (props.padding ? props.padding : '30px')};
   display: flex;
-  align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : '15px'};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '15px')};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
-  margin-bottom: ${(props) =>
+  margin-bottom: ${props =>
     props.margingBottom ? props.margingBottom : '30px'};
 
   &::before {
@@ -319,15 +317,14 @@ export const UserWrapper = styled.div`
 `;
 
 export const AttendWrapper = styled(StatWrapper)`
-  background: ${(props) => (props.background ? props.background : 'white')};
-  height: ${(props) => (props.height ? props.height : '120px')};
-  widtht: ${(props) => (props.width ? props.width : 'auto')};
-  /* width: ${(props) => (props.width ? props.width : '120px')} */
+  background: ${props => (props.background ? props.background : 'white')};
+  height: ${props => (props.height ? props.height : '120px')};
+  widtht: ${props => (props.width ? props.width : 'auto')};
+  /* width: ${props => (props.width ? props.width : '120px')} */
   margin-left: 0.6rem;
   font-size: 12px;
-  padding: ${(props) => (props.padding ? props.padding : '1rem')};
-  border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : '4px'};
+  padding: ${props => (props.padding ? props.padding : '1rem')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '4px')};
 
   /* flex: 1; */
 `;

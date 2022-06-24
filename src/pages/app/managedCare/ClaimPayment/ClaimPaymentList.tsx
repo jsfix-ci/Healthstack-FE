@@ -20,7 +20,7 @@ const ClaimPayments: React.FC<Props> = ({ onRowClicked }) => {
 
       <TableMenu>
         <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <Input placeholder="Search here" label="Search here" size="small" /> */}
           <FilterMenu />
         </div>
       </TableMenu>

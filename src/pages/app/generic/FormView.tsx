@@ -52,14 +52,14 @@ const FormView: React.FC<Props> = ({
               Create a New {title} by filling out the form below to get started.
               {errors &&
                 JSON.stringify(
-                  ((Object.values(errors)[0] as any) || ({} as any)).message,
+                  ((Object.values(errors)[0] as any) || ({} as any)).message
                 )}
             </span>
           </div>
           <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
+            label='Back to List'
+            background='#fdfdfd'
+            color='#333'
             onClick={backClick}
           />
         </HeadWrapper>
@@ -68,7 +68,7 @@ const FormView: React.FC<Props> = ({
             {schema.map((field: any, index) => {
               if (field.length) {
                 return (
-                  <GridWrapper className="subgrid two-columns" key={index}>
+                  <GridWrapper className='subgrid two-columns' key={index}>
                     {field.map((field, childIndex) => (
                       <DynamicInput
                         {...field}
@@ -103,8 +103,8 @@ const FormView: React.FC<Props> = ({
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-            <Button label="Save Form" type="submit" />
+            <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
+            <Button label='Save Form' type='submit' />
           </BottomWrapper>
         </form>
       </GrayWrapper>

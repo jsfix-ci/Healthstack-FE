@@ -1,11 +1,12 @@
 import React from 'react';
+import { Client } from '../../../ui/dashboards';
 
 import { PageWrapper } from '../styles';
 
 const ClientDashboard = () => {
   return (
     <PageWrapper>
-      <h2>Client Dashboard</h2>
+      <Client />
     </PageWrapper>
   );
 };

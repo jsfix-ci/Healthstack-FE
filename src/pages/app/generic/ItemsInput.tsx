@@ -18,7 +18,7 @@ const ItemsInput = ({
   const { control, watch } = useForm();
   const [data, setData] = useState<any>({});
 
-  const onAddNew = (e) => {
+  const onAddNew = e => {
     e.preventDefault();
     let result = {};
     Object.entries(data).map(([key, value]) => {
@@ -31,7 +31,7 @@ const ItemsInput = ({
     const newItems = [...items, result];
     setItems(newItems);
     const formData = {};
-    schema.forEach((obj) => {
+    schema.forEach(obj => {
       formData[obj.key] = '';
     });
     const event = { target: { name, value: newItems } };
@@ -39,7 +39,7 @@ const ItemsInput = ({
   };
 
   useEffect(() => {
-    const subscription = watch((value) => {
+    const subscription = watch(value => {
       setData(value);
     });
     return () => subscription.unsubscribe();
@@ -48,11 +48,11 @@ const ItemsInput = ({
   return (
     <>
       <PlacementWrapper>
-        <FlexBox className="row">
+        <FlexBox className='row'>
           <h4>{label}</h4>
         </FlexBox>
         {!readonly && (
-          <FullDetailsWrapper className="small">
+          <FullDetailsWrapper className='small'>
             <div>
               {schema.map((field, index) => {
                 return (
@@ -76,7 +76,7 @@ const ItemsInput = ({
                   cursor: 'pointer',
                   margin: '1rem 0',
                 }}
-                type="submit"
+                type='submit'
                 onClick={onAddNew}
               >
                 +

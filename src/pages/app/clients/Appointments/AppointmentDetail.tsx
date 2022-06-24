@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import Button from '../../../../components/buttons/Button';
@@ -39,11 +40,6 @@ const AppointmentDetails = ({
                   background="#fdfdfd"
                   color="#333"
                   onClick={backClick}
-                />
-                <Button
-                  label={'Start or Join Telemedicine'}
-                  background={'#04ed7c'}
-                  color={'#fff'}
                 />
               </ButtonGroup>
             </HeadWrapper>
