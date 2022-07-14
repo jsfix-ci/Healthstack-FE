@@ -42,6 +42,7 @@ import AppInventory from '../pages/app/pharmacy/StoreInventory';
 import Login from '../pages/auth';
 import IndividualSignup from '../pages/auth/IndividualSignup';
 import Signup from '../pages/auth/Signup';
+import ClientFullForm from './app/clients/Client/ClientFullForm';
 import { Models } from './app/Constants';
 import AppCaseDefinition from './app/epidemology/CaseDefinition';
 import EpidemiologyDashboard from './app/epidemology/EpidemiologyDashboard';
@@ -90,6 +91,7 @@ const AppRoutes = () => {
             element={<AppClientAppointment />}
           />
           <Route path="/app/clients/clients" element={<AppClient />} />
+          {/* <Route path="/app/clients/clients" element={<ClientFullForm />} /> */}
 
           {/* Admin */}
           <Route path="/app/admin" element={<AdminDashboard />} />
