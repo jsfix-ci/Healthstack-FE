@@ -41,7 +41,7 @@ const EndEncounter = ({ onEndEncounter }) => {
       label={'End Encounter'}
       background={'#ff0000'}
       color={'#fff'}
-      onClick={() => setOpen()}
+      onClick={() => setOpen(false)}
     />
   );
 };
