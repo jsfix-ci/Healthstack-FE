@@ -6,7 +6,7 @@ const AppointmentCard = () => {
   return (
     <div
       style={{
-        padding: '10px',
+        padding: '16px',
         borderRadius: '16px',
         backgroundColor: '#fff',
         margin: '0 0 16px',
@@ -17,10 +17,10 @@ const AppointmentCard = () => {
           H
         </Avatar>
 
-        <div>
-          <h2
+        <div style={{ marginLeft: '16px' }}>
+          <h4
             style={{
-              fontSize: '32px',
+              fontSize: '40px',
               lineHeight: '32px',
               color: '#0364FF',
               margin: '0',
@@ -28,14 +28,24 @@ const AppointmentCard = () => {
             }}
           >
             Dr. Shawn Hampton
-          </h2>
-          <p>Emergency Appointment</p>
+          </h4>
+          <p
+            style={{
+              fontSize: '14px',
+              lineHeight: '14px',
+              margin: '0',
+              padding: '0',
+            }}
+          >
+            Emergency Appointment
+          </p>
         </div>
       </div>
 
-      <p>
-        <i className='bi bi-clock'></i> Monday, September 22
-      </p>
+      <span style={{ padding: '10px', color: '#acacac' }}>
+        <i className='bi bi-clock'></i>{' '}
+        <small style={{ marginLeft: '4px' }}>Monday, September 22</small>
+      </span>
     </div>
   );
 };
