@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes } from 'react';
 
-interface EmailProps extends InputHTMLAttributes<HTMLInputElement> {}
+type EmailProps = InputHTMLAttributes<HTMLInputElement>
 
 const Email: React.FC<EmailProps> = () => <div></div>;
 

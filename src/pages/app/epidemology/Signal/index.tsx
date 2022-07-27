@@ -48,9 +48,9 @@ const AppSignal = () => {
       return;
     }
     if (symptoms.length > 0) {
-      let sympcollection = [];
+      const sympcollection = [];
       symptoms.forEach((obj) => {
-        let obs = {
+        const obs = {
           category: 'symptoms',
           name: obj.symptom,
           duration: obj.duration,
@@ -61,9 +61,9 @@ const AppSignal = () => {
       data.observations = [...data.observations, ...sympcollection];
     }
     if (findings.length > 0) {
-      let findingscollection = [];
+      const findingscollection = [];
       findings.forEach((el) => {
-        let obs = {
+        const obs = {
           category: 'Signs',
           name: el.finding,
           required: el.findingreq,
@@ -73,9 +73,9 @@ const AppSignal = () => {
       data.observations = [...data.observations, ...findingscollection];
     }
     if (labs.length > 0) {
-      let labscollection = [];
+      const labscollection = [];
       labs.forEach((el) => {
-        let obs = {
+        const obs = {
           category: 'Laboratory',
           name: el.lab,
           value: el.labvalue,
@@ -84,7 +84,7 @@ const AppSignal = () => {
       });
       data.observations = [...data.observations, ...labscollection];
     }
-    let notifiedlist = [];
+    const notifiedlist = [];
     notifiedlist.push(data.notifiedPerson);
     data.notification_destination = notifiedlist[0];
     data.facility = facility._id;

@@ -40,7 +40,7 @@ const AutoSuggestInput = ({
   error,
   inputType,
 }) => {
-  let Service = options.model && client.service(options.model);
+  const Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const classes: any = autoSuggestStyles(defaultTheme);

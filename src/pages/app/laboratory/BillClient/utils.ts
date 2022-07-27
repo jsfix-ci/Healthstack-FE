@@ -4,7 +4,7 @@ export const getSellingPrice = (contracts, billMode) => {
   let sellingPrice = 0;
   let errorMessage = '';
   if (billMode.type === 'HMO Cover') {
-    let contract = contracts.filter(
+    const contract = contracts.filter(
       (el) => el.source_org === billMode.detail.organizationId,
     );
     if (contract.length) {
@@ -16,7 +16,7 @@ export const getSellingPrice = (contracts, billMode) => {
     }
   }
   if (billMode.type === 'Company Cover') {
-    let contract = contracts.filter(
+    const contract = contracts.filter(
       (el) => el.source_org === billMode.detail.organizationId,
     );
     if (contract.length) {
@@ -28,7 +28,7 @@ export const getSellingPrice = (contracts, billMode) => {
     }
   }
   if (billMode.type === 'Cash' || billMode.type === 'Family Cover') {
-    let contract = contracts.filter((el) => el.source_org === el.dest_org);
+    const contract = contracts.filter((el) => el.source_org === el.dest_org);
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {

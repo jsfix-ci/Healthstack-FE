@@ -19,7 +19,7 @@ const AppServices = () => {
   const [, setVal] = useState('');
   const [, setFacility] = useState([]);
 
-  let services = resource.servicesResource.selectedService;
+  const services = resource.servicesResource.selectedService;
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -137,7 +137,7 @@ const AppServices = () => {
   };
 
   const onSubmit1 = (data) => {
-    let obj = {
+    const obj = {
       name: data.source,
       category: data.categoryname,
       facility: user.employeeData[0].facility,

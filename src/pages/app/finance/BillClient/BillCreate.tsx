@@ -54,7 +54,7 @@ const BillClientCreate: React.FC<Props> = ({ backClick }) => {
   const [values, setValues] = useState({});
   const [bill, setBill] = useState([]);
   const [update, setUpdate] = useState(false);
-  let bills = [];
+  const bills = [];
 
   const createBills = () => {
     bills.push(values);

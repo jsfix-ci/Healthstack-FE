@@ -36,9 +36,9 @@ const AppointmentDetails = ({
               </div>
               <ButtonGroup>
                 <Button
-                  label="Back to List"
-                  background="#fdfdfd"
-                  color="#333"
+                  label='Back to List'
+                  background='#fdfdfd'
+                  color='#333'
                   onClick={backClick}
                 />
               </ButtonGroup>
@@ -46,10 +46,10 @@ const AppointmentDetails = ({
             <FullDetailsWrapper>
               {state === 'all' && (
                 <GridWrapper>
-                  {schema.flat().map((schema) => (
+                  {schema.flat().map(schema => (
                     <div key={schema.key}>
                       <label>{schema.name}</label>
-                      <p>{schema.selector(row)}</p>
+                      {/* <p>{schema.selector(row)}</p> */}
                     </div>
                   ))}
                 </GridWrapper>
@@ -64,7 +64,7 @@ const AppointmentDetails = ({
                   onClick={editBtnClicked}
                 />
                 <Button
-                  label="Attend to Client"
+                  label='Attend to Client'
                   onClick={() => setState('attend')}
                 />
                 <Button

@@ -9,7 +9,7 @@ import Collections from './CollectionList';
 
 const AppCollections = () => {
   let InventoryServ = client.service('subwallettransactions');
-  let SubwalletServ = client.service('subwallet');
+  const SubwalletServ = client.service('subwallet');
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [collection, setCollection] = useState([]);
@@ -75,7 +75,7 @@ const AppCollections = () => {
         },
       },
     }).then((res) => {
-      let findProductEntry = res.data;
+      const findProductEntry = res.data;
 
       if (findProductEntry.length > 0) {
         setBalance(findProductEntry[0].amount);

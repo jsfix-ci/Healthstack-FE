@@ -16,10 +16,10 @@ const ProductAudit = ({ onBackClick, facilityId, locationId, userId }) => {
   const resetForm = () => {};
 
   const onSubmit = async () => {
-    let confirm = window.confirm('Are you sure you want to save this entry ?');
+    const confirm = window.confirm('Are you sure you want to save this entry ?');
     if (confirm) {
       const { date, documentNo, type, totalAmount, supplier } = {} as any;
-      let data = {
+      const data = {
         date,
         documentNo,
         type,

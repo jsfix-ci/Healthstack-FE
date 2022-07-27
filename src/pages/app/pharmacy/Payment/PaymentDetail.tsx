@@ -176,7 +176,7 @@ const PaymentDetails = ({ row, onBackClick }) => {
   };
 
   const acceptPayment = (data) => {
-    let confirm = window.confirm(
+    const confirm = window.confirm(
       `Are you sure you want to accept N ${data.amount} from ${row.clientname}`,
     );
     if (!confirm) return;

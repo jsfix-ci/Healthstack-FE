@@ -69,7 +69,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
     setTotalAmount(sumBy(serviceItems, (obj) => +obj.amount));
   };
   const createBill = () => {
-    let document: any = {};
+    const document: any = {};
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName;
@@ -87,7 +87,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
     document.status = 'completed';
 
     const serviceItems = document.documentdetail.map((element) => {
-      let orderinfo = {
+      const orderinfo = {
         documentationId: '',
         order_category: element.category,
         order: element.name,
@@ -105,7 +105,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
         treatment_action: [],
       };
 
-      let billInfo = {
+      const billInfo = {
         orderInfo: {
           orderId: '', //tbf
           orderObj: orderinfo,
@@ -131,7 +131,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
         createdBy: user._id,
         billing_status: 'Unpaid',
       };
-      let serviceItem = {
+      const serviceItem = {
         orderinfo,
         billInfo,
       };

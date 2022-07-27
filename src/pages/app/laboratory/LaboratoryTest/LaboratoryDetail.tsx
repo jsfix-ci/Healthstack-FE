@@ -24,7 +24,7 @@ const LaboratoryDetails = ({ row, backClick, onSubmit: _ }) => {
   const addNote = (data) => {
     const Id = row.resultDetail._id;
     setLabNote(data);
-    let document: any = {};
+    const document: any = {};
     if (user.currentEmployee) {
       document.facility = user.currentEmployee.facilityDetail._id;
       document.facilityname = user.currentEmployee.facilityDetail.facilityName;

@@ -33,7 +33,7 @@ const CustomSelect: React.FC<SelectProps> = ({
     if (options.length) {
       setOptionsList(options);
     } else if (options.model) {
-      let Service = options.model && client.service((options as any).model);
+      const Service = options.model && client.service((options as any).model);
       Service.find()
         .then((res) => {
           const list = res.data.map((obj) => ({

@@ -1,4 +1,5 @@
 import React from 'react';
+import { StartCardContainer } from '../../ui/styled/global';
 
 interface StatProps {
   count: any;
@@ -14,33 +15,9 @@ const StatCard: React.FC<StatProps> = ({
   range = 'month',
 }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        padding: '16px',
-        background: '#f8f8f8',
-        borderRadius: '8px',
-        width: '100%',
-        margin: '0 20px 0 0 ',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            background: '#33415C',
-            padding: '24px',
-            borderRadius: '16px',
-            color: 'white',
-            margin: '0 20px 0 0',
-          }}
-        >
+    <StartCardContainer>
+      <div className='inner-section'>
+        <div className='icon-container'>
           <i className={icon}></i>
         </div>
         <div>
@@ -50,16 +27,8 @@ const StatCard: React.FC<StatProps> = ({
         </div>
       </div>
 
-      <span
-        style={{
-          padding: '6px 10px',
-          borderRadius: '4px',
-          background: '#C2F5DF',
-        }}
-      >
-        2%
-      </span>
-    </div>
+      <span className='percent-container'>2%</span>
+    </StartCardContainer>
   );
 };
 
