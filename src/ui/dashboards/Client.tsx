@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import AppointmentCard from '../../components/cards/AppointmentCard';
 import { Link } from '../../components/menuitem/style';
 import StatCard from '../../components/statscard/StatCard';
@@ -89,7 +90,7 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
         <DashboardBox>
           <header>
             <h2>Appointment</h2>
-            <Link to='view-all'>View All</Link>
+            <NavLink to='app/clients/appointments'>View All</NavLink>
           </header>
 
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
