@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import AppointmentCard from '../../components/cards/AppointmentCard';
 import { Link } from '../../components/menuitem/style';
 import StatCard from '../../components/statscard/StatCard';
 import { StyledTab, StyledTabs } from '../../components/tabs';
@@ -99,7 +100,10 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
             </StyledTabs>
           </Box>
           <TabPanel value={value} index={0}>
-            Item One
+            <AppointmentCard />
+            <AppointmentCard />
+            <AppointmentCard />
+            <AppointmentCard />
           </TabPanel>
           <TabPanel value={value} index={1}>
             Item Two
