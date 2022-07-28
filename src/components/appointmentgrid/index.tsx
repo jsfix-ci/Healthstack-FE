@@ -9,6 +9,7 @@ const AppointmentGrid = () => {
         justifyContent: 'space-between',
         width: '100%',
         marginTop: '24px',
+        padding: '10px',
       }}
     >
       <GridRow />

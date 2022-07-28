@@ -547,6 +547,12 @@ export const DashboardContainer = styled.div`
   display: flex;
   height: 65vh;
   overflow-y: hidden;
+
+  @media (max-width: 400px) {
+    height: auto;
+    overflow-y: auto;
+    flex-direction: column;
+  }
 `;
 
 export const DashboardBox = styled.div`
@@ -561,6 +567,15 @@ export const DashboardBox = styled.div`
   positions: relative;
   &.lg {
     width: 66%;
+    background: white;
+    padding: 0;
+
+    .container {
+      background: #f8f8f8;
+      padding: 10px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+    }
     @media (max-width: 400px) {
       width: 100%;
     }

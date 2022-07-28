@@ -123,22 +123,32 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
           </TabPanel>
         </DashboardBox>
         <DashboardBox className='lg'>
-          <header>
-            <div className='top-header'>
-              <h2>Overview of Appointment</h2>
-            </div>
+          <div className='container'>
+            <header>
+              <div className='top-header'>
+                <h2>Overview of Appointment</h2>
+              </div>
 
-            <div style={{ display: 'flex' }}>
-              <StatusBatch status='cancelled' />
-              <StatusBatch label='Confirmed' status='confirmed' />
-              <StatusBatch label='Attended' status='attended' />
-              <StatusBatch label='Absent' status='absent' />
-              <StatusBatch label='Rescheduled' status='rescheduled' />
-            </div>
-          </header>
+              <div style={{ display: 'flex', overflow: 'scroll' }}>
+                <StatusBatch status='cancelled' />
+                <StatusBatch label='Confirmed' status='confirmed' />
+                <StatusBatch label='Attended' status='attended' />
+                <StatusBatch label='Absent' status='absent' />
+                <StatusBatch label='Rescheduled' status='rescheduled' />
+              </div>
+            </header>
 
-          <AppointmentGrid />
-          <PieChart />
+            <AppointmentGrid />
+          </div>
+
+          <div className='container'>
+            <header>
+              <div className='top-header'>
+                <h2>At a glance</h2>
+              </div>
+            </header>
+            <PieChart />
+          </div>
         </DashboardBox>
       </DashboardContainer>
     </div>

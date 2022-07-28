@@ -21,7 +21,7 @@ const PieChart = () => {
         options={state.options}
         series={state.data}
         type='donut'
-        width='320'
+        width='340'
       />
     </div>
   );
