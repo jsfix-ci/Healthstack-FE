@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AppointmentGrid from '../../components/appointmentgrid';
 import AppointmentCard from '../../components/cards/AppointmentCard';
+import PieChart from '../../components/chart/PieChart';
 import { Link } from '../../components/menuitem/style';
 import StatCard from '../../components/statscard/StatCard';
 import StatusBatch from '../../components/statusbatch';
@@ -130,6 +131,7 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
             <StatusBatch label='Absent' status='absent' />
             <StatusBatch label='Rescheduled' status='rescheduled' />
           </div>
+          <PieChart />
           <AppointmentGrid />
         </DashboardBox>
       </DashboardContainer>

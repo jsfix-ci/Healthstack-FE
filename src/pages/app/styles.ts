@@ -18,6 +18,10 @@ export const PageWrapper = styled.div`
   -webkit-animation-fill-mode: forwards;
   /* zoom: 85%; */
 
+  @media (max-width: 400px) {
+    overflow-y: auto;
+  }
+
   & span {
     display: inline-block;
   }
@@ -259,7 +263,7 @@ export const BottomWrapper = styled.div`
   }
 `;
 
-export const autoSuggestStyles = (defaultTheme) => {
+export const autoSuggestStyles = defaultTheme => {
   const classes: any = makeStyles(() => {
     return {
       container: {

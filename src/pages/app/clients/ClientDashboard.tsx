@@ -5,7 +5,7 @@ import { PageWrapper } from '../styles';
 
 const ClientDashboard = () => {
   return (
-    <PageWrapper>
+    <PageWrapper className='dashboard'>
       <Client />
     </PageWrapper>
   );
