@@ -500,7 +500,7 @@ export const LocationCardWrapper = styled.div`
 export const StartCardWapper = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
 
   @media (max-width: 400px) {
     flex-direction: column;
@@ -511,18 +511,17 @@ export const StartCardContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 16px;
+  padding: 10px;
   background: #f8f8f8;
   border-radius: 8px;
   width: 100%;
-  margin: 0 20px 10px 0;
+  margin: 0 10px 10px 0;
 
   .inner-section {
     background: '#33415C';
-    padding: 24px;
+    padding: 8px;
     border-radius: 16px;
     color: #000;
-    margin: 0 20px 0 0;
     display: flex;
     align-items: center;
 
@@ -546,15 +545,20 @@ export const StartCardContainer = styled.div`
 
 export const DashboardContainer = styled.div`
   display: flex;
+  height: 65vh;
+  overflow-y: hidden;
 `;
 
 export const DashboardBox = styled.div`
   padding: 16px;
+  padding-top: 0;
   background: #f8f8f8;
   border-radius: 8px;
   margin: 12px 20px 10px 0;
   width: 33%;
-
+  height: 100%;
+  overflow-y: auto;
+  positions: relative;
   &.lg {
     width: 66%;
     @media (max-width: 400px) {
@@ -562,10 +566,18 @@ export const DashboardBox = styled.div`
     }
   }
   & header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0 32px;
+    position: sticky;
+    top: 0;
+    background: #f8f8f8;
+    z-index: 10;
+    padding: 10px;
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 32px;
+    }
   }
 
   @media (max-width: 400px) {
@@ -607,10 +619,10 @@ export const StatusBatchWrapper = styled.div`
 
 export const SingleBox = styled.div`
   width: 8px;
-  height: 22px;
+  height: 12px;
   background-color: #e4eaf0;
   border-radius: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 
   &.cancelled {
     background: #ed0423;

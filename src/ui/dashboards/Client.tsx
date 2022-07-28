@@ -92,17 +92,20 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
       <DashboardContainer>
         <DashboardBox>
           <header>
-            <h2>Appointment</h2>
-            <NavLink to='app/clients/appointments'>View All</NavLink>
+            <div className='top-header'>
+              <h2>Appointment</h2>
+              <NavLink to='app/clients/appointments'>View All</NavLink>
+            </div>
+
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <StyledTabs value={value} onChange={handleChange}>
+                <StyledTab label='This Month' {...a11yProps(0)} />
+                <StyledTab label='This Week' {...a11yProps(1)} />
+                <StyledTab label='Today' {...a11yProps(2)} />
+              </StyledTabs>
+            </Box>
           </header>
 
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <StyledTabs value={value} onChange={handleChange}>
-              <StyledTab label='This Month' {...a11yProps(0)} />
-              <StyledTab label='This Week' {...a11yProps(1)} />
-              <StyledTab label='Today' {...a11yProps(2)} />
-            </StyledTabs>
-          </Box>
           <TabPanel value={value} index={0}>
             <AppointmentCard />
             <AppointmentCard />
@@ -121,18 +124,21 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
         </DashboardBox>
         <DashboardBox className='lg'>
           <header>
-            <h2>Overview of Appointment</h2>
+            <div className='top-header'>
+              <h2>Overview of Appointment</h2>
+            </div>
+
+            <div style={{ display: 'flex' }}>
+              <StatusBatch status='cancelled' />
+              <StatusBatch label='Confirmed' status='confirmed' />
+              <StatusBatch label='Attended' status='attended' />
+              <StatusBatch label='Absent' status='absent' />
+              <StatusBatch label='Rescheduled' status='rescheduled' />
+            </div>
           </header>
 
-          <div style={{ display: 'flex' }}>
-            <StatusBatch status='cancelled' />
-            <StatusBatch label='Confirmed' status='confirmed' />
-            <StatusBatch label='Attended' status='attended' />
-            <StatusBatch label='Absent' status='absent' />
-            <StatusBatch label='Rescheduled' status='rescheduled' />
-          </div>
-          <PieChart />
           <AppointmentGrid />
+          <PieChart />
         </DashboardBox>
       </DashboardContainer>
     </div>
