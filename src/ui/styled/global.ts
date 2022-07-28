@@ -552,7 +552,7 @@ export const DashboardBox = styled.div`
   padding: 16px;
   background: #f8f8f8;
   border-radius: 8px;
-  margin: 32px 20px 10px 0;
+  margin: 12px 20px 10px 0;
   width: 33%;
 
   &.lg {
@@ -570,5 +570,61 @@ export const DashboardBox = styled.div`
 
   @media (max-width: 400px) {
     width: 100%;
+  }
+`;
+
+// Status Batch
+export const StatusBatchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: medium;
+  margin-right: 32px;
+
+  & span.batch {
+    width: 14px;
+    height: 14px;
+    border-radius: 14px;
+    margin-right: 6px;
+
+    &.cancelled {
+      border: 3px solid #ed0423;
+    }
+    &.confirmed {
+      border: 3px solid #34d1bf;
+    }
+    &.attended {
+      border: 3px solid #0496ff;
+    }
+    &.absent {
+      border: 3px solid #6665dd;
+    }
+    &.rescheduled {
+      border: 3px solid #f17105;
+    }
+  }
+`;
+
+export const SingleBox = styled.div`
+  width: 8px;
+  height: 22px;
+  background-color: #e4eaf0;
+  border-radius: 8px;
+  margin-bottom: 6px;
+
+  &.cancelled {
+    background: #ed0423;
+  }
+  &.confirmed {
+    background: #34d1bf;
+  }
+  &.attended {
+    background: #0496ff;
+  }
+  &.absent {
+    background: #6665dd;
+  }
+  &.rescheduled {
+    background: #f17105;
   }
 `;

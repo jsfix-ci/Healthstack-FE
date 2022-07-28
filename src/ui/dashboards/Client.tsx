@@ -1,9 +1,11 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import AppointmentGrid from '../../components/appointmentgrid';
 import AppointmentCard from '../../components/cards/AppointmentCard';
 import { Link } from '../../components/menuitem/style';
 import StatCard from '../../components/statscard/StatCard';
+import StatusBatch from '../../components/statusbatch';
 import { StyledTab, StyledTabs } from '../../components/tabs';
 import {
   DashboardBox,
@@ -95,9 +97,9 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
 
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <StyledTabs value={value} onChange={handleChange}>
-              <StyledTab label='Item One' {...a11yProps(0)} />
-              <StyledTab label='Item Two' {...a11yProps(1)} />
-              <StyledTab label='Item Three' {...a11yProps(2)} />
+              <StyledTab label='This Month' {...a11yProps(0)} />
+              <StyledTab label='This Week' {...a11yProps(1)} />
+              <StyledTab label='Today' {...a11yProps(2)} />
             </StyledTabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -107,16 +109,28 @@ const Client: React.FC<DashboardProps> = ({ username = 'Anayo' }) => {
             <AppointmentCard />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Item Two
+            <AppointmentCard />
+            <AppointmentCard />
+            <AppointmentCard />
+            <AppointmentCard />{' '}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Item Three
+            <AppointmentCard />
           </TabPanel>
         </DashboardBox>
         <DashboardBox className='lg'>
           <header>
             <h2>Overview of Appointment</h2>
           </header>
+
+          <div style={{ display: 'flex' }}>
+            <StatusBatch status='cancelled' />
+            <StatusBatch label='Confirmed' status='confirmed' />
+            <StatusBatch label='Attended' status='attended' />
+            <StatusBatch label='Absent' status='absent' />
+            <StatusBatch label='Rescheduled' status='rescheduled' />
+          </div>
+          <AppointmentGrid />
         </DashboardBox>
       </DashboardContainer>
     </div>
