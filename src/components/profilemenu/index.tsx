@@ -3,16 +3,10 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import Popper from '@mui/material/Popper';
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { Models } from '../../pages/app/Constants';
-import useRepository from '../hooks/repository';
 import { Avatar } from '../topmenu/styles';
 
 const ProfileMenu = () => {
-  const { user } = useRepository(Models.EMPLOYEE);
-  const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -101,20 +95,9 @@ const ProfileMenu = () => {
                     alt=""
                     style={{ width: '80px', height: '80px' }}
                   />
-                  <p>
-                    {user.firstname} {user.lastname}
-                  </p>
-                  {/* <div style={{ padding: '4px 8px' }}>
                     <p>Settings</p>
-                  </div> */}
 
                   <div style={{ padding: '4px 8px' }}>
-                    <p
-                      onClick={() => {
-                        localStorage.setItem('user', '');
-                        navigate('/');
-                      }}
-                    >
                       <i className="bi bi-box-arrow-right"></i>Log out
                     </p>
                   </div>
