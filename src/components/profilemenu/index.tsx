@@ -101,7 +101,7 @@ const ProfileMenu = () => {
                   </div>
 
                   <div style={{ padding: '4px 8px' }}>
-                  <p>
+                    <p>
                       <i className="bi bi-box-arrow-right"></i>Log out
                     </p>
                   </div>
