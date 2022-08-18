@@ -95,12 +95,13 @@ const ProfileMenu = () => {
                     alt=""
                     style={{ width: '80px', height: '80px' }}
                   />
-                    <p>Test Name</p>
+                  <p>Test Name</p>
                   <div style={{ padding: '4px 8px' }}>
                     <p>Settings</p>
-                     </div>
+                  </div>
 
                   <div style={{ padding: '4px 8px' }}>
+                  <p>
                       <i className="bi bi-box-arrow-right"></i>Log out
                     </p>
                   </div>
