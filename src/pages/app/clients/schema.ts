@@ -92,7 +92,7 @@ const getAppointmentSchema = (facilityId) => [
     }),
   },
   {
-    name: 'Whom to see',
+    name: 'Medical practitioner',
     description: 'Search  Employee',
     key: 'practionerId',
     selector: (row) => row.practitioner_name,
