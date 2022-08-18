@@ -126,7 +126,7 @@ const DynamicInput = (props) => {
           <ItemsInput
             {...field}
             label={label}
-            readonly={false}
+            readonly={true}
             schema={props}
             defaultValue={data[name]}
           />
