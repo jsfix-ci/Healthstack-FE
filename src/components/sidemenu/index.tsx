@@ -169,8 +169,8 @@ function SideMenu({ isOpen }) {
       });
     });
   }, []);
-   useEffect(() => {}, []);
-
+   
+  useEffect(() => {}, []);
 
   return (
     <Sidemenu className={`side-menu ${!isOpen ? '' : 'hide'}`}>
