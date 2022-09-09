@@ -169,7 +169,6 @@ function SideMenu({ isOpen }) {
       });
     });
   }, []);
-
   useEffect(() => {}, []);
 
   return (
