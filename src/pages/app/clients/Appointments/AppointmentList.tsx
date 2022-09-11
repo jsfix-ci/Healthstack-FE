@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import Button from '../../../../components/buttons/Button';
-import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
 import SwitchButton from '../../../../components/switch';
+import Calendar from '../../../../components/utilities/Calendar';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -49,7 +49,7 @@ const Appointments = ({
               onRowClicked={onRowClicked}
             />
           ) : (
-            <CalenderGrid />
+            <Calendar />
           )}
         </div>
       </PageWrapper>
