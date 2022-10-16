@@ -20,6 +20,8 @@ export const menuItems = [
     subMenus: [
       { name: 'Appointment', to: '/app/clients/appointments' },
       { name: 'Client', to: '/app/clients/clients' },
+      { name: 'Encounter', to: '/app/clients/encounter' },
+      { name: 'Clinic Reports', to: '/app/clients/clinicreports' },
     ],
   },
   {
@@ -27,7 +29,15 @@ export const menuItems = [
     exact: true,
     to: '/app/clinic',
     iconClassName: 'bi bi-file-medical',
-    subMenus: [{ name: 'Appointment', to: '/app/clinic/appointments' }],
+    subMenus: [
+      { name: 'Appointment', to: '/app/clinic/appointments' },
+      { name: 'Clinics', to: '/app/clinic/clinics' },
+      { name: 'Clinic Setup', to: '/app/clinic/clinicsetup' },
+      { name: 'Clinic Store', to: '/app/clinic/clinicstore' },
+      { name: 'Clinic Reports', to: '/app/clinic/clinicreports' },
+      { name: 'Encounters', to: '/app/clinic/encounter' },
+      { name: 'Patients', to: '/app/clinic/patients' },
+    ],
   },
   {
     name: 'Pharmacy',
@@ -42,6 +52,35 @@ export const menuItems = [
       { name: 'Store Inventory', to: '/app/pharmacy/inventory' },
       { name: 'Product Entry', to: '/app/pharmacy/productentry' },
       { name: 'POS', to: '/app/pharmacy/pos' },
+    ],
+  },
+  {
+    name: 'Accounts',
+    exact: true,
+    to: '/app/accounts',
+    iconClassName: 'bi bi-file-medical',
+    subMenus: [
+      { name: 'Accounts', to: '/app/accounts' },
+      { name: 'Payments', to: '/app/accounts/payments' },
+      { name: 'Expenses', to: '/app/accounts/expenses' },
+      { name: 'Reports', to: '/app/accounts/reports' },
+      { name: 'Journals', to: '/app/accounts/journals' },
+      { name: 'Ledgers', to: '/app/accounts/ledgers' },
+      { name: 'Charts Account', to: '/app/accounts/chartsaccount' },
+    ],
+  },
+  {
+    name: 'Epidemology',
+    exact: true,
+    to: '/app/epid',
+    iconClassName: 'bi bi-file-medical',
+    subMenus: [
+      { name: 'Epid', to: '/app/epid' },
+      { name: 'Map', to: '/app/epid/map' },
+      { name: 'Dashboard', to: '/app/epid/dashboard' },
+      { name: 'Definations', to: '/app/epid/definitions' },
+      { name: 'Communications', to: '/app/epid/communication' },
+      { name: 'Signals', to: '/app/epid/signals' },
     ],
   },
   {
@@ -105,6 +144,14 @@ export const menuItems = [
       { name: 'Bands', to: '/app/admin/bands' },
       { name: 'Employees', to: '/app/admin/employees' },
       { name: 'Location', to: '/app/admin/location' },
+      { name: 'Care Team', to: '/app/admin/careteam' },
+      { name: 'Departments', to: '/app/admin/department' },
+      { name: 'Department Units', to: '/app/admin/dept-unit' },
+      { name: 'Facilities', to: '/app/admin/facility' },
+      { name: 'HS Modules', to: '/app/admin/hsmodules' },
+      { name: 'Roster', to: '/app/admin/roaster' },
+      { name: 'Workspace', to: '/app/admin/workspace' },
+      { name: 'Clinic Setup', to: '/app/admin/clinicsetup' },
     ],
   },
   {
@@ -145,11 +192,11 @@ function SideMenu({ isOpen }) {
   useEffect(() => {
     const menuItems = document.querySelectorAll('.menu-item');
 
-    menuItems.forEach((el) => {
+    menuItems.forEach(el => {
       el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach((el) => el.classList.remove('active'));
+        menuItems.forEach(el => el.classList.remove('active'));
         el.classList.toggle('active');
 
         if (next !== null) {
@@ -164,7 +211,7 @@ function SideMenu({ isOpen }) {
       <TopSection>
         <h4>Our Hospital</h4>
       </TopSection>
-      <MainMenu className="main-menu">
+      <MainMenu className='main-menu'>
         <Lists>
           {menuItems.map((menuItem, index) => (
             <MenuItem

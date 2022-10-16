@@ -25,9 +25,11 @@ const Dashboard: React.FC<Props> = ({ children }) => {
     <LayoutWrapper>
       <SideMenu isOpen={isOpen} />
       <LayoutContent>
-        {locationType && (
+        {/* {locationType && (
           <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
-        )}
+        )} */}
+
+        <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
         <div className='layout__content-main'>
           {children}
           <Outlet />

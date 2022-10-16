@@ -120,21 +120,21 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  // const { setLocationType } = useRepository(Models.LOCATION);
 
-  const [currentModule, setCurrentModule] = useState('');
-  const location = useLocation();
-  useEffect(() => {
-    const paths = location.pathname.split('/');
-    const newModule = paths.length > 2 && paths[2];
-    setCurrentModule(newModule);
-    if (
-      newModule != currentModule &&
-      Object.keys(moduleLocationTypes).includes(newModule)
-    ) {
-      setLocationType(moduleLocationTypes[newModule]);
-    }
-  }, [location]);
+  // const [currentModule, setCurrentModule] = useState('');
+  // const location = useLocation();
+  // useEffect(() => {
+  //   const paths = location.pathname.split('/');
+  //   const newModule = paths.length > 2 && paths[2];
+  //   setCurrentModule(newModule);
+  //   if (
+  //     newModule != currentModule &&
+  //     Object.keys(moduleLocationTypes).includes(newModule)
+  //   ) {
+  //     setLocationType(moduleLocationTypes[newModule]);
+  //   }
+  // }, [location]);
 
   return (
     <>
@@ -192,7 +192,7 @@ const AppRoutes = () => {
           <Route path='/app/admin/location' element={<Location />} />
           <Route path='/app/admin/bands' element={<Bands />} />
           <Route path='/app/admin/roaster' element={<Roaster />} />
-          <Route path='/app/admin/Workspace' element={<Workspace />} />
+          <Route path='/app/admin/workspace' element={<Workspace />} />
           <Route path='/app/admin/clinicsetup' element={<ClinicSetup />} />
 
           <Route path='/app/finance' element={<FinanceHome />} />
