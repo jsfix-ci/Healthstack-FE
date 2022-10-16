@@ -24,7 +24,7 @@ import { InputType } from '../../pages/app/schema/util';
 import AutoSuggestInput from './AutoSuggestInput';
 
 // TODO: Anstract intp seperate components - the controller warapping
-const DynamicInput = (props) => {
+const DynamicInput = props => {
   const {
     inputType,
     label,
@@ -37,7 +37,7 @@ const DynamicInput = (props) => {
     defaultValue,
   } = props;
   if (inputType === InputType.HIDDEN && data[name]) {
-    return <input type="hidden" defaultValue={defaultValue} />;
+    return <input type='hidden' defaultValue={defaultValue} />;
   } else if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -71,7 +71,7 @@ const DynamicInput = (props) => {
             label={label}
             disabled={readonly}
             errorText={errors[name]?.message}
-            type="number"
+            type='number'
             defaultValue={data[name]}
           />
         )}
@@ -90,7 +90,7 @@ const DynamicInput = (props) => {
             label={label}
             disabled={readonly}
             errorText={errors[name]?.message}
-            type="email"
+            type='email'
             defaultValue={data[name]}
           />
         )}
@@ -205,7 +205,7 @@ const DynamicInput = (props) => {
             options={options}
             errorText={errors[name]?.message}
             defaultValue={
-              defaultValue != undefined ? defaultValue : data[name] || ''
+              defaultValue !== undefined ? defaultValue : data[name] || ''
             }
             disabled={readonly}
           />
@@ -225,11 +225,11 @@ const DynamicInput = (props) => {
               <DateTimePicker
                 {...field}
                 label={label}
-                onChange={(value) =>
+                onChange={value =>
                   field.onChange({ target: { value: toAPIDate(value) } })
                 }
                 inputFormat={DateFormats.CONTROL_DATE_TIME}
-                renderInput={(params) => (
+                renderInput={params => (
                   <TextField
                     {...params}
                     disabled={readonly}
@@ -257,11 +257,11 @@ const DynamicInput = (props) => {
             <DatePicker
               {...field}
               label={label}
-              onChange={(value) =>
+              onChange={value =>
                 field.onChange({ target: { value: toAPIDate(value) } })
               }
               inputFormat={DateFormats.CONTROL_DATE}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...params}
                   disabled={readonly}
@@ -309,13 +309,14 @@ const DynamicInput = (props) => {
           control={control}
           name={name}
           render={({ field: { ref: _re, ...field } }) => (
-            <JSONInput
-              {...field}
-              id="a_unique_id"
-              placeholder={{ foo: 'bar' }}
-              locale={locale}
-              height="50px"
-            />
+            <></>
+            // <JSONInput
+            //   {...field}
+            //   id="a_unique_id"
+            //   placeholder={{ foo: 'bar' }}
+            //   locale={locale}
+            //   height="50px"
+            // />
           )}
         ></Controller>
       </FormGroup>

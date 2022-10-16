@@ -7,6 +7,7 @@ import React from 'react';
 interface AccordionProps {
   title?: string;
   defaultExpanded?: boolean;
+  children?: React.ReactNode;
 }
 
 const AccordionBox: React.FC<AccordionProps> = ({
@@ -28,8 +29,8 @@ const AccordionBox: React.FC<AccordionProps> = ({
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
+        aria-controls='panel1a-content'
+        id='panel1a-header'
       >
         <h5>{title}</h5>
       </AccordionSummary>

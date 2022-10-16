@@ -5,6 +5,7 @@ import Side from './banner/side';
 
 interface AuthProps {
   paragraph?: string;
+  children: React.ReactNode;
 }
 
 const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {
@@ -19,11 +20,11 @@ const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {
     <PageWrapper>
       <Side />
       <AuthContainer>
-        <div className="aside-container">
-          <img src="/public/Healthstack.png" alt="" />
+        <div className='aside-container'>
+          <img src='/public/Healthstack.png' alt='' />
           <h2>Welcome to Healthstack</h2>
           <p>{paragraph}</p>
-          <div className="aside-child">{children}</div>
+          <div className='aside-child'>{children}</div>
         </div>
       </AuthContainer>
     </PageWrapper>

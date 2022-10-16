@@ -180,8 +180,11 @@ const objectDefaultValues: ObjectContextProps = {
 };
 
 export const UserContext = createContext<UserContextProps>(userDefaultValues);
+interface Props {
+  children?: React.ReactNode;
+}
 
-export const UserProvider: React.FC = ({ children }) => {
+export const UserProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState(null);
   const [facility, setFacility] = useState(null);
   const [location, setLocation] = useState(null);
@@ -198,19 +201,19 @@ export const UserProvider: React.FC = ({ children }) => {
       locationType,
       setLocationType,
     }),
-    [user, location, locationType],
+    [user, location, locationType]
   );
 
   const authenticateUser = () => {
     return client
       .reAuthenticate()
-      .then((resp) => {
+      .then(resp => {
         setUser({ ...resp.user });
         setFacility(resp.user.currentEmployee.facilityDetail);
       })
-      .catch((error) => {
+      .catch(error => {
         console.warn(
-          `Cannot reauthenticate user with server at this time ${error}`,
+          `Cannot reauthenticate user with server at this time ${error}`
         );
         const userString = localStorage.getItem('user');
         if (userString) {

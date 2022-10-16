@@ -43,7 +43,7 @@ import DeptUnits from './facility/DeptUnits';
 import Employee from './facility/Employee';
 import Facility from './facility/Facility';
 import HSModules from './facility/HSModules';
-import Bands from './facility/Bands';
+// import Bands from './facility/Bands';
 import Roaster from './facility/Roaster';
 import Workspace from './facility/Workspace';
 import WardHome from './Ward/WardHome';
@@ -106,6 +106,7 @@ import TheatreHome from './Theatre/TheatreHome';
 import TheatrePayment from './Theatre/TheatrePayment';
 import TheatreReport from './Theatre/TheatreReport';
 import { Models } from './app/Constants';
+import Bands from '../pages/app/admin/bands-v2';
 
 const moduleLocationTypes = {
   clinic: 'Clinic',
@@ -159,7 +160,7 @@ const AppRoutes = () => {
           <Route path='/app/clinic/clinicstore' element={<ClinicStore />} />
           <Route path='/app/clinic/payments' element={<Payment />} />
           <Route path='/app/client/encounter' element={<Encounter />} />
-          <Route path='/app/client/client' element={<Patients />} />
+          <Route path='/app/client/clients' element={<Patients />} />
           <Route path='/app/client/clinicreports' element={<ClinicReport />} />
           <Route path='/app/client/frontdesk' element={<FrontDesk />} />
 

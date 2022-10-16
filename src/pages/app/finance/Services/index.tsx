@@ -22,7 +22,7 @@ const AppServices = () => {
   let services = resource.servicesResource.selectedService;
 
   const backClick = () => {
-    setResource((prevState) => ({
+    setResource(prevState => ({
       ...prevState,
       servicesResource: {
         ...prevState.servicesResource,
@@ -40,7 +40,7 @@ const AppServices = () => {
             category: 1,
           },
         },
-      }).then((res) => {
+      }).then(res => {
         const findServices = res;
         toast('Services fetched successfully');
 
@@ -61,12 +61,14 @@ const AppServices = () => {
         getFacilities();
         backClick();
       })
-      .catch((err) => {
-        toast('Error deleting Services, probable network issues or ' + err);
+      .catch(err => {
+        toast.error(
+          'Error deleting Services, probable network issues or ' + err
+        );
       });
   };
 
-  const handleSearch1 = (val) => {
+  const handleSearch1 = val => {
     setVal(val);
 
     if (val.length >= 3) {
@@ -83,21 +85,16 @@ const AppServices = () => {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           setFacility(res.groupedOrder);
         })
-        .catch((err) => {
-          toast({
-            message: 'Error searching Service category  ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+        .catch(err => {
+          toast.error(`Error searching Service category ${err}`);
         });
     }
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'name';
     ServicesServ.find({
       query: {
@@ -112,16 +109,16 @@ const AppServices = () => {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         setFacilities(res.groupedOrder);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         toast('Error during search ' + err);
       });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     const values = getFormStrings(data._id);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
@@ -129,14 +126,14 @@ const AppServices = () => {
     (data._id ? ServicesServ.update(data._id, data) : ServicesServ.create(data))
 
       .then(() => {
-        toast(`Services ${values.message}`);
+        toast.success(`Services ${values.message}`);
       })
-      .catch((err) => {
-        toast(`Error occurred : ${err}`);
+      .catch(err => {
+        toast.error('Error occured ' + err);
       });
   };
 
-  const onSubmit1 = (data) => {
+  const onSubmit1 = data => {
     let obj = {
       name: data.source,
       category: data.categoryname,
@@ -150,20 +147,10 @@ const AppServices = () => {
 
     ServicesServ.create(obj)
       .then(() => {
-        toast({
-          message: 'Service created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success(`Services succesfull created`);
       })
-      .catch((err) => {
-        toast({
-          message: 'Error creating Services ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .catch(err => {
+        toast.error('Error creating Services' + err);
       });
   };
 
@@ -185,7 +172,7 @@ const AppServices = () => {
       {resource.servicesResource.show === 'lists' && (
         <Servicess
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -193,8 +180,8 @@ const AppServices = () => {
               },
             }))
           }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
+          onRowClicked={row => {
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 show: 'details',
@@ -209,7 +196,7 @@ const AppServices = () => {
       {resource.servicesResource.show === FormType.CREATE && (
         <ServiceCreate
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -225,7 +212,7 @@ const AppServices = () => {
         <ServiceDetails
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -234,7 +221,7 @@ const AppServices = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -249,7 +236,7 @@ const AppServices = () => {
         <ServiceModify
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -258,7 +245,7 @@ const AppServices = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,

@@ -38,25 +38,24 @@ const AppBand = () => {
 
   useEffect(() => {
     setFindQuery({ query: { facility: undefined } });
-    
   }, []);
 
   return (
     <>
       {resource.bandResource.show === FormType.LIST && (
         <ListView
-          title="Band"
+          title='Band'
           schema={BandSchema}
           handleCreate={navigate(Views.CREATE)}
           handleSearch={handleSearch}
-          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          onRowClicked={row => navigate(Views.DETAIL)(row)}
           items={bands}
         />
       )}
       {(resource.bandResource.show === FormType.CREATE ||
         resource.bandResource.show === FormType.EDIT) && (
         <FormView
-          title="Band"
+          title='Band'
           schema={BandSchema}
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
@@ -65,7 +64,7 @@ const AppBand = () => {
       )}
       {resource.bandResource.show === FormType.DETAIL && (
         <DetailView
-          title="Band"
+          title='Band'
           schema={BandSchema}
           value={selectedBand}
           backClick={navigate(Views.LIST)}

@@ -20,7 +20,7 @@ const EndEncounter = ({ onEndEncounter }) => {
   return open ? (
     <Portal>
       <ModalBox open={open} onClose={() => setOpen(false)}>
-        <FlexBox className="row">
+        <FlexBox className='row'>
           <h4>End Encounter</h4>
         </FlexBox>
 

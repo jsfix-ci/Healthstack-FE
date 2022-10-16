@@ -24,32 +24,30 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 const QuestionsDnd = ({ questions = [], onChange }) => {
   const { submit } = useRepository(Models.QUESTION);
   const [sortedQuestions, setSortedQuestions] = useState(
-    (questions || []).sort((a, b) => a.index - b.index),
+    (questions || []).sort((a, b) => a.index - b.index)
   );
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
 
     const newQuestions = sortedQuestions.filter(
-      (obj) => obj.index !== +source.index && obj.index !== +destination.index,
+      obj => obj.index !== +source.index && obj.index !== +destination.index
     );
 
-    const srcQuestion = sortedQuestions.find(
-      (obj) => source.index == obj.index,
-    );
+    const srcQuestion = sortedQuestions.find(obj => source.index == obj.index);
     const destQuestion = sortedQuestions.find(
-      (obj) => destination.index == obj.index,
+      obj => destination.index == obj.index
     );
 
     srcQuestion.index = destination.index;
     destQuestion.index = source.index;
 
     const arr = [...newQuestions, srcQuestion, destQuestion].sort(
-      (a, b) => +a.index - +b.index,
+      (a, b) => +a.index - +b.index
     );
 
     setSortedQuestions(arr);
-    Promise.all([srcQuestion, destQuestion].map((obj) => submit(obj)));
+    Promise.all([srcQuestion, destQuestion].map(obj => submit(obj)));
   };
 
   useEffect(() => {
@@ -63,16 +61,16 @@ const QuestionsDnd = ({ questions = [], onChange }) => {
         <div>
           <QuestionInput
             question={{ index: questions.length }}
-            onSubmit={(data) => {
+            onSubmit={data => {
               const newQuestions = [...questions, data];
               onChange(newQuestions);
             }}
           />
         </div>
-        <Droppable droppableId="items">
-          {(provided) => (
+        <Droppable droppableId='items'>
+          {provided => (
             <div
-              className="todo"
+              className='todo'
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -85,7 +83,7 @@ const QuestionsDnd = ({ questions = [], onChange }) => {
                       {...provided.dragHandleProps}
                       style={getItemStyle(
                         snapshot.isDragging,
-                        provided.draggableProps.style,
+                        provided.draggableProps.style
                       )}
                     >
                       <QuestionInput question={{ ...obj }} />

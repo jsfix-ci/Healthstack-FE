@@ -29,10 +29,10 @@ const AppSignal = () => {
 
   const { list, remove, submit, setFindQuery, facility } = useRepository<any>(
     Models.CASE_DEFINITION,
-    navigate,
+    navigate
   );
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     const { findings, labs, symptoms } = data;
     data.observations = [];
     data.disease = {
@@ -49,7 +49,7 @@ const AppSignal = () => {
     }
     if (symptoms.length > 0) {
       let sympcollection = [];
-      symptoms.forEach((obj) => {
+      symptoms.forEach(obj => {
         let obs = {
           category: 'symptoms',
           name: obj.symptom,
@@ -62,7 +62,7 @@ const AppSignal = () => {
     }
     if (findings.length > 0) {
       let findingscollection = [];
-      findings.forEach((el) => {
+      findings.forEach(el => {
         let obs = {
           category: 'Signs',
           name: el.finding,
@@ -74,7 +74,7 @@ const AppSignal = () => {
     }
     if (labs.length > 0) {
       let labscollection = [];
-      labs.forEach((el) => {
+      labs.forEach(el => {
         let obs = {
           category: 'Laboratory',
           name: el.lab,
@@ -105,18 +105,18 @@ const AppSignal = () => {
     <>
       {resource.signalResource.show === FormType.LIST && (
         <ListView
-          title="Case Definition"
+          title='Case Definition'
           schema={SignalSchema}
           handleCreate={navigate(Views.CREATE)}
           handleSearch={setSearchText}
-          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          onRowClicked={row => navigate(Views.DETAIL)(row)}
           items={list}
         />
       )}
       {(resource.signalResource.show === FormType.CREATE ||
         resource.signalResource.show === FormType.EDIT) && (
         <FormView
-          title="Case Definition"
+          title='Case Definition'
           schema={SignalSchema}
           backClick={navigate(Views.LIST)}
           onSubmit={onSubmit}
@@ -125,7 +125,7 @@ const AppSignal = () => {
       )}
       {resource.signalResource.show === FormType.DETAIL && (
         <DetailView
-          title="Case Definition"
+          title='Case Definition'
           schema={SignalSchema}
           value={selectedSignal}
           backClick={navigate(Views.LIST)}

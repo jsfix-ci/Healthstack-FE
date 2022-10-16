@@ -7,6 +7,7 @@ interface ItemWrapperProps {
   alignItems?: string;
   maxWidth?: string;
   margin?: string;
+  children?: React.ReactNode;
 }
 
 export const ItemWrapper: React.FC<ItemWrapperProps> = ({

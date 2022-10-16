@@ -20,7 +20,7 @@ const BillClient = ({
         <h2>Bill Client </h2>
         <TableMenu>
           <div
-            className="inner-table"
+            className='inner-table'
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -33,7 +33,7 @@ const BillClient = ({
           </div>
 
           <Button onClick={handleCreate}>
-            <i className="bi bi-plus-circle"></i> Add new
+            <i className='bi bi-plus-circle'></i> Add new
           </Button>
         </TableMenu>
 
@@ -44,9 +44,8 @@ const BillClient = ({
             overflow: 'auto',
           }}
         >
-          {console.debug({ items })}
           <CustomTable
-            title="Bills"
+            title='Bills'
             columns={BillsSummary}
             data={items}
             pointerOnHover

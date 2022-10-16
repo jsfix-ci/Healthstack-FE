@@ -6,7 +6,11 @@ import SideMenu from '../../components/sidemenu';
 import TopMenu from '../../components/topmenu';
 import { UserContext } from '../../context/context';
 
-const Dashboard: React.FC = ({ children }) => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+const Dashboard: React.FC<Props> = ({ children }) => {
   const { locationType } = useContext(UserContext);
   useEffect(() => {
     window.scrollTo({
@@ -24,7 +28,7 @@ const Dashboard: React.FC = ({ children }) => {
         {locationType && (
           <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
         )}
-        <div className="layout__content-main">
+        <div className='layout__content-main'>
           {children}
           <Outlet />
         </div>

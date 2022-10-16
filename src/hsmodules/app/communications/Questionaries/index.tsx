@@ -44,11 +44,11 @@ const AppQuestionnaire = () => {
     <>
       {resource.questionnaireResource.show === 'lists' && (
         <ListView
-          title="Questionnaire"
+          title='Questionnaire'
           schema={QuestionnaireSchema}
           handleCreate={navigate(Views.CREATE)}
           handleSearch={handleSearch}
-          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          onRowClicked={row => navigate(Views.DETAIL)(row)}
           items={questionnaires}
         />
       )}
@@ -62,15 +62,15 @@ const AppQuestionnaire = () => {
       )}
       {resource.questionnaireResource.show === FormType.DETAIL && (
         <DetailView
-          title="Questionnaire"
+          title='Questionnaire'
           schema={QuestionnaireSchema}
           value={selectedQuestionnaire}
           backClick={navigate(Views.LIST)}
           onEdit={() => navigate(Views.EDIT)(selectedQuestionnaire)}
           onDelete={() => handleDelete(selectedQuestionnaire)}
         >
-          <div className="grid grid-cols-12">See Questions Herer</div>
-          {selectedQuestionnaire.questions.map((question) => (
+          <div className='grid grid-cols-12'>See Questions Herer</div>
+          {selectedQuestionnaire.questions.map(question => (
             <SubmissionLine
               key={question._id}
               control={null}

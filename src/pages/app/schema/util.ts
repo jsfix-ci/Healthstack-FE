@@ -13,7 +13,7 @@ const getResolver = (schema: Schema[]) => {
 
 const getDefaultValues = (schema: Schema[]) => {
   const defaultValues = {};
-  schema.forEach((obj) => {
+  schema.forEach(obj => {
     defaultValues[obj.key] = obj.defaultValue;
   });
   return defaultValues;
