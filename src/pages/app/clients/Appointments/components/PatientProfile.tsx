@@ -23,9 +23,9 @@ const PatientProfile = ({ patient }) => {
     paymentinfo,
   } = patient;
   return (
-    <FullDetailsWrapper className="attend attend-small">
+    <FullDetailsWrapper className='attend attend-small'>
       <FlexBox>
-        <ImageBox src="https://via.placeholder.com/150" />
+        <ImageBox src='https://via.placeholder.com/150' />
 
         <div>
           <h1>
@@ -34,7 +34,6 @@ const PatientProfile = ({ patient }) => {
           {paymentinfo &&
             paymentinfo.map((obj, i) => (
               <div key={i}>
-                {' '}
                 <p>
                   {obj.paymentmode} {obj.paymentmode === 'Cash' ? '' : ':'}{' '}
                 </p>

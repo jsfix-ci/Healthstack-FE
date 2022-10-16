@@ -156,11 +156,11 @@ function SideMenu({ isOpen }) {
   useEffect(() => {
     const menuItems = document.querySelectorAll('.menu-item');
 
-    menuItems.forEach((el) => {
+    menuItems.forEach(el => {
       el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach((el) => el.classList.remove('active'));
+        menuItems.forEach(el => el.classList.remove('active'));
         el.classList.toggle('active');
 
         if (next !== null) {
@@ -175,7 +175,7 @@ function SideMenu({ isOpen }) {
       <TopSection>
         <h4>Our Hospital</h4>
       </TopSection>
-      <MainMenu className="main-menu">
+      <MainMenu className='main-menu'>
         <Lists>
           {menuItems.map((menuItem, index) => (
             <MenuItem
