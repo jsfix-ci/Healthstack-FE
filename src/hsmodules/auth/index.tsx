@@ -13,9 +13,7 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
-import BasicDatePicker from '../../components/inputs/Date';
-import TimePicker from '../../components/inputs/Date/TimePicker';
-import DateTime from '../../components/inputs/DateTime';
+
 import Preloader from '../../components/utilities/Preloader';
 import { UserContext } from '../../context/context';
 import client from '../../context/feathers';
@@ -94,9 +92,7 @@ function Login() {
                 />
               </FormGroup>
             </FormControl>
-            <BasicDatePicker label='Date Picker' />
-            <TimePicker label='Time Picker' />
-            <DateTime label='Date Time' />
+
             <Button type='submit' label='Login' fullwidth='true' />
           </form>
 
