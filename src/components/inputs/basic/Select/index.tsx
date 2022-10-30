@@ -16,6 +16,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   onChange?: (_: any) => void;
   defaultValue?: string;
   readonly?: boolean;
+  register?: any;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -26,6 +27,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   onChange,
   errorText,
   readonly,
+  register,
 }) => {
   const [optionsList, setOptionsList] = useState([]);
 
@@ -35,14 +37,14 @@ const CustomSelect: React.FC<SelectProps> = ({
     } else if (options.model) {
       let Service = options.model && client.service((options as any).model);
       Service.find()
-        .then((res) => {
-          const list = res.data.map((obj) => ({
+        .then(res => {
+          const list = res.data.map(obj => ({
             value: obj._id,
             label: obj.name,
           }));
           setOptionsList(list);
         })
-        .catch((error) => {
+        .catch(error => {
           toast(`error fetching list ${error}`);
         });
     }
@@ -50,17 +52,18 @@ const CustomSelect: React.FC<SelectProps> = ({
 
   return (
     <FormControl disabled={readonly} style={{ width: '100%' }}>
-      <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
+      <InputLabel id='demo-simple-select-autowidth-label'>{label}</InputLabel>
       <Select
-        labelId="demo-simple-select-autowidth-label"
-        id="demo-simple-select-autowidth"
+        labelId='demo-simple-select-autowidth-label'
+        id='demo-simple-select-autowidth'
         label={label}
         name={name}
         defaultValue={defaultValue || ''}
         onChange={onChange}
         sx={{ background: 'white' }}
+        {...register}
       >
-        <MenuItem value="" sx={{ width: '100%' }}>
+        <MenuItem value='' sx={{ width: '100%' }}>
           <em>None</em>
         </MenuItem>
         {optionsList.map((option, index) => (

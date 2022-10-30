@@ -7,9 +7,9 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
-import BasicDatePicker from '../../components/inputs/Date';
-import TimePicker from '../../components/inputs/Date/TimePicker';
-import DateTime from '../../components/inputs/DateTime';
+// import BasicDatePicker from '../../components/inputs/Date';
+// import TimePicker from '../../components/inputs/Date/TimePicker';
+// import DateTime from '../../components/inputs/DateTime';
 import { Link } from '../../components/menuitem/style';
 
 const schema = yup
@@ -36,9 +36,9 @@ function IndividualSignup() {
       email: '',
       phoneNumber: '',
       password: '',
-      date: '',
-      time: '',
-      dateTime: '',
+      // date: '',
+      // time: '',
+      // dateTime: '',
     },
   });
 
@@ -47,9 +47,9 @@ function IndividualSignup() {
   return (
     <AuthWrapper paragraph='Login here as an organization'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BasicDatePicker label='Date Picker' register={register('date')} />
+        {/* <BasicDatePicker label='Date Picker' register={register('date')} />
         <TimePicker label='Time Picker' register={register('time')} />
-        <DateTime label='Date Time' register={register('dateTime')} />
+        <DateTime label='Date Time' register={register('dateTime')} /> */}
         <Controller
           name='firstName'
           control={control}

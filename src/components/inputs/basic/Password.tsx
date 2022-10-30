@@ -9,6 +9,7 @@ interface PasswordInputProps {
   // showPassword?: boolean;
   onChange: (_value) => void;
   errors?: boolean;
+  register?: any;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
@@ -27,18 +28,19 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
     <div>
       <InputBox>
         <InputField
-          className="form__input"
+          className='form__input'
           onChange={onChange}
           type={showPassword ? 'text' : 'password'}
-          placeholder="Password"
+          placeholder='Password'
           name={name}
+          {...register}
         />
-        <InputLabel className="form__label" htmlFor={label}>
+        <InputLabel className='form__label' htmlFor={label}>
           {label}
         </InputLabel>
         <span onClick={handleClickShowPassword}>
           {showPassword ? (
-            <i className="bi bi-eye-slash-fill"></i>
+            <i className='bi bi-eye-slash-fill'></i>
           ) : (
             <i className={' bi bi-eye-fill'}></i>
           )}

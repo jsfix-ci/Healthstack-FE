@@ -17,6 +17,7 @@ interface CheckboxProps {
   defaultValue?: string;
   options: any[];
   onChange?: (_) => void;
+  register?: any;
 }
 
 const CheckboxInput: React.FC<CheckboxProps> = ({
@@ -26,10 +27,11 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
   disabled,
   errorText,
   options,
+  register,
 }) => {
   const [values, setValues] = useState<DictionaryOf<boolean>>({});
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const newValues = { ...values, [e.target.value]: !values[e.target.value] };
     setValues(newValues);
     const selected = Object.entries(newValues)
@@ -41,10 +43,10 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
   return (
     <FormControl
       disabled={disabled}
-      component="fieldset"
+      component='fieldset'
       sx={{ width: '1r00%', mt: 1, mb: 1 }}
     >
-      <FormLabel component="legend">{label}</FormLabel>
+      <FormLabel component='legend'>{label}</FormLabel>
       <FormGroup>
         {options.map((option, i) => (
           <FormControlLabel
@@ -56,6 +58,7 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
                 value={option.value || option || ''}
                 onChange={handleChange}
                 disabled={disabled}
+                {...register}
               />
             }
             label={option.label || option}
