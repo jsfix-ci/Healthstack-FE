@@ -13,6 +13,9 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
+import BasicDatePicker from '../../components/inputs/Date';
+import TimePicker from '../../components/inputs/Date/TimePicker';
+import DateTime from '../../components/inputs/DateTime';
 import Preloader from '../../components/utilities/Preloader';
 import { UserContext } from '../../context/context';
 import client from '../../context/feathers';
@@ -39,7 +42,7 @@ function Login() {
         email,
         password,
       })
-      .then((res) => {
+      .then(res => {
         const user = {
           ...res.user,
           currentEmployee: { ...res.user.employeeData[0] },
@@ -48,7 +51,7 @@ function Login() {
         if (keepMeIn) localStorage.setItem('user', JSON.stringify(user));
         navigate('/app');
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error(`Error loggin in User, probable network issues ${err}`);
       });
   };
@@ -59,64 +62,68 @@ function Login() {
       {loaderTimer ? (
         <Preloader />
       ) : (
-        <AuthWrapper paragraph="Login here as an organization">
+        <AuthWrapper paragraph='Login here as an organization'>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
-              name="email"
+              name='email'
               control={control}
               render={({ field: { ref: _re, ...field } }) => (
-                <Input {...field} label="Email" placeholder="Email" />
+                <Input {...field} label='Email' placeholder='Email' />
               )}
             />
             <Controller
-              name="password"
+              name='password'
               control={control}
               render={({ field: { ref: _re, ...field } }) => (
                 <PasswordInput {...field} />
               )}
             />
             <FormControl
-              component="fieldset"
+              component='fieldset'
               sx={{ width: '1r00%', mt: 1, mb: 1 }}
             >
               <FormGroup>
                 <FormControlLabel
-                  label="Keep me Logged in"
+                  label='Keep me Logged in'
                   control={
                     <Checkbox
-                      name="keepMeIn"
+                      name='keepMeIn'
                       onChange={(_, value) => setKeepMeIn(value)}
                     />
                   }
                 />
               </FormGroup>
             </FormControl>
-            <Button type="submit" label="Login" fullwidth="true" />
+            <BasicDatePicker label='Date Picker' />
+            <TimePicker label='Time Picker' />
+            <DateTime label='Date Time' />
+
+            <Button type='submit' label='Login' fullwidth='true' />
           </form>
 
-          <div className="bottom-center">
+          <div className='bottom-center'>
             <p>or continue with</p>
-            <a href="">
-              <i className="bi bi-google" />
+            <a href=''>
+              <i className='bi bi-google' />
             </a>
-            <a href="">
-              <i className="bi bi-facebook" />
+            <a href=''>
+              <i className='bi bi-facebook' />
             </a>
-            <a href="">
-              <i className="bi bi-linkedin" />
+            <a href=''>
+              <i className='bi bi-linkedin' />
             </a>
 
             <p>
               Want to create organization?
               <Link
-                className="nav-link"
+                className='nav-link'
                 style={{
                   padding: '0',
                   background: 'transparent',
                   color: 'blue',
                   marginLeft: '0.6rem',
                 }}
-                to="/signup"
+                to='/signup'
               >
                 Click here
               </Link>

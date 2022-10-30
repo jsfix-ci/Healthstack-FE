@@ -1,7 +1,7 @@
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { TextField } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { TimePicker as CustomeTimePicker } from '@mui/x-date-pickers';
 import React from 'react';
 
 interface Props {
@@ -11,10 +11,10 @@ interface Props {
   register?: any;
 }
 
-const DateTime: React.FC<Props> = ({ label, onChange, value, register }) => {
+const TimePicker: React.FC<Props> = ({ label, onChange, value, register }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DateTimePicker
+      <CustomeTimePicker
         label={label}
         value={value}
         onChange={onChange}
@@ -25,4 +25,4 @@ const DateTime: React.FC<Props> = ({ label, onChange, value, register }) => {
   );
 };
 
-export default DateTime;
+export default TimePicker;
