@@ -26,21 +26,28 @@ function IndividualSignup() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+    },
   });
 
-  const onSubmit = (data) => console.debug(data);
+  const onSubmit = data => console.debug(data);
 
   return (
-    <AuthWrapper paragraph="Login here as an organization">
+    <AuthWrapper paragraph='Login here as an organization'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="firstName"
+          name='firstName'
           control={control}
           render={({ field }) => (
             <Input
               {...field}
-              label="First Name"
-              placeholder="Enter your firstname"
+              label='First Name'
+              placeholder='Enter your firstname'
             />
           )}
         />
@@ -51,13 +58,13 @@ function IndividualSignup() {
           </p>
         )}
         <Controller
-          name="lastName"
+          name='lastName'
           control={control}
           render={({ field }) => (
             <Input
               {...field}
-              label="Last Name"
-              placeholder="Enter your lastname"
+              label='Last Name'
+              placeholder='Enter your lastname'
             />
           )}
         />
@@ -68,10 +75,10 @@ function IndividualSignup() {
         )}
 
         <Controller
-          name="email"
+          name='email'
           control={control}
           render={({ field }) => (
-            <Input {...field} label="Email" placeholder="Enter your email" />
+            <Input {...field} label='Email' placeholder='Enter your email' />
           )}
         />
 
@@ -82,13 +89,13 @@ function IndividualSignup() {
         )}
 
         <Controller
-          name="phoneNumber"
+          name='phoneNumber'
           control={control}
           render={({ field }) => (
             <Input
               {...field}
-              label="Phone Number"
-              placeholder="Enter your email"
+              label='Phone Number'
+              placeholder='Enter your email'
             />
           )}
         />
@@ -100,7 +107,7 @@ function IndividualSignup() {
         )}
 
         <Controller
-          name="password"
+          name='password'
           control={control}
           render={({ field }) => <PasswordInput {...field} />}
         />
@@ -111,39 +118,39 @@ function IndividualSignup() {
           </p>
         )}
 
-        <Button type="submit" label="Signup" fullwidth="true" />
+        <Button type='submit' label='Signup' fullwidth='true' />
       </form>
 
-      <div className="bottom-center">
+      <div className='bottom-center'>
         <p>or continue with</p>
-        <a href="#">
-          <i className="bi bi-google" />
+        <a href='#'>
+          <i className='bi bi-google' />
         </a>
-        <a href="#">
-          <i className="bi bi-facebook" />
+        <a href='#'>
+          <i className='bi bi-facebook' />
         </a>
-        <a href="#">
-          <i className="bi bi-linkedin" />
+        <a href='#'>
+          <i className='bi bi-linkedin' />
         </a>
 
         <p style={{ padding: '2rem 0' }}>
           Have an account?
           <Link
-            className="nav-link"
+            className='nav-link'
             style={{
               padding: '0',
               background: 'transparent',
               color: 'blue',
               marginLeft: '0.6rem',
             }}
-            to="/"
+            to='/'
           >
             Login
           </Link>
         </p>
 
         <Link
-          className="nav-link"
+          className='nav-link'
           style={{
             padding: '16px 32px',
             color: '#333',
@@ -155,7 +162,7 @@ function IndividualSignup() {
             right: '20px',
             textDecoration: 'none',
           }}
-          to="/signup"
+          to='/signup'
         >
           Signup as Organization
         </Link>
