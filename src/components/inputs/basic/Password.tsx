@@ -17,6 +17,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   name,
   onChange,
   errors,
+  register,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
