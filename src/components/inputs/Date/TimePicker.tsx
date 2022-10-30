@@ -1,24 +1,32 @@
-import { Box, TextField } from '@mui/material';
+import { Box, FormControl, FormHelperText, TextField } from '@mui/material';
 import {
+  DatePicker,
+  DesktopDatePicker,
   LocalizationProvider,
-  TimePicker as CustomeTimePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import Input from '../basic/Input';
+import { Controller } from 'react-hook-form';
+import { toAPIDate } from '../../../pages/app/DateUtils';
 
 interface Props {
   label: string;
-  //   value?: Date;
+  // value?: Date;
   onChange?: (_?: React.ChangeEvent<HTMLInputElement>) => void;
   register?: any;
+  errors?: any;
+  name: any;
 }
 
-const TimePicker: React.FC<Props> = ({
+const BasicTimePicker: React.FC<Props> = ({
   label,
   onChange,
   // value,
   register,
+  name,
+  errors = {},
 }) => {
   const [value, setValue] = React.useState<Dayjs | null>(
     dayjs('2014-08-18T21:11:54')
@@ -28,23 +36,14 @@ const TimePicker: React.FC<Props> = ({
   };
   return (
     <Box sx={{ my: 2 }}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <CustomeTimePicker
-          label={label}
-          value={value}
-          onChange={handleChange}
-          {...register}
-          renderInput={params => (
-            <TextField
-              {...params}
-              {...register}
-              sx={{ width: '100%', background: 'white', height: '42px' }}
-            />
-          )}
-        />
-      </LocalizationProvider>
+      <FormControl style={{ width: '100%' }}>
+        <input {...register} type='time' className='date-picker' />
+        {errors[name] && (
+          <FormHelperText error>{errors[name].message}</FormHelperText>
+        )}
+      </FormControl>
     </Box>
   );
 };
 
-export default TimePicker;
+export default BasicTimePicker;
