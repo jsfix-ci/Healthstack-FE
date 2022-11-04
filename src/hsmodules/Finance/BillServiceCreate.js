@@ -1059,6 +1059,156 @@ export default function BillServiceCreate() {
                       </Box>
                     </Collapse>
                   </div>
+<<<<<<< HEAD
+                </div>
+              </div>
+            </div>{" "}
+            {/* horizontal end */}
+            {/*  <div className="field">
+                 <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
+                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
+                     <span className="icon is-small is-left">
+                     <i className=" fas fa-user-md "></i>
+                     </span>
+                 </p>
+             </div> */}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={date}
+                      name="date"
+                      type="text"
+                      onChange={e => setDate(e.target.value)}
+                      placeholder="Date"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-map-signs"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input
+                      className="input is-small"
+                      /* ref={register} */ name="documentNo"
+                      value={documentNo}
+                      type="text"
+                      onChange={e => setDocumentNo(e.target.value)}
+                      placeholder=" Invoice Number"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-phone-alt"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={
+                        totalamount
+                      }
+                      name="totalamount"
+                      type="text"
+                      onChange={e => setTotalamount(e.target.value)}
+                      placeholder=" Total Amount"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-coins"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <label className="label is-small">Choose Service Item:</label>
+          <div className="field is-horizontal">
+            <div className="field-body">
+              <div
+                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
+              >
+                <ServiceSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                  mode={billMode}
+                />
+                <p
+                  className="control has-icons-left "
+                  style={{display: "none"}}
+                >
+                  <input
+                    className="input is-small"
+                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
+                      productId
+                    }
+                    name="productId"
+                    type="text"
+                    onChange={e => setProductId(e.target.value)}
+                    placeholder="Product Id"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas  fa-map-marker-alt"></i>
+                  </span>
+                </p>
+
+                {/* {sellingprice}  {sellingprice &&   "N"}{sellingprice} {sellingprice &&   "per"}  {baseunit} {invquantity} {sellingprice &&   "remaining"}  */}
+              </div>
+            </div>
+          </div>
+          <div className="field is-horizontal">
+            <div className="field-body">
+              <div className="field" style={{width: "40%"}}>
+                <p className="control has-icons-left">
+                  <input
+                    className="input is-small"
+                    /* {...register("x",{required: true})} */ name="quantity"
+                    value={quantity}
+                    type="text"
+                    onChange={e => handleQtty(e)}
+                    placeholder="Quantity"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-hashtag"></i>
+                  </span>
+                </p>
+                {/*  <label >{baseunit}</label> */}
+              </div>
+              <div className="field">
+                <label>Amount:</label>
+                {/* <p>{quantity*sellingprice}</p> */}
+              </div>
+              <div className="field" style={{width: "40%"}}>
+                <p
+                  className="control has-icons-left " /* style={{display:"none"}} */
+                >
+                  <input
+                    className="input is-small"
+                    name="qamount"
+                    disabled={changeAmount}
+                    value={calcamount}
+                    type="text"
+                    onChange={async e => await setCalcAmount(e.target.value)}
+                    placeholder="Amount"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-hashtag"></i>
+                  </span>
+                </p>
+                {(user.currentEmployee?.roles.includes("Adjust Price") ||
+                  user.currentEmployee?.roles.length === 0 ||
+                  user.stacker) && (
+                  <button
+                    className="button is-small is-success btnheight"
+                    onClick={handleChangeAmount}
+                  >
+                    Adjust
+                  </button>
+=======
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                 )}
               </div>
             </div>

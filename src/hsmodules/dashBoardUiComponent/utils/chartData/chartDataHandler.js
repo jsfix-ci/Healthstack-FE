@@ -5,6 +5,11 @@ import useFetchOrder from "../usefetchOrder";
 const userDetails = localStorage.getItem("user");
 // const facilityId = JSON.parse(userDetails).employeeData[0].facility;
 
+<<<<<<< HEAD
+const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
+
+=======
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
 export const TotalNumOfData = (service) => {
   const query = {
     $sort: { createdAt: -1 },
@@ -679,7 +684,7 @@ export const FetchTotalMoneyCollectedWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    "participantInfo.billingFacility": facilityId,
+    'participantInfo.billingFacility': facilityId,
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -810,7 +815,7 @@ export const FetchTotalSuppiedProduct = (service) => {
 export const FetchTotalRevenue = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    "participantInfo.billingFacility": facilityId,
+    'participantInfo.billingFacility': facilityId,
   };
 
   const { data, isPending, error } = useFetchData(service, query, true);
@@ -831,7 +836,7 @@ export const FetchTotalRevenue = (service) => {
 export const FetchTotalBalance = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    "participantInfo.billingFacility": facilityId,
+    'participantInfo.billingFacility': facilityId,
   };
 
   const { data, isPending, error } = useFetchData(service, query, true);
@@ -875,7 +880,7 @@ export const ModelResult = (service) => {
     $sort: { createdAt: -1 },
     // $select: ["createdAt", "order_category"],
     destination: facilityId,
-    order_category: "Laboratory",
+    order_category: 'Laboratory',
   };
 
   const {

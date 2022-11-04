@@ -73,8 +73,13 @@ export default function Client() {
           <ClientList showModal={handleShowModal} />
         </div>
         <div className="column is-6 ">
+<<<<<<< HEAD
+          {state.ClientModule.show === 'detail' && <ClientDetail />}
+          {state.ClientModule.show === 'modify' && (
+=======
           {state.ClientModule.show === "detail" && <ClientDetail />}
           {state.ClientModule.show === "modify" && (
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             <ClientModify Client={selectedClient} />
           )}
 
@@ -145,7 +150,11 @@ export function ClientCreate({ open, setOpen }) {
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
+<<<<<<< HEAD
+    setValue('facility', obj._id, {
+=======
     setValue("facility", obj._id, {
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -420,70 +429,119 @@ export function ClientCreate({ open, setOpen }) {
   const users = [{ sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24 }];
   const ClientRegisteredSchema = [
     {
+<<<<<<< HEAD
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+=======
       name: "S/N",
       key: "sn",
       description: "SN",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.sn,
       sortable: true,
     },
     {
+<<<<<<< HEAD
+      name: 'Last Name',
+      key: 'lastname',
+      description: 'Last Name',
+=======
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.lastname,
       sortable: true,
       required: true,
     },
 
     {
+<<<<<<< HEAD
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
+=======
       name: "First Name",
       key: "firstname",
       description: "First Name",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.firstname,
       sortable: true,
       required: true,
     },
 
     {
+<<<<<<< HEAD
+      name: 'Age',
+      key: 'age',
+      description: 'age',
+=======
       name: "Age",
       key: "age",
       description: "age",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.age,
       sortable: true,
       required: true,
     },
 
     {
+<<<<<<< HEAD
+      name: 'Gender',
+      key: 'gender',
+      description: 'Gender',
+=======
       name: "Gender",
       key: "gender",
       description: "Gender",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.gender,
       sortable: true,
       required: true,
     },
 
     {
+<<<<<<< HEAD
+      name: 'Phome',
+      key: 'phone',
+      description: 'phone',
+=======
       name: "Phome",
       key: "phone",
       description: "phone",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.phone,
       sortable: true,
       required: true,
     },
 
     {
+<<<<<<< HEAD
+      name: 'Email',
+      key: 'email',
+      description: 'Enter your name',
+=======
       name: "Email",
       key: "email",
       description: "Enter your name",
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       selector: (row) => row.email,
       sortable: true,
       required: true,
     },
     {
+<<<<<<< HEAD
+      name: 'Action',
+      cell: (row) => {
+        return (
+          <Box sx={{ display: 'flex', gap: 2 }}>
+=======
       name: "Action",
       cell: (row) => {
         return (
           <Box sx={{ display: "flex", gap: 2 }}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             <Button label="Duplicate" />
             <Button label="Register" />
             <Button label="Dependent" />
@@ -500,7 +558,11 @@ export function ClientCreate({ open, setOpen }) {
           open={showRegisteredModel}
           // onClose={handleHideRegisteredModal}
         >
+<<<<<<< HEAD
+          <div className={`modal ${billModal ? 'is-active' : ''}`}>
+=======
           <div className={`modal ${billModal ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             <div className="modal-background"></div>
             <div className="modal-card modalbkgrnd z10">
               <header className="modal-card-head selectadd">
@@ -514,6 +576,19 @@ export function ClientCreate({ open, setOpen }) {
                 ></button>
               </header>
               <section className="modal-card-body">
+<<<<<<< HEAD
+                {/* <StoreList standalone="true" /> */}
+                {/* <ClientGroup
+                  list={patList}
+                  closeModal={handlecloseModal3}
+                  choosen={choosen}
+                  dupl={dupl}
+                  reg={reg}
+                  depen={depen}
+                /> */}
+
+=======
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                 <CustomTable
                   title="Clients"
                   columns={ClientRegisteredSchema}
@@ -731,10 +806,17 @@ export function ClientList({ showModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
+<<<<<<< HEAD
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
+=======
     ClientServ.on("created", (obj) => rest());
     ClientServ.on("updated", (obj) => rest());
     ClientServ.on("patched", (obj) => rest());
     ClientServ.on("removed", (obj) => rest());
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -783,7 +865,11 @@ export function ClientList({ showModal }) {
 
               {handleCreateNew && (
                 <Button
+<<<<<<< HEAD
+                  style={{ fontSize: '14px', fontWeight: '600' }}
+=======
                   style={{ fontSize: "14px", fontWeight: "600" }}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   label="Add new "
                   onClick={showModal}
                   showicon={true}
@@ -893,7 +979,11 @@ export function ClientDetail() {
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Client Details</p>
+<<<<<<< HEAD
+          {(user.currentEmployee?.roles.includes('Bill Client') ||
+=======
           {(user.currentEmployee?.roles.includes("Bill Client") ||
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             user.currentEmployee?.roles.length === 0 ||
             user.stacker) && (
             <button
@@ -979,7 +1069,11 @@ export function ClientDetail() {
                       Date of Birth{" "}
                     </label>
                     <label className="is-size-7 my-0">
+<<<<<<< HEAD
+                      {new Date(Client.dob).toLocaleDateString('en-GB')}
+=======
                       {new Date(Client.dob).toLocaleDateString("en-GB")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1464,7 +1558,11 @@ export function ClientDetail() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
+      <div className={`modal ${finacialInfoModal ? 'is-active' : ''}`}>
+=======
       <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1486,7 +1584,11 @@ export function ClientDetail() {
         </div>
       </div>
 
+<<<<<<< HEAD
+      <div className={`modal ${billingModal ? 'is-active' : ''}`}>
+=======
       <div className={`modal ${billingModal ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1507,7 +1609,11 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
+<<<<<<< HEAD
+      <div className={`modal ${appointmentModal ? 'is-active' : ''}`}>
+=======
       <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1528,7 +1634,11 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
+<<<<<<< HEAD
+      <div className={`modal ${billModal ? 'is-active' : ''}`}>
+=======
       <div className={`modal ${billModal ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1780,10 +1890,17 @@ export function ClientModify() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
+<<<<<<< HEAD
+                    <label className="label is-size-7">First Name </label>{' '}
+                    <input
+                      className="input is-small"
+                      {...register('firstname')}
+=======
                     <label className="label is-size-7">First Name </label>{" "}
                     <input
                       className="input is-small"
                       {...register("firstname")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="firstname"
                       type="text"
                       placeholder="First Name "
@@ -1799,7 +1916,11 @@ export function ClientModify() {
                     <label className="label is-size-7"> Middle Name </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('middlename')}
+=======
                       {...register("middlename")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="middlename"
                       type="text"
                       placeholder="Middle Name "
@@ -1815,7 +1936,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Last Name</label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('lastname')}
+=======
                       {...register("lastname")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="lastname"
                       type="text"
                       placeholder="Last Name "
@@ -1835,7 +1960,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Date of Birth </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('dob')}
+=======
                       {...register("dob")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="dob"
                       type="text"
                       placeholder="Date of Birth "
@@ -1850,7 +1979,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Gender </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('gender')}
+=======
                       {...register("gender")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="gender"
                       type="text"
                       placeholder="Gender  "
@@ -1865,7 +1998,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Marital Status </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('maritalstatus')}
+=======
                       {...register("maritalstatus")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status  "
@@ -1880,7 +2017,11 @@ export function ClientModify() {
                     <label className="label is-size-7"> Records Number </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('mrn')}
+=======
                       {...register("mrn")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="mrn"
                       type="text"
                       placeholder="Records Number  "
@@ -1899,7 +2040,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Religion</label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('religion')}
+=======
                       {...register("religion")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="religion"
                       type="text"
                       placeholder="Religion "
@@ -1914,7 +2059,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Profession </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('profession')}
+=======
                       {...register("profession")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -1929,7 +2078,11 @@ export function ClientModify() {
                     <label className="label is-size-7"> Phone No</label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('phone')}
+=======
                       {...register("phone")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="phone"
                       type="text"
                       placeholder=" Phone No "
@@ -1945,7 +2098,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Email </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('email')}
+=======
                       {...register("email")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="email"
                       type="email"
                       placeholder="Email  "
@@ -1963,7 +2120,11 @@ export function ClientModify() {
                 <label className="label is-size-7">Residential Address </label>
                 <input
                   className="input is-small"
+<<<<<<< HEAD
+                  {...register('address')}
+=======
                   {...register("address")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   name="address"
                   type="text"
                   placeholder="Residential Address  "
@@ -1980,7 +2141,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Town/City </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('city')}
+=======
                       {...register("city")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="city"
                       type="text"
                       placeholder="Town/City  "
@@ -1995,7 +2160,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Local Govt Area </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('lga')}
+=======
                       {...register("lga")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area  "
@@ -2010,7 +2179,11 @@ export function ClientModify() {
                     <label className="label is-size-7">State </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('state')}
+=======
                       {...register("state")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="state"
                       type="text"
                       placeholder="State"
@@ -2025,7 +2198,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Country </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('country')}
+=======
                       {...register("country")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="country"
                       type="text"
                       placeholder="Country  "
@@ -2044,7 +2221,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Blood Group </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('bloodgroup')}
+=======
                       {...register("bloodgroup")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group "
@@ -2059,7 +2240,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Genotype </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('genotype')}
+=======
                       {...register("genotype")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="genotype"
                       type="text"
                       placeholder="Genotype "
@@ -2074,7 +2259,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Disabilities </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('disabilities')}
+=======
                       {...register("disabilities")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities  "
@@ -2094,7 +2283,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Allergies </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('allergies')}
+=======
                       {...register("allergies")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="allergies"
                       type="text"
                       placeholder="Allergies  "
@@ -2109,7 +2302,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Co-mobidities </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('comorbities')}
+=======
                       {...register("comorbities")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities "
@@ -2126,7 +2323,11 @@ export function ClientModify() {
                 <label className="label is-size-7">Tags </label>
                 <input
                   className="input is-small"
+<<<<<<< HEAD
+                  {...register('clientTags')}
+=======
                   {...register("clientTags")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   name="clientTags"
                   type="text"
                   placeholder="Tags "
@@ -2139,11 +2340,19 @@ export function ClientModify() {
             <div className="field">
               <p className="control has-icons-left">
                 <label className="label is-size-7">
+<<<<<<< HEAD
+                  Specific Details about client{' '}
+                </label>
+                <input
+                  className="input is-small"
+                  {...register('specificDetails')}
+=======
                   Specific Details about client{" "}
                 </label>
                 <input
                   className="input is-small"
                   {...register("specificDetails")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about client "
@@ -2162,7 +2371,11 @@ export function ClientModify() {
                     </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('nok_name')}
+=======
                       {...register("nok_name")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name "
@@ -2177,7 +2390,11 @@ export function ClientModify() {
                     <label className="label is-size-7">Phone Number</label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('nok_phoneno')}
+=======
                       {...register("nok_phoneno")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="nok_phoneno"
                       type="text"
                       placeholder=" "
@@ -2190,11 +2407,19 @@ export function ClientModify() {
                 <div className="field">
                   <p className="control has-icons-left">
                     <label className="label is-size-7">
+<<<<<<< HEAD
+                      Next of Kin Email{' '}
+                    </label>
+                    <input
+                      className="input is-small"
+                      {...register('nok_email')}
+=======
                       Next of Kin Email{" "}
                     </label>
                     <input
                       className="input is-small"
                       {...register("nok_email")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email  "
@@ -2209,7 +2434,11 @@ export function ClientModify() {
                     <label className="label is-size-7"> Relationship </label>
                     <input
                       className="input is-small"
+<<<<<<< HEAD
+                      {...register('nok_relationship')}
+=======
                       {...register("nok_relationship")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"
@@ -2311,7 +2540,11 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(inputEl.current) */
   };
   const handleSearch = async (val) => {
+<<<<<<< HEAD
+    const field = 'facilityName'; //field variable
+=======
     const field = "facilityName"; //field variable
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2328,7 +2561,11 @@ export function InputSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
+<<<<<<< HEAD
+          console.log('facility  fetched successfully');
+=======
           console.log("facility  fetched successfully");
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
@@ -2358,7 +2595,11 @@ export function InputSearch({ getSearchfacility, clear }) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
+<<<<<<< HEAD
+          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
+=======
           <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "

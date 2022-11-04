@@ -349,7 +349,11 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Route</label>
                 <p className="control is-expanded">
                   <input
+<<<<<<< HEAD
+                    ref={register}
+=======
                     {...register("route")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                     name="route"
                     className="input is-small"
                     type="text"
@@ -362,7 +366,11 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Fluid </label>
                 <p className="control is-expanded">
                   <input
+<<<<<<< HEAD
+                    ref={register}
+=======
                     {...register("fluid")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                     name="fluid"
                     className="input is-small"
                     type="text"
@@ -375,7 +383,11 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Volume (mls)</label>
                 <p className="control is-expanded">
                   <input
+<<<<<<< HEAD
+                    ref={register}
+=======
                     {...register("volume")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                     name="volume"
                     className="input is-small"
                     type="number"
@@ -389,7 +401,11 @@ const FluidIntakeOutput = () => {
               <label className="label is-small">Comments</label>
               <div className="control">
                 <input
+<<<<<<< HEAD
+                  ref={register}
+=======
                   {...register("comments")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   name="comments"
                   className="input is-small"
                   type="text"
