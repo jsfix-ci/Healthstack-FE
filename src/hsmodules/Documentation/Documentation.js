@@ -1,23 +1,25 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import "./styles/documentation.scss";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { ClientCreate, ClientDetail, ClientList } from "../Client/Client";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {ClientCreate, ClientDetail, ClientList} from "../Client/Client";
 
 import EncounterMain from "./EncounterMain";
 import EncounterRight from "./EncounterRight";
 import PatientProfile from "../Client/PatientProfile";
+import ModalBox from "../../components/modal";
+import {Grid} from "@mui/material";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Documentation({ standalone }) {
-  const { state, setState } = useContext(ObjectContext); //,setState
+export default function Documentation({standalone}) {
+  const {state, setState} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   //const [selectedProductEntry,setSelectedProductEntry]=useState()
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -37,7 +39,7 @@ export default function Documentation({ standalone }) {
       //state.DocumentClassModule.selectedDocumentClass.name
       show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -61,32 +63,7 @@ export default function Documentation({ standalone }) {
   };
 
   return (
-<<<<<<< HEAD
     <section className="section remPadTop">
-=======
-    <section className="section remPadTop" style={{padding: "15px"}}>
-      {!standalone && (
-        <Grid container spacing={1}>
-          <Grid item xs={3}>
-            <PatientProfile />
-          </Grid>
-
-          <Grid item xs={9}>
-            <EncounterMain chosenClient={selectedClient} />
-          </Grid>
-
-          {/* <Grid item xs={4.5}>
-            <EncounterRight client={selectedClient} />
-          </Grid> */}
-        </Grid>
-      )}
-
-      {standalone && (
-        <div>
-          <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
-        </div>
-      )}
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
             </div> */}
@@ -149,7 +126,7 @@ export default function Documentation({ standalone }) {
   );
 }
 
-export function InventorySearch({ getSearchfacility, clear }) {
+export function InventorySearch({getSearchfacility, clear}) {
   const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -166,11 +143,11 @@ export function InventorySearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -187,7 +164,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -205,7 +182,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -231,14 +208,14 @@ export function InventorySearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -275,9 +252,9 @@ export function InventorySearch({ getSearchfacility, clear }) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -285,8 +262,8 @@ export function InventorySearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -294,7 +271,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""
