@@ -12,19 +12,12 @@ interface ModalProps {
   width?: 'string';
 }
 const style = {
-<<<<<<< HEAD
-  minWidth: '400px',
-  maxWidth: '95vw',
-  minHeight: '400px',
-  maxHeight: '100%',
-  bgcolor: '#FAFAFA',
-=======
+
   minWidth: "400px",
   maxWidth: "95vw",
   minHeight: "400px",
   maxHeight: "95vh",
   bgcolor: "#FAFAFA",
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
   boxShadow: 24,
   p: 4,
   borderRadius: '6px',
@@ -59,35 +52,43 @@ const ModalBox: React.FC<ModalProps> = ({
         <Box sx={style}>
           <div
             style={{
-              height: '100%',
-              overflowY: 'auto',
+
+              height: "100%",
+              width: width,
+              overflowY: "hidden",
             }}
           >
-            <Box
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-              mb={2}
-            >
-              <h1
+            {header && header !== "" && (
+              <Box
                 style={{
-                  color: '#33415C',
-                  fontWeight: '500',
-                  lineHeight: '1.5',
-                  fontSize: '24px',
-                  fontStyle: 'SemiBold',
-                }}
-              >
-                {header}
-              </h1>
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
 
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+                }}
+                mb={2}
+              >
+                <h1
+                  style={{
+                    color: "#33415C",
+                    fontWeight: "500",
+                    lineHeight: "1.5",
+                    fontSize: "24px",
+                    fontStyle: "SemiBold",
+                  }}
+                >
+                  {header}
+                </h1>
+
+                {onClose && (
+                  <IconButton onClick={onClose}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
+
             {children}
           </div>
         </Box>
