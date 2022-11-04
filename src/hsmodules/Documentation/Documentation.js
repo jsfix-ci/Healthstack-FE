@@ -24,6 +24,7 @@ export default function Documentation({ standalone }) {
   //const {state,setState}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
+  gi;
   const [showModal, setShowModal] = useState(false);
 
   //let { path, url } = useRouteMatch();
