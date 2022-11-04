@@ -649,6 +649,150 @@ export default function BillPrescriptionCreate({closeModal}) {
   ];
   return (
     <>
+<<<<<<< HEAD
+      <div className="card card-overflow">
+        <div className="card-header">
+          <p className="card-header-title">Bill Product</p>
+          <button
+            className="button is-success is-small btnheight mt-2"
+            onClick={showDocumentation}
+          >
+            Documentation
+          </button>
+        </div>
+        <div className="card-content ">
+          <form onSubmit={onSubmit}>
+            {" "}
+            {/* handleSubmit(onSubmit) */}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                {/*  <div className="field">    
+                 <div className="control">
+                     <div className="select is-small">
+                         <select name="type" value={type} onChange={handleChangeType} className="selectadd">
+                            <option value="">Choose Type </option>
+                             <option value="Dispense">Dispense</option>
+                             <option value="Bill">Bill </option> */}
+                {/* <option value="Dispense">Dispense</option>
+                             <option value="Audit">Audit</option> */}
+                {/*         </select>
+                     </div>
+                 </div>
+             </div>
+ */}
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={source}
+                      name="client"
+                      type="text"
+                      onChange={e => setSource(e.target.value)}
+                      placeholder="Client"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-hospital"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <div className="select is-small ">
+                      <select
+                        name="paymentmode"
+                        value={paymentmode}
+                        onChange={e => handleChangeMode(e.target.value)}
+                        className="selectadd"
+                      >
+                        <option value="">Billing Mode </option>
+                        {paymentOptions.map((option, i) => (
+                          <option key={i} value={option.details}>
+                            {" "}
+                            {option.name}
+                          </option>
+                        ))}
+
+                        {/*  <option value="Cash">Cash</option>
+                             <option value="Family">Family </option>
+                            <option value="Company Cover">Company Cover</option>
+                             <option value="HMO">HMO</option> */}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>{" "}
+            {/* horizontal end */}
+            {/*  <div className="field">
+                 <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
+                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
+                     <span className="icon is-small is-left">
+                     <i className=" fas fa-user-md "></i>
+                     </span>
+                 </p>
+             </div> */}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={date}
+                      name="date"
+                      type="text"
+                      onChange={e => setDate(e.target.value)}
+                      placeholder="Date"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-map-signs"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input
+                      className="input is-small"
+                      /* ref={register} */ name="documentNo"
+                      value={documentNo}
+                      type="text"
+                      onChange={e => setDocumentNo(e.target.value)}
+                      placeholder=" Invoice Number"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-phone-alt"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={
+                        totalamount
+                      }
+                      name="totalamount"
+                      type="text"
+                      onChange={e => setTotalamount(e.target.value)}
+                      placeholder=" Total Amount"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-coins"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          {/* array of ProductEntry items */}
+
+          <label className="label is-small">Medication:</label>
+          <div className="field is-horizontal">
+            <div className="field-body">
+              <div className="field" style={{width: "40%"}}>
+                <p className="control has-icons-left">
+                  <input
+=======
       <div className="card card-overflow" style={{width: "100%"}}>
         <Box container sx={{width: "100%"}}>
           <Box item sx={{width: "100%", padding: "15px 0"}}>
@@ -689,6 +833,7 @@ export default function BillPrescriptionCreate({closeModal}) {
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   <Input
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                     className="input is-small"
                     value={date}
                     name="date"
