@@ -8,7 +8,6 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ClientCreate, ClientDetail, ClientList} from "../Client/Client";
-import Slide from "@mui/material/Slide";
 
 import EncounterMain from "./EncounterMain";
 import EncounterRight from "./EncounterRight";
@@ -64,62 +63,65 @@ export default function Documentation({standalone}) {
   };
 
   return (
-    <section className="section remPadTop" style={{padding: "15px"}}>
-      {!standalone && (
-        <Grid container spacing={1}>
-          <Grid item xs={3}>
-            <PatientProfile />
-          </Grid>
-
-          <Grid item xs={9}>
-            <EncounterMain chosenClient={selectedClient} />
-          </Grid>
-
-          {/* <Grid item xs={4.5}>
-            <EncounterRight client={selectedClient} />
-          </Grid> */}
-        </Grid>
-      )}
-
-      {standalone && (
-        <div>
-          <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
-        </div>
-      )}
+    <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
             </div> */}
-      {/* <div className="columns "> */}
-      {/* {!standalone && <PatientProfile />} */}
+      <div className="columns ">
+        {!standalone && (
+          <div className="column is-2 ">{/* <PatientProfile /> */}</div>
+        )}
 
-      {/* {!standalone && <EncounterMain client={selectedClient} />} */}
+        {!standalone && (
+          <div
+            className={
+              state.DocumentClassModule.show === "detail"
+                ? "column is-6"
+                : "column is-6 "
+            }
+          >
+            <EncounterMain client={selectedClient} />
+          </div>
+        )}
 
-      {/* {standalone && (
+        {standalone && (
           <div
             className={
               state.DocumentClassModule.show === "detail"
                 ? "column is-8"
                 : "column is-12 "
             }
-          > */}
-      {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
-      {/* </div>
+          >
+            {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
+          </div>
         )}
-        <div className="column is-4 "> */}
-      {/* {state.DocumentClassModule.show === "detail" && (
+        <div className="column is-4 ">
+          {/* {state.DocumentClassModule.show === "detail" && (
             <EncounterRight client={selectedClient} />
           )} */}
-      {/*  <DocumentClassCreate /> */}
-      {/* </div>
-      </div> */}
-
-      <ModalBox
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        header="Choose Client"
-      >
-        <ClientList standalone="true" />
-      </ModalBox>
+          {/*  <DocumentClassCreate /> */}
+        </div>
+      </div>
+      <div className={`modal ${showModal ? "is-active" : ""}`}>
+        <div className="modal-background"></div>
+        <div className="modal-card">
+          <header className="modal-card-head btnheight">
+            <p className="modal-card-title">Choose Client</p>
+            <button
+              className="delete"
+              aria-label="close"
+              onClick={() => setShowModal(false)}
+            ></button>
+          </header>
+          <section className="modal-card-body ">
+            <ClientList standalone="true" />
+          </section>
+          {/* <footer className="modal-card-foot">
+                                        <button className="button is-success">Save changes</button>
+                                        <button className="button">Cancel</button>
+                                        </footer> */}
+        </div>
+      </div>
     </section>
   );
 }
