@@ -690,9 +690,9 @@ export function OrganizationDetail({ openModifyModal }) {
       >
         <HeadWrapper>
           <Box>
-            <h2>Hia Detail</h2>
+            <h2>HIA Detail</h2>
             <span>
-              Hia Detail of {facility.organizationDetail.facilityName}
+              HIA Detail of {facility.organizationDetail.facilityName}
             </span>
           </Box>
           <BottomWrapper>
@@ -705,7 +705,7 @@ export function OrganizationDetail({ openModifyModal }) {
               }}
               onClick={() => setEditHia(true)}
             >
-              Edit Hia
+              Edit HIA
             </MuiButton>
           </BottomWrapper>
         </HeadWrapper>
@@ -805,7 +805,7 @@ export function OrganizationDetail({ openModifyModal }) {
             sx={{ textTransform: "capitalize", marginRight: "10px" }}
             onClick={handleSubmit(onSubmit)}
           >
-            Update Hia
+            Update HIA
           </MuiButton>
 
           <MuiButton
@@ -814,7 +814,7 @@ export function OrganizationDetail({ openModifyModal }) {
             sx={{ textTransform: "capitalize", marginRight: "10px" }}
             onClick={handleDelete}
           >
-            Delete Hia
+            Delete HIA
           </MuiButton>
 
           <MuiButton

@@ -3536,20 +3536,31 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   };
   const onSubmit = (data, e) => {
     e.preventDefault();
-
-    //  console.log(data);
-
-    //  setSuccess(false);
-
-    //  ClientServ.patch(Client._id, data)
-    //    .then((res) => {
-    //      toast("Client updated succesfully");
-    //      changeState();
-    //      closeDetailModal();
-    //    })
-    //    .catch((err) => {
-    //      toast(`Error updating Client, probable network issues or ${err}`);
-    //    });
+  };
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
+    const dleteId = facility._id;
+    if (conf) {
+      ClientServ.remove(dleteId)
+        .then((res) => {
+          reset();
+          toast({
+            message: "Provider deleted successfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch((err) => {
+          toast({
+            message: "Error deleting Provider,probably network issue or" + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
   };
 
   return (
@@ -3570,9 +3581,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           mb={2}
         >
           <Button label="Edit" onClick={handleEdit} />
-          <Button label="Accrediate" />
-          <Button label="Close" onClick={closeForm} />
-          <Button label="Delete" />
+          <Button label="Accredit" />
 
           <Button onClick={() => setApprove(true)}>Approve</Button>
           <Button onClick={() => setDeny(true)}>Reject</Button>
