@@ -107,6 +107,10 @@ export function BillingList({openModal}) {
   const [clientBills, setClientBills] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
 
+
+
+
+
   const handleSelectedClient = async Client => {
     const newClientModule = {
       selectedClient: Client,
@@ -611,6 +615,7 @@ export function BillingList({openModal}) {
           )}
 
           {selectedOrders.length > 0 && (
+            
             <Button
               style={{fontSize: "14px", fontWeight: "600"}}
               label={`Make Payment`}

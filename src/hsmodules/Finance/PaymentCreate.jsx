@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
-
+import { PaystackConsumer } from "react-paystack";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -70,6 +70,34 @@ export default function PaymentCreate({closeModal}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
+  const [amount, setAmount] = useState("");
+
+  // PAYSTACK CONFIG3
+
+  const config = {
+    reference: new Date().getTime().toString(),
+    email: "simpa@healthstack.africa",
+    amount: part ? partBulk * 100 : totalamount * 100,
+    publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+  };
+
+ 
+
+  const componentProps = {
+    ...config,
+    text: "Make a Deposit",
+    onSuccess: (reference) => handleSuccess(reference, amount),
+    onClose: closeModal,
+  };
+
+  const handleSuccess = (amount, reference) => {
+    let transactionDetails = amount;
+    transactionDetails.amount = reference;
+    // dispatch(saveTransactionRef(transactionDetails));
+    console.log(transactionDetails, "AMOUNT");
+    // return history("/business/payment");
+  };
+
 
   const {state, setState} = useContext(ObjectContext);
 
@@ -957,8 +985,10 @@ export default function PaymentCreate({closeModal}) {
           >
             Pay Bills for {source} #{documentNo}
           </Typography>
+          <PaystackConsumer {...componentProps}>
+							{({ initializePayment }) => (
           <Button
-            onClick={() => setDepositModal(true)}
+          onClick={() => initializePayment(handleSuccess, closeModal)}
             variant="outlined"
             sx={{
               textTransform: "capitalize",
@@ -966,6 +996,8 @@ export default function PaymentCreate({closeModal}) {
           >
             Make Deposit
           </Button>
+          )}
+          </PaystackConsumer>
         </Box>
 
         <Box
