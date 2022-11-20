@@ -3581,7 +3581,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           mb={2}
         >
           <Button label="Edit" onClick={handleEdit} />
-          <Button label="Accredit" />
+          <Button label="Accreditation" />
 
           <Button onClick={() => setApprove(true)}>Approve</Button>
           <Button onClick={() => setDeny(true)}>Reject</Button>
@@ -3660,7 +3660,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("address")}
                   label="Address"
                   value="1234,5th Avenue,New York"
                   disabled
@@ -3668,7 +3668,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("city")}
                   label="City"
                   value="Lagos"
                   disabled
@@ -3676,7 +3676,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("phone_no")}
                   label="Phone"
                   value="09123802410"
                   disabled
@@ -3684,7 +3684,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("email")}
                   label="Email"
                   value="motun6@gmail.com"
                   disabled
