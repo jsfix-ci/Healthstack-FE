@@ -36,18 +36,19 @@ export default function SLA() {
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
       <SLAList showModal={showModal} setShowModal={setShowModal} />
 
-      <ModalBox
+      {/* <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header="Create New Lead"
       >
         <SLACreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
+      </ModalBox> */}
     </section>
   );
 }

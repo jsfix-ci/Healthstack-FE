@@ -36,6 +36,7 @@ import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
 import { MdEmail, MdLocalHospital } from "react-icons/md";
+import { ModalHeader } from "semantic-ui-react";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -3504,6 +3505,8 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue, reset } = useForm();
+  const [approve, setApprove] = useState(false);
+  const [deny, setDeny] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -3567,10 +3570,74 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           mb={2}
         >
           <Button label="Edit" onClick={handleEdit} />
-          <Button label="Associate" />
+          <Button label="Accrediate" />
           <Button label="Close" onClick={closeForm} />
           <Button label="Delete" />
+
+          <Button onClick={() => setApprove(true)}>Approve</Button>
+          <Button onClick={() => setDeny(true)}>Reject</Button>
         </Box>
+        {approve && (
+          <>
+            <ModalBox open={approve} onClose={() => setApprove(false)}>
+              <form>
+                <ModalHeader text={`Approve Claim  13229-BA`} />
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Name of Referral"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Institution"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Reason"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button>OK</Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </ModalBox>
+          </>
+        )}
+
+        {deny && (
+          <>
+            <ModalBox open={deny} onClose={() => setDeny(false)}>
+              <form>
+                <ModalHeader text={`Deny Claim  13229-BA`} />
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Name of Referral"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Institution"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Reason"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button>OK</Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </ModalBox>
+          </>
+        )}
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
