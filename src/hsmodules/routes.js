@@ -1,6 +1,9 @@
-import {useEffect, useState, useContext} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
-import {UserContext, ObjectContext} from "../context";
+
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+
+import { UserContext, ObjectContext } from "../context";
+
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,13 +69,15 @@ import Transfer from "./Ward/Transfer";
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
 
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+
+
 
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
-import PharmacyReport from "./Pharmacy/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
+import PharmacyReport from "./Pharmacy/InventoryReport";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
 
 /* import InventorySetup from './Pharmacy/InventorySetup' */
@@ -125,9 +130,12 @@ import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
 
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+
+
+
 
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
@@ -165,6 +173,7 @@ import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
 
 import CheckIn from "./ManagedCare/Checkin";
+
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 
@@ -215,6 +224,10 @@ import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
 import CreateWallet from "./PouchiiWallet/CreateWallet";
 
+import CheckIn from "./ManagedCare/Checkin";
+
+
+
 const moduleLocationTypes = {
   clinic: "Clinic",
   clients: "Front Desk",
@@ -227,7 +240,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -243,7 +256,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  const {authenticatingUser} = useContext(UserContext);
+  const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
   return (
@@ -671,6 +684,8 @@ const AppRoutes = () => {
             />
             <Route path="/app/managed-care/referrals" element={<Referral />} />
             <Route path="/app/managed-care/claims" element={<Claims />} />
+
+
             <Route
               path="/app/managed-care/organisation"
               element={<OrganizationClient />}
@@ -849,8 +864,10 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
+
           {/**************************Pouchii Wallet *************************************** */}
           {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
+
         </Route>
       </Routes>
     </>

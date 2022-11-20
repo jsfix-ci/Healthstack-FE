@@ -36,6 +36,7 @@ import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
 import { MdEmail, MdLocalHospital } from "react-icons/md";
+import { ModalHeader } from "semantic-ui-react";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -3504,6 +3505,8 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue, reset } = useForm();
+  const [approve, setApprove] = useState(false);
+  const [deny, setDeny] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -3533,20 +3536,31 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   };
   const onSubmit = (data, e) => {
     e.preventDefault();
-
-    //  console.log(data);
-
-    //  setSuccess(false);
-
-    //  ClientServ.patch(Client._id, data)
-    //    .then((res) => {
-    //      toast("Client updated succesfully");
-    //      changeState();
-    //      closeDetailModal();
-    //    })
-    //    .catch((err) => {
-    //      toast(`Error updating Client, probable network issues or ${err}`);
-    //    });
+  };
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
+    const dleteId = facility._id;
+    if (conf) {
+      ClientServ.remove(dleteId)
+        .then((res) => {
+          reset();
+          toast({
+            message: "Provider deleted successfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch((err) => {
+          toast({
+            message: "Error deleting Provider,probably network issue or" + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
   };
 
   return (
@@ -3567,10 +3581,72 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           mb={2}
         >
           <Button label="Edit" onClick={handleEdit} />
-          <Button label="Associate" />
-          <Button label="Close" onClick={closeForm} />
-          <Button label="Delete" />
+          <Button label="Accreditation" />
+
+          <Button onClick={() => setApprove(true)}>Approve</Button>
+          <Button onClick={() => setDeny(true)}>Reject</Button>
         </Box>
+        {approve && (
+          <>
+            <ModalBox open={approve} onClose={() => setApprove(false)}>
+              <form>
+                <ModalHeader text={`Approve Claim  13229-BA`} />
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Name of Referral"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Institution"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Reason"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button>OK</Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </ModalBox>
+          </>
+        )}
+
+        {deny && (
+          <>
+            <ModalBox open={deny} onClose={() => setDeny(false)}>
+              <form>
+                <ModalHeader text={`Deny Claim  13229-BA`} />
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Name of Referral"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Institution"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input label={"Reason"} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Button>OK</Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </ModalBox>
+          </>
+        )}
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
@@ -3584,7 +3660,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("address")}
                   label="Address"
                   value="1234,5th Avenue,New York"
                   disabled
@@ -3592,7 +3668,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("city")}
                   label="City"
                   value="Lagos"
                   disabled
@@ -3600,7 +3676,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("phone_no")}
                   label="Phone"
                   value="09123802410"
                   disabled
@@ -3608,7 +3684,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("lga")}
+                  register={register("email")}
                   label="Email"
                   value="motun6@gmail.com"
                   disabled

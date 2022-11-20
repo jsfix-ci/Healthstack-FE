@@ -43,13 +43,18 @@ export default function SLA() {
     <section className="section remPadTop">
       <SLAList openCreateModal={() => setCreateModal(true)} />
 
-      <ModalBox
+      {/* <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header="Create New Lead"
       >
+
+        <SLACreate closeModal={() => setCreateModal(false)} />
+      </ModalBox> */}
+
         <CreateSLA closeModal={() => setCreateModal(false)} />
       </ModalBox>
+
     </section>
   );
 }
