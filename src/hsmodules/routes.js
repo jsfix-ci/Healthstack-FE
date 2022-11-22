@@ -1,9 +1,6 @@
-
 import { useEffect, useState, useContext } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-
 import { UserContext, ObjectContext } from "../context";
-
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -69,15 +66,10 @@ import Transfer from "./Ward/Transfer";
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
 
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
-
-
-
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
-import PharmacyReport from "./Pharmacy/InventoryReport";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
 
 /* import InventorySetup from './Pharmacy/InventorySetup' */
@@ -132,11 +124,6 @@ import TheatreReport from "./Theatre/TheatreReport";
 
 import { Models } from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
-
-
-
-
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -179,9 +166,10 @@ import ProviderOrganizationClient from "./ManagedCare/Providers";
 
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
-
-import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+import { OrgList } from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport, {
+  ComplaintList,
+} from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
@@ -221,12 +209,11 @@ import OrganizationClient from "./ManagedCare/OrganizationClient";
 import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
+import Complaints from "./ManagedCare/Complaints";
 
 import CreateWallet from "./PouchiiWallet/CreateWallet";
 
 import CheckIn from "./ManagedCare/Checkin";
-
-
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -685,7 +672,6 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/referrals" element={<Referral />} />
             <Route path="/app/managed-care/claims" element={<Claims />} />
 
-
             <Route
               path="/app/managed-care/organisation"
               element={<OrganizationClient />}
@@ -867,7 +853,6 @@ const AppRoutes = () => {
 
           {/**************************Pouchii Wallet *************************************** */}
           {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
-
         </Route>
       </Routes>
     </>
