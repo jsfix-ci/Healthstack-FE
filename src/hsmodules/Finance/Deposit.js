@@ -1,5 +1,8 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { PaystackConsumer } from "react-paystack";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -11,6 +14,8 @@ var random = require("random-string-generator");
 import {Box, Button, Grid, Typography} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -63,6 +68,59 @@ export default function MakeDeposit({closeModal, balance}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
 
+
+    // PAYSTACK CONFIG
+
+    const config = {
+      reference: new Date().getTime().toString(),
+      email: "simpa@healthstack.africa",
+      amount: amountPaid * 100,
+      publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+    };
+  
+   
+  
+    const componentProps = {
+      ...config,
+      text: "Make a Deposit",
+      onSuccess: (reference) => handleSuccess(reference, amount),
+      onClose: closeModal,
+    };
+  
+    const handleSuccess = (amount, reference) => {
+      let transactionDetails = amount;
+      transactionDetails.amount = reference;
+      // dispatch(saveTransactionRef(transactionDetails));
+      // //console.log(transactionDetails, "AMOUNT");
+      // return history("/business/payment");
+    };
+  
+  
+    //FLUTTERWAVE CONFIG
+    const configfw = {
+      public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
+      tx_ref: Date.now(),
+      amount: amountPaid,
+      email: "simpa@healthstack.africa",
+      currency: 'NGN',
+      payment_options: 'card,mobilemoney,ussd',
+      customer: {
+        email: 'simpa@healthstack.africa',
+         phone_number: '070********',
+        name: 'john doe',
+      },
+      customizations: {
+        title: 'my Payment Title',
+        description: 'Payment for items in cart',
+        logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+      },
+    };
+  
+  
+    const handleFlutterPayment = useFlutterwave(configfw);
+  
+  
+
   const {state, setState} = useContext(ObjectContext);
 
   const inputEl = useRef(0);
@@ -70,15 +128,15 @@ export default function MakeDeposit({closeModal, balance}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-  //console.log(state.financeModule.state)
+  ////console.log(state.financeModule.state)
 
   const handleChangeMode = async value => {
-    //console.log(value)
+    ////console.log(value)
     await setPaymentMode(value);
-    /*   console.log(paymentOptions)
+    /*   //console.log(paymentOptions)
        let billm= paymentOptions.filter(el=>el.name===value)
        await setBillMode(billm)
-        console.log(billm) */
+        //console.log(billm) */
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -95,7 +153,7 @@ export default function MakeDeposit({closeModal, balance}) {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -139,7 +197,7 @@ export default function MakeDeposit({closeModal, balance}) {
     if (confirm) {
       await SubwalletTxServ.create(obj)
         .then(resp => {
-          // console.log(resp)
+          // //console.log(resp)
 
           toast({
             message: "Deposit accepted succesfully",
@@ -162,7 +220,7 @@ export default function MakeDeposit({closeModal, balance}) {
     await setButtonState(false);
   };
 
-  //console.log(state.financeModule);
+  ////console.log(state.financeModule);
 
   //initialize page
 
@@ -196,7 +254,10 @@ export default function MakeDeposit({closeModal, balance}) {
             padding: "0 15px",
           }}
         >
-          <Typography>Balance</Typography>
+          <Typography sx={{display: "flex", alignItems: "center"}}>
+            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
+            Balance
+          </Typography>
           <Typography
             sx={{
               fontSize: "24px",
@@ -232,7 +293,7 @@ export default function MakeDeposit({closeModal, balance}) {
             />
           </Grid>
 
-          <Grid item xs={3} mt={1.5}>
+          <Grid item xs={3}>
             <CustomSelect
               options={["Cash", "Wallet", "Bank Transfer", "Card", "Cheque"]}
               placeholder="Payment Mode"
@@ -243,63 +304,43 @@ export default function MakeDeposit({closeModal, balance}) {
           </Grid>
         </Grid>
       </Box>
-
-      <Button variant="outlined" onClick={handleAccept}>
-        Accept
-      </Button>
-
-      {/* <div className="card card-overflow mb-2 ">
-        <div className="card-content pb-1">
-          <div id="Deposit">
-            <div className="field is-horizontal pullup">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control"></div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      name="order"
-                      value={amountPaid}
-                      type="text"
-                      onChange={e => setAmountPaid(e.target.value)}
-                      placeholder="Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hashtag"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control  ">
-                    <input
-                      className="input is-small"
-                      name="description"
-                      value={description}
-                      type="text"
-                      onChange={async e => await setDescription(e.target.value)}
-                      placeholder="Payment Details"
-                    />
-                  </p>
-                </div>
-                <div className="field ">
-                  <p className="control">
-                    <button
-                      className="button is-info is-small  is-pulled-left selectadd"
-                      disabled={buttonState}
-                    >
-                      <span className="is-small" onClick={handleAccept}>
-                        Accept
-                      </span>
-                    </button>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      <Box 
+       sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+      >
+      <GlobalCustomButton
+       >
+      <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />        
+               Pay with Wallet
+             </GlobalCustomButton>
+           <GlobalCustomButton
+              onClick={() => {
+               handleFlutterPayment({
+                 callback: (response) => {
+                    console.log(response);
+                     closePaymentModal()
+                 },
+                 onClose: () => {closeModal},
+               });
+             }}   
+             >
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Flutterwave
+             </GlobalCustomButton>
+             <PaystackConsumer {...componentProps}>
+             {({ initializePayment }) => (
+         <GlobalCustomButton
+         onClick={() => initializePayment(handleSuccess, closeModal)}
+         >
+            <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+            Pay with PayStack
+         </GlobalCustomButton>
+         )}
+         </PaystackConsumer>
+    </Box>
     </Box>
   );
 }

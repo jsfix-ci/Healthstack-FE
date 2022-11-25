@@ -21,6 +21,8 @@ const searchfacility = {};
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
@@ -77,12 +79,12 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeMode = async value => {
-    console.log("value", value);
+    //console.log("value", value);
     await setPaymentMode(value);
-    console.log(value);
+    //console.log(value);
     let billm = paymentOptions.filter(el => el.name === value);
     await setBillMode(billm[0]);
-    console.log(billm);
+    //console.log(billm);
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -95,9 +97,9 @@ export default function BillServiceCreate() {
   };
 
   const handleRow = async ProductEntry => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     //await setMedication(ProductEntry)
 
@@ -109,7 +111,7 @@ export default function BillServiceCreate() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -143,7 +145,7 @@ export default function BillServiceCreate() {
                 //find contract for NHIS
                 let contract=contracts.filter(el=>el.source_org_name==="NHIS")
                 if (contract.length){
-                   // console.log(contract[0].price)
+                   // //console.log(contract[0].price)
                   await  setSellingPrice(contract[0].price)     
              }else{
                 toast({
@@ -154,13 +156,14 @@ export default function BillServiceCreate() {
                   })
                  await setSellingPrice(0)
              }
+
             }else{ */
 
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
-        //  console.log(contract[0].price)
+        //  //console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -176,7 +179,7 @@ export default function BillServiceCreate() {
         el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
-        // console.log(contract[0].price)
+        // //console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -189,7 +192,7 @@ export default function BillServiceCreate() {
       //paymentmode
       let contract = contracts.filter(el => el.source_org === el.dest_org);
       if (contract.length) {
-        // console.log(contract[0].price)
+        // //console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -201,7 +204,7 @@ export default function BillServiceCreate() {
   };
 
   const getSearchfacility = async service => {
-    //  console.log(JSON.stringify(service))
+    //  //console.log(JSON.stringify(service))
     if (!service) {
       //"clear stuff"
       setProductId("");
@@ -228,7 +231,7 @@ export default function BillServiceCreate() {
     setInventoryId(service.inventoryId);
     setBilllingId(service._id);
     await setObj(service);
-    console.log(service.contracts);
+    //console.log(service.contracts);
   };
 
   const getSearchfacility1 = async person => {
@@ -252,7 +255,7 @@ export default function BillServiceCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -261,7 +264,7 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeType = async e => {
-    // console.log(e.target.value)
+    // //console.log(e.target.value)
     await setType(e.target.value);
   };
 
@@ -271,9 +274,9 @@ export default function BillServiceCreate() {
   };
 
   const handleClickProd = async () => {
-    /*   console.log("amount: ",productItemI.amount)
-         console.log("qamount: ",qamount)
-         console.log("calcamount: ",calcamount) */
+    /*   //console.log("amount: ",productItemI.amount)
+         //console.log("qamount: ",qamount)
+         //console.log("calcamount: ",calcamount) */
     if (
       source === "" ||
       quantity === "" ||
@@ -299,12 +302,13 @@ export default function BillServiceCreate() {
             billInfo,
         }).then((resp)=>{
            // medication=resp
-           // console.log(resp)
+           // //console.log(resp)
              handleRow(resp) 
             //update dispense
+
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
         })
          */
     //update status(billed) + action()
@@ -322,9 +326,9 @@ export default function BillServiceCreate() {
     await setSuccess(true);
     getSearchfacility(false);
     setObj("");
-    console.log(sellingprice);
-    /* console.log(qamount)
-        console.log(productItem) */
+    //console.log(sellingprice);
+    /* //console.log(qamount)
+        //console.log(productItem) */
     setChangeAmount(true);
     setContracts("");
     // alert("finished")
@@ -346,7 +350,7 @@ export default function BillServiceCreate() {
     }
     /* calcamount1=quantity*sellingprice
          await setCalcAmount(calcamount1)
-         console.log(calcamount) */
+         //console.log(calcamount) */
   };
 
   useEffect(() => {
@@ -387,7 +391,7 @@ export default function BillServiceCreate() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
     document.documentdetail = productItem;
-    console.log(document.documentdetail);
+    //console.log(document.documentdetail);
     document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
@@ -402,7 +406,7 @@ export default function BillServiceCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
-    console.log(document);
+    //console.log(document);
 
     //order
     document.documentdetail.forEach(async element => {
@@ -475,8 +479,8 @@ export default function BillServiceCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
-    console.log(document, serviceList);
+    //console.log("==================");
+    //console.log(document, serviceList);
 
     let confirm = window.confirm(
       `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
@@ -493,7 +497,7 @@ export default function BillServiceCreate() {
           setProductItem([]);
           setCalcAmount(0);
           const today = new Date().toLocaleString();
-          //console.log(today)
+          ////console.log(today)
           setDate(today);
           const invoiceNo = random(6, "uppernumeric");
           setDocumentNo(invoiceNo);
@@ -508,7 +512,7 @@ export default function BillServiceCreate() {
             show :'create'
         }
       await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -528,7 +532,7 @@ export default function BillServiceCreate() {
     productEntry.createdby = user._id;
     productEntry.transactioncategory = "debit";
 
-    // console.log("b4 facility",productEntry);
+    // //console.log("b4 facility",productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
@@ -568,7 +572,7 @@ export default function BillServiceCreate() {
   useEffect(() => {
     //update selling price
     if (!!billMode && !!contracts) {
-      // console.log(contracts)
+      // //console.log(contracts)
       checkPrice(contracts, billMode);
     }
 
@@ -583,7 +587,7 @@ export default function BillServiceCreate() {
     let billme;
     let obj;
     if (!!patient) {
-      // console.log(patient)
+      // //console.log(patient)
 
       patient.paymentinfo.forEach((pay, i) => {
         if (pay.active) {
@@ -595,7 +599,7 @@ export default function BillServiceCreate() {
               paymentoptions.push(obj);
               setPaymentMode("Cash");
               billme = obj;
-              // console.log("billme",billme)
+              // //console.log("billme",billme)
               break;
             case "Family":
               // code block
@@ -608,7 +612,7 @@ export default function BillServiceCreate() {
               paymentoptions.push(obj);
               setPaymentMode("Family Cover");
               billme = obj;
-              // console.log("billme",billme)
+              // //console.log("billme",billme)
               break;
             case "Company":
               // code block
@@ -621,11 +625,11 @@ export default function BillServiceCreate() {
                 "Company: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              // console.log("billme",billme)
+              // //console.log("billme",billme)
               break;
             case "HMO":
               // code block
-              console.log(pay);
+              //console.log(pay);
               let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
 
               obj = createObj(pay, sname, "HMOCover", "HMO Cover");
@@ -634,7 +638,7 @@ export default function BillServiceCreate() {
                 "HMO: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              //  console.log("billme",billme)
+              //  //console.log("billme",billme)
               break;
             default:
             // code block
@@ -645,23 +649,23 @@ export default function BillServiceCreate() {
       setPaymentOptions(paymentoptions);
       setBillMode(billme);
     }
-    //console.log(paymentoptions)
-    // console.log(billMode)
+    ////console.log(paymentoptions)
+    // //console.log(billMode)
     return () => {};
   }, [source]);
 
   useEffect(() => {
-    console.log("startup");
+    //console.log("startup");
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
-    //console.log(today)
+    ////console.log(today)
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
     return () => {
-      console.log("closeup");
+      //console.log("closeup");
       const today = new Date().toLocaleString();
-      //console.log(today)
+      ////console.log(today)
       setDate(today);
       const invoiceNo = random(6, "uppernumeric");
       setDocumentNo(invoiceNo);
@@ -672,20 +676,20 @@ export default function BillServiceCreate() {
   useEffect(() => {
     calcamount1 = quantity * sellingprice;
     setCalcAmount(calcamount1);
-    //console.log(calcamount1)
+    ////console.log(calcamount1)
     setChangeAmount(true);
     return () => {};
   }, [quantity, sellingprice]);
 
   useEffect(() => {
-    // console.log("success", success)
+    // //console.log("success", success)
     if (success) {
       setSuccess(false);
     }
   }, [success]);
 
   useEffect(() => {
-    // console.log("success", success)
+    // //console.log("success", success)
     if (success1) {
       setSuccess1(false);
     }
@@ -693,7 +697,7 @@ export default function BillServiceCreate() {
 
   useEffect(() => {
     if (!!billMode && !!contracts) {
-      //console.log(contracts)
+      ////console.log(contracts)
       checkPrice(contracts, billMode);
     }
 
@@ -701,7 +705,7 @@ export default function BillServiceCreate() {
   }, [billMode]);
 
   useEffect(() => {
-    // console.log(sellingprice)
+    // //console.log(sellingprice)
     return () => {};
   }, [sellingprice]);
 
@@ -709,7 +713,7 @@ export default function BillServiceCreate() {
     getSearchfacility1(state.ClientModule.selectedClient);
 
     /* appointee=state.ClientModule.selectedClient 
-        console.log(appointee.firstname) */
+        //console.log(appointee.firstname) */
     return () => {};
   }, [state.ClientModule.selectedClient]);
 
@@ -822,9 +826,207 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
+      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
+        <Grid container spacing={2}>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box>
+              <Box mb={0.5} sx={{height: "40px"}}>
+                <FormsHeaderText text="Bill Information" />
+              </Box>
+              <Grid container spacing={1} mb={1}>
+                <Grid item xs={8}>
+                  <ClientSearch
+                    getSearchfacility={getSearchfacility1}
+                    clear={success1}
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <CustomSelect
+                    name="paymentmode"
+                    value={paymentmode}
+                    onChange={e => handleChangeMode(e.target.value)}
+                    options={paymentOptions.map(item => item.name)}
+                    initialOption="Payment option"
+                    placeholder="Billing Mode"
+                    //label="Billing Mode"
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    name="date"
+                    label="Date and Time"
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={documentNo}
+                    onChange={e => setDocumentNo(e.target.value)}
+                    label="Invoice Number"
+                    type="text"
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={totalamount}
+                    type="text"
+                    onChange={e => setTotalamount(e.target.value)}
+                    label=" Total Amount"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                height: "40px",
+              }}
+              mb={0.5}
+            >
+              <FormsHeaderText text="Choose Service Item" />
+
+              <GlobalCustomButton onClick={handleClickProd}>
+                <AddCircleOutlineIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />{" "}
+                Add
+              </GlobalCustomButton>
+            </Box>
+
+            <Box mb={1}>
+              <Grid container spacing={1}>
+                <Grid item xs={7}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ServiceSearch
+                      getSearchfacility={getSearchfacility}
+                      clear={success}
+                      mode={billMode}
+                    />
+                    <input
+                      className="input is-small"
+                      value={productId}
+                      name="productId"
+                      type="text"
+                      onChange={e => setProductId(e.target.value)}
+                      placeholder="Product Id"
+                      style={{display: "none"}}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={2}>
+                  <Input
+                    name="quantity"
+                    value={quantity}
+                    type="text"
+                    onChange={e => handleQtty(e)}
+                    label="Quantity"
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Input
+                      name="qamount"
+                      disabled={changeAmount}
+                      value={calcamount}
+                      type="text"
+                      onChange={async e => await setCalcAmount(e.target.value)}
+                      label="Amount"
+                    />
+
+                    <GlobalCustomButton
+                      disabled={
+                        user.currentEmployee?.roles.includes("Adjust Price") ||
+                        user.currentEmployee?.roles.length === 0 ||
+                        user.stacker
+                      }
+                      sx={{
+                        marginTop: "10px",
+                      }}
+                    >
+                      Adjust
+                    </GlobalCustomButton>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Collapse in={productItem.length > 0}>
+              <Box
+                sx={{
+                  width: "100%",
+
+                  overflowY: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={productSchema}
+                  //data={dummyData}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => onRowClicked(row)}
+                  progressPending={false}
+                />
+              </Box>
+            </Collapse>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{
+            display: "flex",
+            marginTop: "15px",
+          }}
+        >
+          <GlobalCustomButton
+            variant="outlined"
+            disabled={!productItem.length > 0}
+            onClick={handleCreateBill}
+            sx={{
+              marginRight: "10px",
+            }}
+          >
+            Done
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            color="warning"
+            variant="outlined"
+            disabled={!productItem.length > 0}
+            //onClick={onSubmit}
+          >
+            Clear
+          </GlobalCustomButton>
+        </Box>
+      </Box>
       <div
         className="card card-overflow"
-        style={{width: "50vw", maxHeight: "70vh"}}
+        style={{width: "600px", maxHeight: "70vh"}}
       >
         <div className="card-content ">
           <form onSubmit={onSubmit}>
@@ -832,230 +1034,17 @@ export default function BillServiceCreate() {
             {/* handleSubmit(onSubmit) */}
             <div className="field is-horizontal">
               <div className="field-body">
-                <div className="field">
-                  <Box
-                    mb={1}
-                    sx={{
-                      width: "100%",
-                      height: "80px",
-                    }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs={8}>
-                        {state.ClientModule.selectedClient.firstname !==
-                        undefined ? (
-                          <Input
-                            value={`${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
-                            disabled
-                            //label="Selected Client"
-                          />
-                        ) : (
-                          <ClientSearch
-                            getSearchfacility={getSearchfacility1}
-                            clear={success1}
-                          />
-                        )}
-                      </Grid>
-
-                      <Grid item xs={4} mt={1.5}>
-                        <CustomSelect
-                          name="paymentmode"
-                          defaultValue={paymentmode}
-                          onChange={e => handleChangeMode(e.target.value)}
-                          options={paymentOptions.map(item => item.name)}
-                          initialOption="Payment option"
-                          label="Billing Mode"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Box
-                    mb={1}
-                    sx={{
-                      width: "100%",
-                      height: "80px",
-                    }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <Input
-                          value={date}
-                          onChange={e => setDate(e.target.value)}
-                          name="date"
-                          label="Date and Time"
-                          disabled
-                        />
-                      </Grid>
-
-                      <Grid item xs={4}>
-                        <Input
-                          value={documentNo}
-                          onChange={e => setDocumentNo(e.target.value)}
-                          label="Invoice Number"
-                          type="text"
-                          disabled
-                        />
-                      </Grid>
-
-                      <Grid item xs={4}>
-                        <Input
-                          value={totalamount}
-                          type="text"
-                          onChange={e => setTotalamount(e.target.value)}
-                          label=" Total Amount"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Divider
-                    sx={{
-                      marginBottom: "25px",
-                    }}
-                  />
-
-                  <Typography color="text.primary" mb={1}>
-                    Choose Service Item:
-                  </Typography>
-
-                  <Box mb={1}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={7}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          <ServiceSearch
-                            getSearchfacility={getSearchfacility}
-                            clear={success}
-                            mode={billMode}
-                          />
-                          <input
-                            className="input is-small"
-                            value={productId}
-                            name="productId"
-                            type="text"
-                            onChange={e => setProductId(e.target.value)}
-                            placeholder="Product Id"
-                            style={{display: "none"}}
-                          />
-                          <Button
-                            variant="outlined"
-                            startIcon={<AddCircleOutlineIcon />}
-                            onClick={handleClickProd}
-                            sx={{
-                              marginTop: "10px",
-                              width: "50%",
-                              //textTransform: "capitalize",
-                            }}
-                          >
-                            Add
-                          </Button>
-                        </Box>
-                      </Grid>
-
-                      <Grid item xs={2}>
-                        <Input
-                          name="quantity"
-                          value={quantity}
-                          type="text"
-                          onChange={e => handleQtty(e)}
-                          label="Quantity"
-                        />
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          <Input
-                            name="qamount"
-                            disabled={changeAmount}
-                            value={calcamount}
-                            type="text"
-                            onChange={async e =>
-                              await setCalcAmount(e.target.value)
-                            }
-                            label="Amount"
-                          />
-
-                          <Button
-                            variant="contained"
-                            size="small"
-                            sx={{
-                              marginTop: "10px",
-                              //textTransform: "capitalize",
-                            }}
-                            disabled={
-                              user.currentEmployee?.roles.includes(
-                                "Adjust Price"
-                              ) ||
-                              user.currentEmployee?.roles.length === 0 ||
-                              user.stacker
-                            }
-                            onClick={handleChangeAmount}
-                          >
-                            Adjust
-                          </Button>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Collapse in={productItem.length > 0}>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                      }}
-                    >
-                      <CustomTable
-                        title={""}
-                        columns={productSchema}
-                        //data={dummyData}
-                        data={productItem}
-                        pointerOnHover
-                        highlightOnHover
-                        striped
-                        onRowClicked={row => onRowClicked(row)}
-                        progressPending={false}
-                      />
-                    </Box>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        marginTop: "15px",
-                      }}
-                    >
-                      <Button
-                        variant="outlined"
-                        disabled={!productItem.length > 0}
-                        onClick={handleCreateBill}
-                        sx={{
-                          marginRight: "20px",
-                        }}
-                      >
-                        Done
-                      </Button>
-
-                      <Button
-                        variant="contained"
-                        color="error"
-                        disabled={!productItem.length > 0}
-                        onClick={onSubmit}
-                      >
-                        Clear
-                      </Button>
-                    </Box>
-                  </Collapse>
-                </div>
+                {state.ClientModule.selectedClient.firstname !== undefined ? (
+                  <div className="field">
+                    <label className="label is-size-7">
+                      {" "}
+                      {state.ClientModule.selectedClient.firstname}{" "}
+                      {state.ClientModule.selectedClient.lastname}
+                    </label>
+                  </div>
+                ) : (
+                  <div className="field"></div>
+                )}
               </div>
             </div>
           </form>
@@ -1099,24 +1088,24 @@ export function ServiceSearch2({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     /* if (count===2){
-             console.log("stuff was chosen")
+             //console.log("stuff was chosen")
          } */
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async value => {
     setVal(value);
@@ -1145,8 +1134,8 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          //console.log("product  fetched successfully")
-          //console.log(res.data)
+          ////console.log("product  fetched successfully")
+          ////console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -1155,11 +1144,11 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           toast.error(`Error creating ProductEntry  ${err}`);
         });
     } else {
-      //console.log("less than 3 ")
-      // console.log(val)
+      ////console.log("less than 3 ")
+      // //console.log(val)
       setShowPanel(false);
       await setFacilities([]);
-      // console.log(facilities)
+      // //console.log(facilities)
     }
   };
 
@@ -1172,7 +1161,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      // console.log("success has changed",clear)
+      // //console.log("success has changed",clear)
       setSimpa("");
     }
     return () => {};

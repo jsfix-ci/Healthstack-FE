@@ -10,7 +10,6 @@ import {toast} from "bulma-toast";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -69,7 +68,7 @@ export function FacilityServiceRevenue() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -77,7 +76,7 @@ export function FacilityServiceRevenue() {
   /*  useEffect(()=>{
         //setFacility(user.activeInventory.FacilityId)//
       if (!user.stacker){
-          console.log(currentUser)
+          //console.log(currentUser)
         setValue("facility", user.currentEmployee.facilityDetail._id,  {
             shouldValidate: true,
             shouldDirty: true
@@ -105,7 +104,7 @@ export function FacilityServiceRevenue() {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacility(res.data);
         //e.target.reset();
         /*  setMessage("Created Inventory successfully") */
@@ -141,9 +140,9 @@ export function FacilityServiceRevenue() {
                     createdAt: -1
                 }
                 }})
-                 console.log(findProductEntry)
+                 //console.log(findProductEntry)
     
-         // console.log("balance", findProductEntry.data[0].amount)
+         // //console.log("balance", findProductEntry.data[0].amount)
             if (findProductEntry.data.length>0){
                 await setBalance(findProductEntry.data[0].amount)
             }else{
@@ -161,7 +160,7 @@ export function FacilityServiceRevenue() {
         setError(false)
         setSuccess(false)
          // data.createdby=user._id
-          console.log(data);
+          //console.log(data);
           if (user.currentEmployee){
          data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
           }
@@ -294,7 +293,7 @@ export function HMOServiceRevenue() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -302,7 +301,7 @@ export function HMOServiceRevenue() {
   /*  useEffect(()=>{
         //setFacility(user.activeInventory.FacilityId)//
       if (!user.stacker){
-          console.log(currentUser)
+          //console.log(currentUser)
         setValue("facility", user.currentEmployee.facilityDetail._id,  {
             shouldValidate: true,
             shouldDirty: true
@@ -330,7 +329,7 @@ export function HMOServiceRevenue() {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacility(res.data);
         //e.target.reset();
         /*  setMessage("Created Inventory successfully") */
@@ -366,9 +365,9 @@ export function HMOServiceRevenue() {
                     createdAt: -1
                 }
                 }})
-                 console.log(findProductEntry)
+                 //console.log(findProductEntry)
     
-         // console.log("balance", findProductEntry.data[0].amount)
+         // //console.log("balance", findProductEntry.data[0].amount)
             if (findProductEntry.data.length>0){
                 await setBalance(findProductEntry.data[0].amount)
             }else{
@@ -386,7 +385,7 @@ export function HMOServiceRevenue() {
         setError(false)
         setSuccess(false)
          // data.createdby=user._id
-          console.log(data);
+          //console.log(data);
           if (user.currentEmployee){
          data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
           }

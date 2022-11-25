@@ -7,9 +7,11 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 // import PaymentCreate from "./PaymentCreate";
-//import PaymentCreate from "./PharmacyPayment";
-//import Payment from "./PharmacyPayment";
+import PaymentCreate from "./Payment";
+import Payment from "./Payment";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -24,6 +26,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function PharmacyBillService() {
   const [createModal, setCreateModal] = useState(false);
@@ -48,9 +52,9 @@ export default function PharmacyBillService() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        header="Bill Service/Client"
+        header="Create Bill Service"
       >
-        <BillServiceCreate />
+        <BillServiceCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
       {/* <BillServiceCreate /> */}
@@ -112,7 +116,7 @@ export function BillsList({openCreateModal}) {
       setSelectedOrders([]);
     }
 
-    // console.log(e.target.checked)
+    // //console.log(e.target.checked)
     order.checked = e.target.checked;
     await handleSelectedClient(order.participantInfo.client);
     //handleMedicationRow(order)
@@ -136,13 +140,13 @@ export function BillsList({openCreateModal}) {
       );
     }
 
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
   };
   const handleMedicationRow = async (ProductEntry, e) => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
     // alert("Header touched")
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     /* alert(ProductEntry.checked)*/
     /*  ProductEntry.checked=!ProductEntry.checked */
     /*  await setSelectedFinance(ProductEntry)
@@ -153,7 +157,7 @@ export function BillsList({openCreateModal}) {
  
          }
        await setState((prevstate)=>({...prevstate, financeModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -172,7 +176,7 @@ export function BillsList({openCreateModal}) {
 
   const handleSearch = val => {
     const field = "name";
-    //console.log(val)
+    ////console.log(val)
     BillServ.find({
       query: {
         "participantInfo.paymentmode.detail.principalName": {
@@ -202,13 +206,13 @@ export function BillsList({openCreateModal}) {
       },
     })
       .then(res => {
-        // console.log(res)
+        // //console.log(res)
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -216,7 +220,7 @@ export function BillsList({openCreateModal}) {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -240,10 +244,10 @@ export function BillsList({openCreateModal}) {
       },
     });
 
-    //  console.log("updatedorder", findProductEntry.groupedOrder)
+    //  //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
 
-    console.log(findProductEntry.groupedOrder);
+    //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
   const handleRow = async (Client, e) => {
@@ -251,7 +255,7 @@ export function BillsList({openCreateModal}) {
   };
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
@@ -269,7 +273,7 @@ export function BillsList({openCreateModal}) {
 
   useEffect(() => {
     //changes with checked box
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
 
     return () => {};
   }, [selectedOrders]);
@@ -304,7 +308,7 @@ export function BillsList({openCreateModal}) {
       return allOrders;
     });
 
-    //console.log(clientOrders);
+    ////console.log(clientOrders);
     setClientBills(clientOrders.flat(1));
   };
 
@@ -355,7 +359,7 @@ export function BillsList({openCreateModal}) {
           </>
         );
         //row.clientAmount.toFixed(2);
-        // console.log(bills);
+        // //console.log(bills);
         // bills.map((category, i) => {
         //   return category.catAmount.toFixed(2);
         // });
@@ -458,11 +462,13 @@ export function BillsList({openCreateModal}) {
           </div>
 
           {handleCreateNew && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutlineOutlinedIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Add New
+            </GlobalCustomButton>
           )}
         </TableMenu>
         <div
@@ -475,7 +481,7 @@ export function BillsList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 100px)",
+              height: "calc(100% - 70px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49%" : "100%",
             }}
@@ -496,7 +502,7 @@ export function BillsList({openCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 100px)",
+                  height: "calc(100% - 70px)",
                   width: "49%",
                 }}
               >
@@ -513,18 +519,6 @@ export function BillsList({openCreateModal}) {
               </div>
             </>
           )}
-
-          {/* {state.financeModule.show === "detail" && (
-            <div
-              style={{
-                height: "calc(100% - 70px)",
-                width: "51.5%",
-                transition: "width 0.5s ease-in",
-              }}
-            >
-              <PaymentCreate />
-            </div>
-          )} */}
         </div>
       </div>
     </>

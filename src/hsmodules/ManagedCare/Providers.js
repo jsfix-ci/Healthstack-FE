@@ -36,12 +36,11 @@ import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
 import { MdEmail, MdLocalHospital } from "react-icons/md";
-import { ModalHeader } from "semantic-ui-react";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Provider() {
+export default function Provider({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -49,26 +48,32 @@ export default function Provider() {
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(0);
   return (
-    <section className="section remPadTop">
-      <ProviderList showModal={showModal} setShowModal={setShowModal} />
-      {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <OrganizationCreate />
-        </ModalBox>
-      )}
-      {showModal === 2 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          {/* <NewOrganizationCreate /> */}
-          <OrganizationDetail setShowModal={setShowModal} />
-        </ModalBox>
-      )}
-      
-      {showModal === 3 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <NewOrganizationCreate />
-        </ModalBox>
-      )}
-    </section>
+    <>
+      <section className="section remPadTop">
+        <ProviderList
+          showModal={showModal}
+          setShowModal={setShowModal}
+          standAlone={standAlone}
+        />
+        {showModal === 1 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <OrganizationCreate />
+          </ModalBox>
+        )}
+        {showModal === 2 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            {/* <NewOrganizationCreate /> */}
+            <OrganizationDetail setShowModal={setShowModal} />
+          </ModalBox>
+        )}
+
+        {showModal === 3 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <NewOrganizationCreate />
+          </ModalBox>
+        )}
+      </section>
+    </>
   );
 }
 
@@ -619,7 +624,7 @@ export function OrganizationCreate() {
   );
 }
 
-export function ProviderList({ showModal, setShowModal }) {
+export function ProviderList({ showModal, setShowModal, standAlone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -994,6 +999,38 @@ export function ProviderList({ showModal, setShowModal }) {
       status: "Suspended",
     },
   ];
+  const dummyData2 = [
+    {
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
+    },
+    {
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Expired",
+    },
+    {
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
+    },
+  ];
 
   const returnCell = (status) => {
     // if (status === "approved") {
@@ -1187,23 +1224,23 @@ export function ProviderList({ showModal, setShowModal }) {
 
                 {handleCreateNew && (
                   <div>
-                    <MuiButton
+                    {/* <MuiButton
                       variant="outlined"
                       sx={{
-                        widh: "fit",
-                        textTransform: "capitalize",
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        marginRight: "20px",
+                        widh: 'fit',
+                        textTransform: 'capitalize',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        marginRight: '20px',
                       }}
                       onClick={handleCreateNew}
                     >
                       <FileUploadIcon
-                        sx={{ marginRight: "5px" }}
+                        sx={{ marginRight: '5px' }}
                         fontSize="small"
                       />
                       Upload Provider
-                    </MuiButton>
+                    </MuiButton> */}
                     <MuiButton
                       variant="contained"
                       sx={{
@@ -1223,23 +1260,22 @@ export function ProviderList({ showModal, setShowModal }) {
                   </div>
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "700px", overflow: "auto" }}>
-                {value === "list" ? (
-                  <CustomTable
-                    title={""}
-                    columns={preAuthSchema}
-                    data={dummyData}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
-              </div>
+
+              {value === "list" ? (
+                <CustomTable
+                  title={""}
+                  columns={preAuthSchema}
+                  data={standAlone ? dummyData2 : dummyData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              ) : (
+                <CalendarGrid appointments={mapFacilities()} />
+              )}
             </PageWrapper>
           </div>
         </>
@@ -2635,7 +2671,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} mt={1.5}>
+              <Grid item xs={12} sm={6} md={6}>
                 <BasicDatePicker
                   label={"DATE OF REVIEW"}
                   register={register("date")}
@@ -2667,7 +2703,7 @@ export function NewOrganizationCreate() {
                   register={register("inspectionParameters")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} mt={1.5}>
+              <Grid item xs={12} sm={6} md={6}>
                 <BasicDatePicker label={"DATE"} register={register("date")} />
               </Grid>
             </Grid>
@@ -3393,7 +3429,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={4} md={6}>
                 <Input label={"Phone"} register={register("phone")} />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
@@ -3423,7 +3459,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker
                   label={"Date of Review"}
                   register={register("date")}
@@ -3454,7 +3490,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
@@ -3583,9 +3619,8 @@ export function OrganizationDetail({ showModal, setShowModal }) {
         >
           <Button label="Edit" onClick={handleEdit} />
           <Button label="Accreditation" />
-
-          <Button onClick={() => setApprove(true)}>Approve</Button>
-          <Button onClick={() => setDeny(true)}>Reject</Button>
+          <Button label="Close" onClick={closeForm} />
+          <Button label="Delete" />
         </Box>
         {approve && (
           <>
@@ -3661,7 +3696,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("address")}
+                  register={register("lga")}
                   label="Address"
                   value="1234,5th Avenue,New York"
                   disabled
@@ -3669,7 +3704,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("city")}
+                  register={register("lga")}
                   label="City"
                   value="Lagos"
                   disabled
@@ -3677,7 +3712,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("phone_no")}
+                  register={register("lga")}
                   label="Phone"
                   value="09123802410"
                   disabled
@@ -3685,7 +3720,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Grid>
               <Grid item xs={6}>
                 <Input
-                  register={register("email")}
+                  register={register("lga")}
                   label="Email"
                   value="motun6@gmail.com"
                   disabled

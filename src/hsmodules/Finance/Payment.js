@@ -9,15 +9,17 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import PaymentCreate from "./PaymentCreate";
 import PatientProfile from "../Client/PatientProfile";
+import PaymentsIcon from "@mui/icons-material/Payments";
 
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box} from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -65,7 +67,7 @@ export default function FinancePayment() {
       <BillingList openModal={handleOpenModal} />
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
-        <Box sx={{width: "750px"}}>
+        <Box sx={{width: "800px"}}>
           <PaymentCreate closeModal={handleCloseModal} />
         </Box>
       </ModalBox>
@@ -133,13 +135,13 @@ export function BillingList({openModal}) {
       }));
     }
 
-    // console.log(e.target.checked)
+    // //console.log(e.target.checked)
 
     await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
     //handleMedicationRow(order)/
 
     await client.bills.forEach(bill => {
-      // console.log(bill)
+      // //console.log(bill)
       bill.order.forEach(order => {
         let medication = order;
         medication.show = "none";
@@ -226,13 +228,13 @@ export function BillingList({openModal}) {
       );
     }
 
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
   };
   const handleMedicationRow = async (ProductEntry, e) => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
     // alert("Header touched")
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     /* alert(ProductEntry.checked)*/
     /*  ProductEntry.checked=!ProductEntry.checked */
     /*  await setSelectedFinance(ProductEntry)
@@ -243,7 +245,7 @@ export function BillingList({openModal}) {
 
         }
       await setState((prevstate)=>({...prevstate, financeModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -256,12 +258,12 @@ export function BillingList({openModal}) {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = val => {
     const field = "name";
-    //console.log(val)
+    ////console.log(val)
     BillServ.find({
       query: {
         "participantInfo.paymentmode.detail.principalName": {
@@ -291,13 +293,13 @@ export function BillingList({openModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -305,7 +307,7 @@ export function BillingList({openModal}) {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -330,9 +332,9 @@ export function BillingList({openModal}) {
       },
     });
 
-    // console.log("updatedorder", findProductEntry.groupedOrder)
+    // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
-    console.log(findProductEntry.groupedOrder);
+    //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
@@ -375,12 +377,12 @@ export function BillingList({openModal}) {
       return allOrders;
     });
 
-    //console.log(clientOrders);
+    ////console.log(clientOrders);
     setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
@@ -391,7 +393,7 @@ export function BillingList({openModal}) {
 
   useEffect(() => {
     //changes with checked box
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
 
     return () => {};
   }, [selectedOrders]);
@@ -474,7 +476,7 @@ export function BillingList({openModal}) {
           </>
         );
         //row.clientAmount.toFixed(2);
-        // console.log(bills);
+        // //console.log(bills);
         // bills.map((category, i) => {
         //   return category.catAmount.toFixed(2);
         // });
@@ -488,23 +490,15 @@ export function BillingList({openModal}) {
       key: "bills",
       description: "Enter Grand Total",
       selector: row => (
-        <button
-          className="button is-info is-small"
-          style={{
-            backgroundColor: "#3298dc",
-            color: "#fff",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.4rem 1rem",
-            border: "none",
-            cursor: "pointer",
-          }}
+        <GlobalCustomButton
           onClick={() => {
             handlePay(row);
           }}
+          sx={{marginRight: "15px"}}
         >
-          PAY
-        </button>
+          <PaymentsIcon sx={{marginRight: "3px"}} fontSize="small" />
+          Pay
+        </GlobalCustomButton>
       ),
       sortable: true,
       required: true,
@@ -611,11 +605,10 @@ export function BillingList({openModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label={`Make Payment`}
-              onClick={openModal}
-            />
+            <GlobalCustomButton onClick={openModal}>
+              <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Make Payment
+            </GlobalCustomButton>
           )}
         </TableMenu>
 

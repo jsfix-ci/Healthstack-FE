@@ -1,6 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { UserContext, ObjectContext } from "../context";
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -70,6 +74,7 @@ import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
+import PharmacyReport from "./Pharmacy/InventoryReport";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
 
 /* import InventorySetup from './Pharmacy/InventorySetup' */
@@ -108,6 +113,7 @@ import RadCheckedin from "./Appointment/Radworkflow";
 import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
 import RadiologyHome from "./Radiology/RadiologyHome";
 import RadiologyPayment from "./Radiology/RadiologyPayment";
+import RadDetails from "./Radiology/RadDetails";
 import RadiologyReport from "./Radiology/RadiologyReport";
 import Report from "./Accounts/Report";
 import Services from "./Finance/Services";
@@ -159,8 +165,6 @@ import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
 
-import CheckIn from "./ManagedCare/Checkin";
-
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 
@@ -170,6 +174,9 @@ import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport, {
   ComplaintList,
 } from "./ManagedCare/Complaints";
+import { OrgList } from "./ManagedCare/OrgClientList";
+
+import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
@@ -209,11 +216,9 @@ import OrganizationClient from "./ManagedCare/OrganizationClient";
 import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
-import Complaints from "./ManagedCare/Complaints";
 
-import CreateWallet from "./PouchiiWallet/CreateWallet";
-import FrontDesk from "./Client/FrontDesk";
-import Store from "./Finance/Store";
+import WalletOTP from "./PouchiiWallet/walletOtp";
+import CheckIn from "./ManagedCare/Checkin";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -455,7 +460,7 @@ const AppRoutes = () => {
           <Route path="/app/inventory" element={<InventoryHome />}>
             <Route index element={<InventoryDashboard />} />
             <Route
-              path="/app/inventory/inv-dispense"
+              path="/app/inventory/dispensary"
               element={<InventoryDispense />}
             />
             <Route
@@ -592,6 +597,7 @@ const AppRoutes = () => {
               path="/app/radiology/payment"
               element={<RadiologyPayment />}
             />
+            <Route path="/app/radiology/rad-details" element={<RadDetails />} />
           </Route>
 
           {/* ***************************** THEATRE ROUTES ************************************* */}
@@ -804,7 +810,7 @@ const AppRoutes = () => {
 
           {/**************************Immunization *************************************** */}
           <Route path="/app/immunization" element={<ImmunizationHome />}>
-            <Route index element={<ImmunizationDashboardComponent />} />{" "}
+            <Route index element={<ImmunizationDashboardComponent />} />
             <Route
               path="/app/immunization/dashboard"
               element={<ImmunizationDashboardComponent />}
@@ -850,10 +856,9 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
-
-          {/**************************Pouchii Wallet *************************************** */}
-          {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
         </Route>
+        {/**************************Pouchii Wallet *************************************** */}
+        <Route path="/verify-otp" element={<WalletOTP />} />
       </Routes>
     </>
   );

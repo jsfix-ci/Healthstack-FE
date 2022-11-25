@@ -17,10 +17,8 @@ import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import api from "../../utils/api";
+
 import dayjs from "dayjs";
-import axios from "axios";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
@@ -28,7 +26,6 @@ import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import { ClientMiniSchema } from "./schema";
 import { useForm } from "react-hook-form";
-
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -223,7 +220,6 @@ export function ClientCreate({ open, setOpen }) {
             2.email alone or 
             3.both is entered
             4. all other 5 parameters
-
         */
     let query = {};
 
@@ -813,11 +809,7 @@ export function ClientList({ showModal, openDetailModal }) {
     <>
       {user ? (
         <>
-          <ModalBox
-            open={open}
-            onClose={handleCloseModal}
-            style={{ width: "75%" }}
-          >
+          <ModalBox open={open} onClose={handleCloseModal} width="75%">
             <ClientView
               user={selectedClient}
               open={open}
@@ -847,12 +839,12 @@ export function ClientList({ showModal, openDetailModal }) {
                 <GlobalCustomButton
                   onClick={showModal}
                   text="Add New"
-                  MuiIcon={
-                    <AddCircleOutlineOutlinedIcon
-                      fontSize="small"
-                      sx={{ marginRight: "5px" }}
-                    />
-                  }
+                  // MuiIcon={
+                  //   <AddCircleOutlineOutlinedIcon
+                  //     fontSize="small"
+                  //     sx={{ marginRight: '5px' }}
+                  //   />
+                  // }
                 />
               )}
             </TableMenu>
@@ -902,7 +894,7 @@ export function ClientDetail({ closeDetailModal }) {
   const [editClient, setEditClient] = useState(false);
 
   const ClientServ = client.service("client");
-  // const createWallet = client.service("register")
+
   const [success, setSuccess] = useState(false);
 
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -1154,7 +1146,7 @@ export function ClientDetail({ closeDetailModal }) {
     <>
       <Box
         sx={{
-          width: "90vw",
+          width: "800px",
           maxHeight: "80vh",
           // overflowY: "auto",
         }}
@@ -1178,7 +1170,6 @@ export function ClientDetail({ closeDetailModal }) {
               color="success"
             />
           )}
-
           {(user.currentEmployee?.roles.includes("Bill Client") ||
             user.currentEmployee?.roles.length === 0 ||
             user.stacker) && (
@@ -1191,15 +1182,22 @@ export function ClientDetail({ closeDetailModal }) {
               color="info"
             />
           )}
-
-          <GlobalCustomButton
-            text="Create Wallet"
-            onClick={handleCreateWallet}
-            customStyles={{
+          <MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
               marginRight: "5px",
             }}
-          />
-
+            onClick={handleFinancialInfo}
+          >
+            Create Wallet
+          </MuiButton>
+          {/* customStyles=
+          {{
+            marginRight: '5px',
+          }}
+          /> */}
           <GlobalCustomButton
             text="Payment Information"
             onClick={handleFinancialInfo}
@@ -1208,7 +1206,6 @@ export function ClientDetail({ closeDetailModal }) {
             }}
             color="secondary"
           />
-
           <GlobalCustomButton
             text="Schedule Appointment"
             onClick={handleSchedule}
@@ -1218,7 +1215,6 @@ export function ClientDetail({ closeDetailModal }) {
             variant="outlined"
             color="secondary"
           />
-
           <GlobalCustomButton
             text="Attend to Client"
             onClick={() => {
@@ -1582,11 +1578,9 @@ export function ClientDetail({ closeDetailModal }) {
 
             {/* 
             <MuiButton
-
               variant="contained"
               color="error"
               sx={{textTransform: "capitalize"}}
-
               onClick={handleDelete}
             >
               Delete Client
