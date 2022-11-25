@@ -212,8 +212,8 @@ import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 import Complaints from "./ManagedCare/Complaints";
 
 import CreateWallet from "./PouchiiWallet/CreateWallet";
-
-import CheckIn from "./ManagedCare/Checkin";
+import FrontDesk from "./Client/FrontDesk";
+import Store from "./Finance/Store";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
