@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const InputField = styled.input`
   position: absolute;
@@ -8,7 +8,7 @@ export const InputField = styled.input`
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  border: 1px solid ${({theme}) => theme.grayTwo};
+  border: 1px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
   &:hover {
     border: 1px solid #000000;
@@ -40,6 +40,7 @@ export const InputBox = styled.div`
   width: 100%;
 
   text-align: left;
+  margin: '2px 0';
   & i {
     position: absolute;
     right: 0.4rem;
@@ -70,12 +71,12 @@ export const BlueInputField = styled.input`
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  border: 1.5px solid ${({theme}) => theme.grayTwo};
+  border: 1.5px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
   &:focus + label {
     /* top: -0.5rem;
     left: 0.8rem; */
-    color: ${({theme}) => theme.blueTwo};
+    color: ${({ theme }) => theme.blueTwo};
     font-weight: 500;
     z-index: 10;
   }
