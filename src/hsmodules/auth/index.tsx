@@ -1,4 +1,5 @@
 import {
+  Box,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -75,7 +76,7 @@ function Login() {
                 <Input {...field} type='email' label='Email' />
               )}
             />
-            <br style={{ height: '6px' }} />
+            <Box sx={{ height: '8px' }} />
             <Controller
               name='password'
               control={control}
