@@ -40,7 +40,6 @@ export const InputBox = styled.div`
   width: 100%;
 
   text-align: left;
-  margin: '2px 0';
   & i {
     position: absolute;
     right: 0.4rem;

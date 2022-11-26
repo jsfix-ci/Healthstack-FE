@@ -75,6 +75,7 @@ function Login() {
                 <Input {...field} type='email' label='Email' />
               )}
             />
+            <br style={{ height: '6px' }} />
             <Controller
               name='password'
               control={control}
